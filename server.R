@@ -175,6 +175,12 @@ shinyServer(function(input, output) {
         dbExecute(conn, "UPDATE NairobiHTS SET TimeofTest = ? where ID = ?", params = c(input$testResult, as.character(Sys.time())))
         dbDisconnect(conn)
         
+        showModal(modalDialog(
+            title = "Test Result Successfully Recorded",
+            br(),
+            "Please press Dismiss to proceed."
+        ))
+        
     })
 
 
