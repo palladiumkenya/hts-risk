@@ -69,14 +69,14 @@ shinyServer(function(input, output) {
     observeEvent(input$recPred, {
         
         showModal(modalDialog(
-            title = "Record Prediction",
+            title = "Record Details",
             br(),
-            "Please enter username and password to record prediction",
+            "Please enter username and password to record details",
             br(),
             textInput("usrnm", "Username", value = ""),
             textInput("pswrd", "Password", value = ""),
             actionButton("submitPred", "Submit")
-            # actionButton("recPredFinal", "Yes, Record Prediction")
+            # actionButton("recPredFinal", "Yes, Record Details")
         ))
  
     })
@@ -107,7 +107,7 @@ shinyServer(function(input, output) {
             br(), br(),
             "Username and Password Acknowledged",
             br(), br(),
-            actionButton("recPredFinal", "Record Prediction")
+            actionButton("recPredFinal", "Record Details")
         ))
         }
     })
