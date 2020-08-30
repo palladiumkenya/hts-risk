@@ -1,46 +1,52 @@
-# Load the RSQLite Library
-library(RSQLite)
+library(RMariaDB)
 
-conn <- dbConnect(RSQLite::SQLite(), "HTS.db")
-
-dbGetQuery(conn, "CREATE TABLE NairobiHTS (
-           ID integer primary key autoincrement,
-           AgeAtTest integer,
-           KeyPopulationType varchar,
-           MaritalStatus varchar,
-           Gender varchar,
-           PatientDisabled varchar,
-           EverTestedForHIV varchar,
-           MonthsSinceLastTest integer,
-           ClientTestedAs varchar,
-           EntryPoint varchar,
-           TestingStrategy varchar,
-           TBScreening varchar,
-           ClientSelfTested varchar,
-           CoupleDiscordant varchar,
-           Sitecode varchar,
-           Prediction numeric,
-           TestResult varchar,
-           TimeofTest varchar)")
-
-dbDisconnect(conn)
-
-# Set up table with usernames and passwords
-df <- data.frame(
-  usernames = c("Laureen", "Eric", "Evans"),
-  passwords = c(123, 456, 789)
+dbConfig <- config::get("database")
+conn <- dbConnect(
+    RMariaDB::MariaDB(),
+    dbname = dbConfig$dbname,
+    host = dbConfig$host,
+    port = dbConfig$port,
+    username = dbConfig$username,
+    password = dbConfig$password
 )
 
-conn <- dbConnect(RSQLite::SQLite(), "HTS.db")
+dbExecute(conn,
+    "CREATE TABLE IF NOT EXISTS NairobiHTS (
+        ID integer primary key auto_increment,
+        AgeAtTest integer,
+        KeyPopulationType varchar(255),
+        MaritalStatus varchar(255),
+        Gender varchar(255),
+        PatientDisabled varchar(255),
+        EverTestedForHIV varchar(255),
+        MonthsSinceLastTest integer,
+        ClientTestedAs varchar(255),
+        EntryPoint varchar(255),
+        TestingStrategy varchar(255),
+        TBScreening varchar(255),
+        ClientSelfTested varchar(255),
+        CoupleDiscordant varchar(255),
+        Sitecode varchar(255),
+        Prediction double,
+        TestResult varchar(255),
+        TimeofTest varchar(255)
+    )"
+)
 
-dbWriteTable(conn, "NairobiAccess", df)
+dbExecute(conn,
+    "CREATE TABLE IF NOT EXISTS NairobiAccess (
+        ID integer primary key auto_increment,
+        usernames varchar(255),
+        passwords varchar(255)
+    )"
+)
+
+users <- dbGetQuery(conn, "SELECT * FROM NairobiAccess")
+if(nrow(users) == 0) {
+    dbExecute(conn, "
+        INSERT INTO NairobiAccess(usernames, passwords)
+        VALUES ('Laureen', '123'), ('Eric', '456'), ('Evans', '789')
+    ")
+}
 
 dbDisconnect(conn)
-
-# df <- data.frame(ID = NA, dat[20, ], Prediction = .2)
-# 
-# dbWriteTable(conn, "NairobiHTS", df, append = TRUE)
-# 
-# dbGetQuery(conn, "SELECT * FROM NairobiHTS")
-# 
-# dbRemoveTable(conn, "NairobiHTS")

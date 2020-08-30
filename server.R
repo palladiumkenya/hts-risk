@@ -82,8 +82,15 @@ shinyServer(function(input, output) {
     })
     
     observeEvent(input$submitPred, {
-        
-        conn <- dbConnect(RSQLite::SQLite(), "HTS.db")
+        dbConfig <- config::get("database")
+        conn <- dbConnect(
+            RMariaDB::MariaDB(),
+            dbname = dbConfig$dbname,
+            host = dbConfig$host,
+            port = dbConfig$port,
+            username = dbConfig$username,
+            password = dbConfig$password,
+        )
         user_auth <- dbGetQuery(conn, "SELECT * FROM NairobiAccess WHERE usernames = ? AND passwords = ?", 
                                 params = c(input$usrnm, input$pswrd))
         dbDisconnect(conn)
@@ -114,7 +121,15 @@ shinyServer(function(input, output) {
     
     observeEvent(input$recPredFinal, {
         
-        conn <- dbConnect(RSQLite::SQLite(), "HTS.db")
+        dbConfig <- config::get("database")
+        conn <- dbConnect(
+            RMariaDB::MariaDB(),
+            dbname = dbConfig$dbname,
+            host = dbConfig$host,
+            port = dbConfig$port,
+            username = dbConfig$username,
+            password = dbConfig$password,
+        )
         df <- data.frame(ID = NA, predictors(), Prediction = prediction()[, 2], TestResult = 'Pending', TimeofTest = 'Pending')
         dbWriteTable(conn, "NairobiHTS", df, append = TRUE)
         id_new <- dbGetQuery(conn, "SELECT MAX(ID) FROM NairobiHTS")
@@ -139,7 +154,15 @@ shinyServer(function(input, output) {
     
     observeEvent(input$submitResult, {
         
-        conn <- dbConnect(RSQLite::SQLite(), "HTS.db")
+        dbConfig <- config::get("database")
+        conn <- dbConnect(
+            RMariaDB::MariaDB(),
+            dbname = dbConfig$dbname,
+            host = dbConfig$host,
+            port = dbConfig$port,
+            username = dbConfig$username,
+            password = dbConfig$password,
+        )
         user_auth <- dbGetQuery(conn, "SELECT * FROM NairobiAccess WHERE usernames = ? AND passwords = ?", 
                                 params = c(input$usrnm_res, input$pswrd_res))
         dbDisconnect(conn)
@@ -154,7 +177,15 @@ shinyServer(function(input, output) {
         
         if(nrow(user_auth) == 1){
     
-        conn <- dbConnect(RSQLite::SQLite(), "HTS.db")
+        dbConfig <- config::get("database")
+        conn <- dbConnect(
+            RMariaDB::MariaDB(),
+            dbname = dbConfig$dbname,
+            host = dbConfig$host,
+            port = dbConfig$port,
+            username = dbConfig$username,
+            password = dbConfig$password,
+        )
         ids <- dbGetQuery(conn, "SELECT ID FROM NairobiHTS")
         dbDisconnect(conn)
         
@@ -170,9 +201,16 @@ shinyServer(function(input, output) {
     
     observeEvent(input$recResultFinal, {
         
-        conn <- dbConnect(RSQLite::SQLite(), "HTS.db")
-        dbExecute(conn, "UPDATE NairobiHTS SET TestResult = ? where ID = ?", params = c(input$testResult, input$id_input))
-        dbExecute(conn, "UPDATE NairobiHTS SET TimeofTest = ? where ID = ?", params = c(input$testResult, as.character(Sys.time())))
+        dbConfig <- config::get("database")
+        conn <- dbConnect(
+            RMariaDB::MariaDB(),
+            dbname = dbConfig$dbname,
+            host = dbConfig$host,
+            port = dbConfig$port,
+            username = dbConfig$username,
+            password = dbConfig$password,
+        )
+        dbExecute(conn, "UPDATE NairobiHTS SET TestResult = ?, TimeofTest = ? where ID = ?", params = c(input$testResult, as.character(Sys.time()), input$id_input))
         dbDisconnect(conn)
         
         showModal(modalDialog(
