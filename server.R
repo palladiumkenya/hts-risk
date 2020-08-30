@@ -43,7 +43,7 @@ shinyServer(function(input, output) {
     })
     
     prediction <- reactive({
-        
+        print(predictors())
         predict(mod, newdata=predictors(), type = "prob")
         
     })    
