@@ -11,7 +11,7 @@ conn <- dbConnect(
 )
 
 dbExecute(conn,
-    "CREATE TABLE IF NOT EXISTS NairobiHTS (
+    "CREATE TABLE IF NOT EXISTS SiayaHTS (
         ID integer primary key auto_increment,
         AgeAtTest integer,
         KeyPopulationType varchar(255),
@@ -25,7 +25,6 @@ dbExecute(conn,
         TestingStrategy varchar(255),
         TBScreening varchar(255),
         ClientSelfTested varchar(255),
-        CoupleDiscordant varchar(255),
         Sitecode varchar(255),
         Prediction double,
         TestResult varchar(255),
@@ -34,17 +33,17 @@ dbExecute(conn,
 )
 
 dbExecute(conn,
-    "CREATE TABLE IF NOT EXISTS NairobiAccess (
+    "CREATE TABLE IF NOT EXISTS SiayaAccess (
         ID integer primary key auto_increment,
         usernames varchar(255),
         passwords varchar(255)
     )"
 )
 
-users <- dbGetQuery(conn, "SELECT * FROM NairobiAccess")
+users <- dbGetQuery(conn, "SELECT * FROM SiayaAccess")
 if(nrow(users) == 0) {
     dbExecute(conn, "
-        INSERT INTO NairobiAccess(usernames, passwords)
+        INSERT INTO SiayaAccess(usernames, passwords)
         VALUES ('Laureen', '123'), ('Eric', '456'), ('Evans', '789')
     ")
 }

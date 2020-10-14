@@ -15,7 +15,6 @@ shinyServer(function(input, output) {
         validate(need(input$testingstrategy, "Cannot generate prediction: missing at least one input value"))
         validate(need(input$tbscreening, "Cannot generate prediction: missing at least one input value"))
         validate(need(input$clientselftested, "Cannot generate prediction: missing at least one input value"))
-        validate(need(input$couplediscordant, "Cannot generate prediction: missing at least one input value"))
         validate(need(input$sitecode, "Cannot generate prediction: missing at least one input value"))
         
         df <- data.frame(AgeAtTest = as.numeric(input$ageattest),
@@ -30,7 +29,6 @@ shinyServer(function(input, output) {
                    TestingStrategy = factor(input$testingstrategy, levels = levels(dat$TestingStrategy)),
                    TBScreening = factor(input$tbscreening, levels = levels(dat$TBScreening)),
                    ClientSelfTested = factor(input$clientselftested, levels = levels(dat$ClientSelfTested)),
-                   CoupleDiscordant = factor(input$couplediscordant, levels = levels(dat$CoupleDiscordant)),
                    Sitecode = factor(input$sitecode, levels = levels(dat$Sitecode)))
         
         
@@ -43,7 +41,7 @@ shinyServer(function(input, output) {
     })
     
     prediction <- reactive({
-        print(predictors())
+        
         predict(mod, newdata=predictors(), type = "prob")
         
     })    
@@ -65,7 +63,7 @@ shinyServer(function(input, output) {
         } else {"Low Risk"}
 
     })
-    
+
     observeEvent(input$recPred, {
         
         showModal(modalDialog(
@@ -78,7 +76,7 @@ shinyServer(function(input, output) {
             actionButton("submitPred", "Submit")
             # actionButton("recPredFinal", "Yes, Record Details")
         ))
- 
+
     })
     
     observeEvent(input$submitPred, {
@@ -91,7 +89,7 @@ shinyServer(function(input, output) {
             username = dbConfig$username,
             password = dbConfig$password,
         )
-        user_auth <- dbGetQuery(conn, "SELECT * FROM NairobiAccess WHERE usernames = ? AND passwords = ?", 
+        user_auth <- dbGetQuery(conn, "SELECT * FROM SiayaAccess WHERE usernames = ? AND passwords = ?", 
                                 params = c(input$usrnm, input$pswrd))
         dbDisconnect(conn)
         
@@ -131,8 +129,8 @@ shinyServer(function(input, output) {
             password = dbConfig$password,
         )
         df <- data.frame(ID = NA, predictors(), Prediction = prediction()[, 2], TestResult = 'Pending', TimeofTest = 'Pending')
-        dbWriteTable(conn, "NairobiHTS", df, append = TRUE)
-        id_new <- dbGetQuery(conn, "SELECT MAX(ID) FROM NairobiHTS")
+        dbWriteTable(conn, "SiayaHTS", df, append = TRUE)
+        id_new <- dbGetQuery(conn, "SELECT MAX(ID) FROM SiayaHTS")
         dbDisconnect(conn)
 
         showModal(modalDialog(paste("Record ID for this test is", id_new)))
@@ -163,7 +161,7 @@ shinyServer(function(input, output) {
             username = dbConfig$username,
             password = dbConfig$password,
         )
-        user_auth <- dbGetQuery(conn, "SELECT * FROM NairobiAccess WHERE usernames = ? AND passwords = ?", 
+        user_auth <- dbGetQuery(conn, "SELECT * FROM SiayaAccess WHERE usernames = ? AND passwords = ?", 
                                 params = c(input$usrnm_res, input$pswrd_res))
         dbDisconnect(conn)
         
@@ -186,7 +184,7 @@ shinyServer(function(input, output) {
             username = dbConfig$username,
             password = dbConfig$password,
         )
-        ids <- dbGetQuery(conn, "SELECT ID FROM NairobiHTS")
+        ids <- dbGetQuery(conn, "SELECT ID FROM SiayaHTS")
         dbDisconnect(conn)
         
         showModal(modalDialog(
@@ -210,7 +208,8 @@ shinyServer(function(input, output) {
             username = dbConfig$username,
             password = dbConfig$password,
         )
-        dbExecute(conn, "UPDATE NairobiHTS SET TestResult = ?, TimeofTest = ? where ID = ?", params = c(input$testResult, as.character(Sys.time()), input$id_input))
+        dbExecute(conn, "UPDATE SiayaHTS SET TestResult = ? where ID = ?", params = c(input$testResult, input$id_input))
+        dbExecute(conn, "UPDATE SiayaHTS SET TimeofTest = ? where ID = ?", params = c(as.character(Sys.time()),input$id_input))
         dbDisconnect(conn)
         
         showModal(modalDialog(

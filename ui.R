@@ -2,7 +2,7 @@
 shinyUI(fluidPage(theme = shinythemes::shinytheme("superhero"),
 
     # Application title
-    titlePanel("Nairobi HTS Risk"),
+    titlePanel("Siaya County HTS Risk"),
 
     # Sidebar with a slider input for number of bins
     sidebarLayout(
@@ -27,10 +27,6 @@ shinyUI(fluidPage(theme = shinythemes::shinytheme("superhero"),
                         "Client Tested As",
                         choices = c("", CTA),
                         selected = NULL),
-            selectInput("couplediscordant",
-                            "Couple Discordant",
-                            choices = c("", CD),
-                            selected = NULL),
             selectInput("entrypoint",
                         "Entry Point",
                         choices = c("", EP),
