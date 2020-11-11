@@ -16,7 +16,10 @@ shinyServer(function(input, output) {
         validate(need(input$tbscreening, "Cannot generate prediction: missing at least one input value"))
         validate(need(input$clientselftested, "Cannot generate prediction: missing at least one input value"))
         validate(need(input$sitecode, "Cannot generate prediction: missing at least one input value"))
-        
+    
+        # Get sitecode
+        facility_sitecode <- facilities[facilities$Name == input$sitecode, ]
+
         df <- data.frame(AgeAtTest = as.numeric(input$ageattest),
                    KeyPopulationType = factor(input$KPtype, levels = levels(dat$KeyPopulationType)),
                    MaritalStatus = factor(input$maritalstatus, levels = levels(dat$MaritalStatus)),
@@ -29,8 +32,15 @@ shinyServer(function(input, output) {
                    TestingStrategy = factor(input$testingstrategy, levels = levels(dat$TestingStrategy)),
                    TBScreening = factor(input$tbscreening, levels = levels(dat$TBScreening)),
                    ClientSelfTested = factor(input$clientselftested, levels = levels(dat$ClientSelfTested)),
-                   Sitecode = factor(input$sitecode, levels = levels(dat$Sitecode)))
-        
+                   Sitecode = factor(facility_sitecode$Code, levels = levels(dat$Sitecode)),
+                   # Keph.level = factor(facility_sitecode$Keph.level, levels = levels(dat$Keph.level)),
+                   # Facility.type = factor(facility_sitecode$Facility.type, levels = levels(dat$Facility.type)),
+                   # Owner.type = factor(facility_sitecode$Owner.type, levels = levels(dat$Owner.type)),
+                   # Open_whole_day = factor(facility_sitecode$Open_whole_day, levels = levels(dat$Open_whole_day)),
+                   # Open_public_holidays = factor(facility_sitecode$Open_public_holidays, levels = levels(dat$Open_public_holidays)),
+                   # Open_weekends = factor(facility_sitecode$Open_weekends, levels = levels(dat$Open_weekends)),
+                   month_of_test = factor(month(Sys.time()), levels = levels(dat$month_of_test)),
+                   dayofweek = factor(wday(Sys.time()), levels = levels(dat$dayofweek)))
         
         showModal(modalDialog(
             title = "Prediction Generated"
@@ -48,15 +58,15 @@ shinyServer(function(input, output) {
     
     output$predText <- renderText({
         
-        if(prediction()[, 2] > THRESH_75[3]){
+        if(prediction()[, 1] > THRESH_75[3]){
             sprintf("Highest Risk \n %s of patients with this risk score or higher tested positive. 
                     These patients account for %s of all positive test results",
                     THRESH_75[2], THRESH_75[1])
-        } else if(prediction()[, 2] > THRESH_50[3]){
+        } else if(prediction()[, 1] > THRESH_50[3]){
             sprintf("High Risk \n %s of patients with this risk score or higher tested positive. 
                     These patients account for %s of all positive test results",
                     THRESH_50[2], THRESH_50[1])
-        } else if(prediction()[, 2] > THRESH_25[3]){
+        } else if(prediction()[, 1] > THRESH_25[3]){
             sprintf("Medium Risk \n %s of patients with this risk score or higher tested positive. 
                     These patients account for %s of all positive test results",
                     THRESH_25[2], THRESH_25[1])
@@ -76,10 +86,11 @@ shinyServer(function(input, output) {
             actionButton("submitPred", "Submit")
             # actionButton("recPredFinal", "Yes, Record Details")
         ))
-
+ 
     })
     
     observeEvent(input$submitPred, {
+        
         dbConfig <- config::get("database")
         conn <- dbConnect(
             RMariaDB::MariaDB(),
@@ -128,7 +139,7 @@ shinyServer(function(input, output) {
             username = dbConfig$username,
             password = dbConfig$password,
         )
-        df <- data.frame(ID = NA, predictors(), Prediction = prediction()[, 2], TestResult = 'Pending', TimeofTest = 'Pending')
+        df <- data.frame(ID = NA, predictors(), Prediction = prediction()[, 1], TestResult = 'Pending', TimeofTest = 'Pending')
         dbWriteTable(conn, "SiayaHTS", df, append = TRUE)
         id_new <- dbGetQuery(conn, "SELECT MAX(ID) FROM SiayaHTS")
         dbDisconnect(conn)
