@@ -28,7 +28,9 @@ dbExecute(conn,
         Sitecode varchar(255),
         Prediction double,
         TestResult varchar(255),
-        TimeofTest varchar(255)
+        TimeofTest varchar(255),
+        month_of_test varchar(255),
+        dayofweek varchar(255)
     )"
 )
 

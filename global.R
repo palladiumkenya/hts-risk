@@ -7,7 +7,6 @@ library(shinythemes)
 library(lubridate)
 
 source("create_database.R")
-source("alter_database.R")
 
 # Recall, Precision, Threshold
 THRESH_75 <- c('28.6%', '75%', .362)
