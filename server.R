@@ -19,32 +19,31 @@ shinyServer(function(input, output) {
     
         # Get sitecode
         facility_sitecode <- facilities[facilities$Name == input$sitecode, ]
+        ## Get Population Type
+        population_type <- population[population$PopulationType == input$KPtype, ]
+        
+        # Get Entry Point
+        entry_point <- entrypoint[entrypoint$Name == input$entrypoint, ]
+        
+        # Get Testing Strategy
+        testing_strategy <- testingstrategy[testingstrategy$Name == input$testingstrategy, ]
+        
 
         df <- data.frame(AgeAtTest = as.numeric(input$ageattest),
-                   KeyPopulationType = factor(input$KPtype, levels = levels(dat$KeyPopulationType)),
+                   KeyPopulationType = factor(population_type$PopCode, levels = levels(dat$KeyPopulationType)),
                    MaritalStatus = factor(input$maritalstatus, levels = levels(dat$MaritalStatus)),
                    Gender = factor(input$gender, levels = levels(dat$Gender)),
                    PatientDisabled = factor(input$patientdisabled, levels = levels(dat$PatientDisabled)),
                    EverTestedForHIV = factor(input$evertested, levels = levels(dat$EverTestedForHIV)),
                    MonthsSinceLastTest = as.numeric(input$monthssincelasttest),
                    ClientTestedAs = factor(input$clienttestedas, levels = levels(dat$ClientTestedAs)),
-                   EntryPoint = factor(input$entrypoint, levels = levels(dat$EntryPoint)),
-                   TestingStrategy = factor(input$testingstrategy, levels = levels(dat$TestingStrategy)),
+                   EntryPoint = factor(entry_point$ID, levels = levels(dat$EntryPoint)),
+                   TestingStrategy = factor(testing_strategy$ID, levels = levels(dat$TestingStrategy)),
                    TBScreening = factor(input$tbscreening, levels = levels(dat$TBScreening)),
                    ClientSelfTested = factor(input$clientselftested, levels = levels(dat$ClientSelfTested)),
                    Sitecode = factor(facility_sitecode$Code, levels = levels(dat$Sitecode)),
-                   # Keph.level = factor(facility_sitecode$Keph.level, levels = levels(dat$Keph.level)),
-                   # Facility.type = factor(facility_sitecode$Facility.type, levels = levels(dat$Facility.type)),
-                   # Owner.type = factor(facility_sitecode$Owner.type, levels = levels(dat$Owner.type)),
-                   # Open_whole_day = factor(facility_sitecode$Open_whole_day, levels = levels(dat$Open_whole_day)),
-                   # Open_public_holidays = factor(facility_sitecode$Open_public_holidays, levels = levels(dat$Open_public_holidays)),
-                   # Open_weekends = factor(facility_sitecode$Open_weekends, levels = levels(dat$Open_weekends)),
                    month_of_test = factor(month(Sys.time()), levels = levels(dat$month_of_test)),
                    dayofweek = factor(wday(Sys.time()), levels = levels(dat$dayofweek)))
-        
-        showModal(modalDialog(
-            title = "Prediction Generated"
-        ))
 
         df
         
@@ -73,18 +72,18 @@ shinyServer(function(input, output) {
         } else {"Low Risk"}
 
     })
-
+    
     observeEvent(input$recPred, {
         
         showModal(modalDialog(
-            title = "Record Details",
+            title = "Record Prediction",
             br(),
-            "Please enter username and password to record details",
+            "Please enter username and password to record prediction",
             br(),
             textInput("usrnm", "Username", value = ""),
             textInput("pswrd", "Password", value = ""),
             actionButton("submitPred", "Submit")
-            # actionButton("recPredFinal", "Yes, Record Details")
+            # actionButton("recPredFinal", "Yes, Record Prediction")
         ))
  
     })
@@ -103,6 +102,11 @@ shinyServer(function(input, output) {
         user_auth <- dbGetQuery(conn, "SELECT * FROM SiayaAccess WHERE usernames = ? AND passwords = ?", 
                                 params = c(input$usrnm, input$pswrd))
         dbDisconnect(conn)
+        
+        # conn <- dbConnect(RSQLite::SQLite(), "HTS.db")
+        # user_auth <- dbGetQuery(conn, "SELECT * FROM SiayaAccess WHERE usernames = ? AND passwords = ?", 
+        #                         params = c(input$usrnm, input$pswrd))
+        # dbDisconnect(conn)
         
         # validate(need(nrow(user_auth) == 1, "Sorry, Username and Password not recognized. Please try again."))
 
@@ -123,7 +127,7 @@ shinyServer(function(input, output) {
             br(), br(),
             "Username and Password Acknowledged",
             br(), br(),
-            actionButton("recPredFinal", "Record Details")
+            actionButton("recPredFinal", "Record Prediction")
         ))
         }
     })
@@ -139,6 +143,7 @@ shinyServer(function(input, output) {
             username = dbConfig$username,
             password = dbConfig$password,
         )
+        # conn <- dbConnect(RSQLite::SQLite(), "HTS.db")
         df <- data.frame(ID = NA, predictors(), Prediction = prediction()[, 1], TestResult = 'Pending', TimeofTest = 'Pending')
         dbWriteTable(conn, "SiayaHTS", df, append = TRUE)
         id_new <- dbGetQuery(conn, "SELECT MAX(ID) FROM SiayaHTS")
@@ -172,6 +177,7 @@ shinyServer(function(input, output) {
             username = dbConfig$username,
             password = dbConfig$password,
         )
+        # conn <- dbConnect(RSQLite::SQLite(), "HTS.db")
         user_auth <- dbGetQuery(conn, "SELECT * FROM SiayaAccess WHERE usernames = ? AND passwords = ?", 
                                 params = c(input$usrnm_res, input$pswrd_res))
         dbDisconnect(conn)
@@ -194,7 +200,8 @@ shinyServer(function(input, output) {
             port = dbConfig$port,
             username = dbConfig$username,
             password = dbConfig$password,
-        )
+        )    
+        # conn <- dbConnect(RSQLite::SQLite(), "HTS.db")
         ids <- dbGetQuery(conn, "SELECT ID FROM SiayaHTS")
         dbDisconnect(conn)
         
@@ -219,6 +226,7 @@ shinyServer(function(input, output) {
             username = dbConfig$username,
             password = dbConfig$password,
         )
+        # conn <- dbConnect(RSQLite::SQLite(), "HTS.db")
         dbExecute(conn, "UPDATE SiayaHTS SET TestResult = ? where ID = ?", params = c(input$testResult, input$id_input))
         dbExecute(conn, "UPDATE SiayaHTS SET TimeofTest = ? where ID = ?", params = c(as.character(Sys.time()),input$id_input))
         dbDisconnect(conn)
