@@ -143,7 +143,6 @@ shinyServer(function(input, output) {
             username = dbConfig$username,
             password = dbConfig$password,
         )
-        # conn <- dbConnect(RSQLite::SQLite(), "HTS.db")
         df <- data.frame(ID = NA, predictors(), Prediction = prediction()[, 1], TestResult = 'Pending', TimeofTest = 'Pending')
         dbWriteTable(conn, "SiayaHTS", df, append = TRUE)
         id_new <- dbGetQuery(conn, "SELECT MAX(ID) FROM SiayaHTS")
@@ -177,7 +176,6 @@ shinyServer(function(input, output) {
             username = dbConfig$username,
             password = dbConfig$password,
         )
-        # conn <- dbConnect(RSQLite::SQLite(), "HTS.db")
         user_auth <- dbGetQuery(conn, "SELECT * FROM SiayaAccess WHERE usernames = ? AND passwords = ?", 
                                 params = c(input$usrnm_res, input$pswrd_res))
         dbDisconnect(conn)
@@ -200,8 +198,7 @@ shinyServer(function(input, output) {
             port = dbConfig$port,
             username = dbConfig$username,
             password = dbConfig$password,
-        )    
-        # conn <- dbConnect(RSQLite::SQLite(), "HTS.db")
+        )
         ids <- dbGetQuery(conn, "SELECT ID FROM SiayaHTS")
         dbDisconnect(conn)
         
@@ -226,7 +223,6 @@ shinyServer(function(input, output) {
             username = dbConfig$username,
             password = dbConfig$password,
         )
-        # conn <- dbConnect(RSQLite::SQLite(), "HTS.db")
         dbExecute(conn, "UPDATE SiayaHTS SET TestResult = ? where ID = ?", params = c(input$testResult, input$id_input))
         dbExecute(conn, "UPDATE SiayaHTS SET TimeofTest = ? where ID = ?", params = c(as.character(Sys.time()),input$id_input))
         dbDisconnect(conn)

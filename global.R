@@ -1,10 +1,12 @@
 library(shiny)
 library(randomForest)
 library(dplyr)
-library(RSQLite)
+library(DBI)
+library(RMariaDB)
 library(shinythemes)
 library(lubridate)
-library(RMariaDB)
+
+source("create_database.R")
 
 # Recall, Precision, Threshold
 THRESH_75 <- c('28.6%', '75%', .362)
