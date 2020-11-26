@@ -58,18 +58,18 @@ shinyServer(function(input, output) {
     output$predText <- renderText({
         
         if(prediction()[, 1] > THRESH_75[3]){
-            sprintf("Highest Risk \n %s of patients with this risk score or higher tested positive. 
+            sprintf("Highest Risk. Test the Client \n %s of patients with this risk score or higher tested positive. 
                     These patients account for %s of all positive test results",
                     THRESH_75[2], THRESH_75[1])
         } else if(prediction()[, 1] > THRESH_50[3]){
-            sprintf("High Risk \n %s of patients with this risk score or higher tested positive. 
+            sprintf("High Risk.Test the Client \n %s of patients with this risk score or higher tested positive. 
                     These patients account for %s of all positive test results",
                     THRESH_50[2], THRESH_50[1])
         } else if(prediction()[, 1] > THRESH_25[3]){
-            sprintf("Medium Risk \n %s of patients with this risk score or higher tested positive. 
+            sprintf("Medium Risk.Test the Client \n %s of patients with this risk score or higher tested positive. 
                     These patients account for %s of all positive test results",
                     THRESH_25[2], THRESH_25[1])
-        } else {"Low Risk"}
+        } else {"Low Risk. Do Not Test the Client"}
 
     })
     
@@ -143,6 +143,7 @@ shinyServer(function(input, output) {
             username = dbConfig$username,
             password = dbConfig$password,
         )
+        # conn <- dbConnect(RSQLite::SQLite(), "HTS.db")
         df <- data.frame(ID = NA, predictors(), Prediction = prediction()[, 1], TestResult = 'Pending', TimeofTest = 'Pending')
         dbWriteTable(conn, "SiayaHTS", df, append = TRUE)
         id_new <- dbGetQuery(conn, "SELECT MAX(ID) FROM SiayaHTS")
@@ -176,6 +177,7 @@ shinyServer(function(input, output) {
             username = dbConfig$username,
             password = dbConfig$password,
         )
+        # conn <- dbConnect(RSQLite::SQLite(), "HTS.db")
         user_auth <- dbGetQuery(conn, "SELECT * FROM SiayaAccess WHERE usernames = ? AND passwords = ?", 
                                 params = c(input$usrnm_res, input$pswrd_res))
         dbDisconnect(conn)
@@ -198,7 +200,8 @@ shinyServer(function(input, output) {
             port = dbConfig$port,
             username = dbConfig$username,
             password = dbConfig$password,
-        )
+        )    
+        # conn <- dbConnect(RSQLite::SQLite(), "HTS.db")
         ids <- dbGetQuery(conn, "SELECT ID FROM SiayaHTS")
         dbDisconnect(conn)
         
@@ -223,6 +226,7 @@ shinyServer(function(input, output) {
             username = dbConfig$username,
             password = dbConfig$password,
         )
+        # conn <- dbConnect(RSQLite::SQLite(), "HTS.db")
         dbExecute(conn, "UPDATE SiayaHTS SET TestResult = ? where ID = ?", params = c(input$testResult, input$id_input))
         dbExecute(conn, "UPDATE SiayaHTS SET TimeofTest = ? where ID = ?", params = c(as.character(Sys.time()),input$id_input))
         dbDisconnect(conn)
