@@ -73,13 +73,13 @@ shinyServer(function(input, output) {
     observeEvent(input$recPred, {
         
         showModal(modalDialog(
-            title = "Record Prediction",
+            title = strong("Record Prediction", style = "color:green"),
             br(),
             "Please enter username and password to record prediction",
             br(),
             textInput("usrnm", "Username", value = ""),
             textInput("pswrd", "Password", value = ""),
-            actionButton("submitPred", "Submit")
+            actionButton("submitPred", "Submit", class = "btn-success")
             # actionButton("recPredFinal", "Yes, Record Prediction")
         ))
  
@@ -120,11 +120,11 @@ shinyServer(function(input, output) {
         # Get vector of IDs    
             
         showModal(modalDialog(
-            title = "User Acknowledged",
+            title = "User Acknowledged", style = "color:green",
             br(), br(),
             "Username and Password Acknowledged",
             br(), br(),
-            actionButton("recPredFinal", "Record Prediction")
+            actionButton("recPredFinal", "Record Prediction", class = "btn-success")
         ))
         }
     })
@@ -153,13 +153,13 @@ shinyServer(function(input, output) {
     observeEvent(input$recResult, {
         
         showModal(modalDialog(
-            title = "Record Test Result",
+            title = "Record Test Result", style = "color:green",
             br(),
             "Please enter username and password to record test result",
             br(),
             textInput("usrnm_res", "Username", value = ""),
             textInput("pswrd_res", "Password", value = ""),
-            actionButton("submitResult", "Submit")
+            actionButton("submitResult", "Submit", class = "btn-success")
         ))
     })
     
@@ -182,7 +182,7 @@ shinyServer(function(input, output) {
         if(nrow(user_auth) == 0){
             
             showModal(modalDialog(
-                title = "User Not Recognized",
+                title = "User Not Recognized", style = "color:red",
                 br(), br(),
                 "Sorry, Username and Password not recognized. Please try again."))
         }
@@ -207,7 +207,7 @@ shinyServer(function(input, output) {
             br(),
             numericInput("id_input", "Select ID", value = max(ids), min = 1, max = max(ids)),
             selectInput('testResult', "Input Test Result", choices = c('', 'Positive', 'Negative', 'Inconclusive')),
-            actionButton('recResultFinal', 'Record Test Result')
+            actionButton('recResultFinal', 'Record Test Result', class = "btn-success")
         ))
         }
     })
