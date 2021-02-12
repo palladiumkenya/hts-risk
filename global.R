@@ -1,26 +1,26 @@
 library(shiny)
 library(randomForest)
 library(dplyr)
-library(DBI)
-library(RMariaDB)
+library(RSQLite)
 library(shinythemes)
 library(lubridate)
-
-source("create_database.R")
+library(RMariaDB)
 
 # Recall, Precision, Threshold
-THRESH_75 <- c('28.6%', '75%', .362)
-THRESH_50 <- c('46%', '50%', .192)
-THRESH_25 <- c('61%', '25%', .08)
+THRESH_75 <- list('22.7%', '75%', .446)
+THRESH_50 <- list('44.7%', '50%', .232)
+THRESH_25 <- list('67.5%', '25%', .068)
 
-mod <- readRDS('rf_siaya_20201026.rds')
-dat <- readRDS('training_siaya_20201026.rds')
+mod <- readRDS('rf_homabay_20210210.rds')
+dat <- readRDS('training_homabay_20210210.rds')
+# sc_info <- dat %>% select(2:76) %>% unique()
+# saveRDS(sc_info, './sc_info_homabay.rds')
+sc_info <- readRDS('./sc_info_homabay.rds')
 # Read in facility index
 facilities <- read.csv('./Facility Export Material List.csv', stringsAsFactors = FALSE) %>%
   select(1:2) %>%
-  rbind(., data.frame(Code = "99999", Name = "Other")) %>%
+  # rbind(., data.frame(Code = "99999", Name = "Other")) %>%
   filter(Code %in% unique(dat$Sitecode))
-
 # Read in Population Type
 population <- read.csv('./KeyPopulation.csv', stringsAsFactors = FALSE) %>%
   select(1:2) %>%
