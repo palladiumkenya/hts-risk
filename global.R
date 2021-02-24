@@ -6,6 +6,8 @@ library(shinythemes)
 library(lubridate)
 library(RMariaDB)
 
+source("create_database.R")
+
 # Recall, Precision, Threshold
 THRESH_75 <- list('22.7%', '75%', .446)
 THRESH_50 <- list('44.7%', '50%', .232)
