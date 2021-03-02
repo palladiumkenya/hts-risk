@@ -2,13 +2,15 @@
 shinyUI(fluidPage(theme = shinythemes::shinytheme("spacelab"),
 
     # Application title
-    titlePanel(div(strong("Homa Bay County HTS Client Assessment"), style = "color:black")),
+    titlePanel(strong("Homa Bay County HTS Client Assessment")),
 
     # Sidebar with a slider input for number of bins
-    fluidRow(div("Welcome to the National HTS Client Assesment Portal. 
+    "Welcome to the National HTS Client Assesment Portal. 
           This platform is intended to help you make a better decision on
-                 who to test, increasing the efficiency of use of test kits. Kindly proceed to fill in the bio details of your patient to recieve
-                 the prediction.", style = "color:black", style = "font-size:5000px")),
+                 who to test, increasing the efficiency of use of test kits.", 
+    br(),
+    "Kindly proceed to fill in the bio details of your patient to recieve
+    the prediction.",
     br(),
     
     sidebarLayout(

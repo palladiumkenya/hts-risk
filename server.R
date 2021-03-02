@@ -55,9 +55,9 @@ shinyServer(function(input, output) {
         df <- cbind(df, df_sc)
         # print(df)
         
-        showModal(modalDialog(
-            title = "Prediction Generated"
-        ))
+        #showModal(modalDialog(
+            #title = "Prediction Generated"
+        #))
 
         df
         
@@ -72,18 +72,18 @@ shinyServer(function(input, output) {
     output$predText <- renderText({
         
         if(prediction()[, 1] > THRESH_75[[3]]){
-            sprintf("Highest Risk \n %s of patients with this risk score or higher tested positive. 
+            sprintf("Highest Risk  Test the Client \n %s of patients with this risk score or higher tested positive. 
                     These patients account for %s of all positive test results",
                     THRESH_75[[2]], THRESH_75[[1]])
         } else if(prediction()[, 1] > THRESH_50[[3]]){
-            sprintf("High Risk \n %s of patients with this risk score or higher tested positive. 
+            sprintf("High Risk  Test the Client \n %s of patients with this risk score or higher tested positive. 
                     These patients account for %s of all positive test results",
                     THRESH_50[[2]], THRESH_50[[1]])
         } else if(prediction()[, 1] > THRESH_25[[3]]){
-            sprintf("Medium Risk \n %s of patients with this risk score or higher tested positive. 
+            sprintf("Medium Risk  Test the Client  \n %s of patients with this risk score or higher tested positive. 
                     These patients account for %s of all positive test results",
                     THRESH_25[[2]], THRESH_25[[1]])
-        } else {"Low Risk"}
+        } else {"Low Risk  Do Not Test the Client"}
 
     })
     
