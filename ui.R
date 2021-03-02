@@ -2,7 +2,7 @@
 shinyUI(fluidPage(theme = shinythemes::shinytheme("spacelab"),
 
     # Application title
-    titlePanel(strong("Homa Bay County HTS Client Assessment")),
+    titlePanel("Homa Bay County HTS Client Assessment"),
 
     # Sidebar with a slider input for number of bins
     "Welcome to the National HTS Client Assesment Portal. 
