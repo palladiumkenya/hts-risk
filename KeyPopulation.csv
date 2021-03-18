@@ -1,4 +1,6 @@
 PopCode,PopulationType
 GP,General Population
-SW,Sex Worker
 OtherKP,Other KP
+SW,Sex Worker
+PWID,Persons Who Inject Drugs
+MSM,MSM

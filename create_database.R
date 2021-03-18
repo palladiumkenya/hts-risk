@@ -28,7 +28,12 @@ dbExecute(conn,
         KeyPopulationType varchar(255),
         Prediction double,
         TestResult varchar(255),
-        TimeofTest varchar(255)
+        TimeofTest varchar(255),
+		LastHIVTest varchar(255),
+		SexLast12Months varchar(255), 
+		NumberSexPartner varchar(255), 
+		KnowHIVStatusSexPartner varchar(255), 
+		HIVStatusSexPartner varchar(255)
     )"
 )
 
@@ -44,7 +49,7 @@ users <- dbGetQuery(conn, "SELECT * FROM HomaBayAccess")
 if(nrow(users) == 0) {
   dbExecute(conn, "
         INSERT INTO HomaBayAccess(usernames, passwords)
-        VALUES ('Laureen', '123'), ('Eric', '456'), ('Evans', '789')
+        VALUES ('Laureen', '123'), ('Eric', '456'), ('Evans', '789'), ('Test', 'test123')
     ")
 }
 

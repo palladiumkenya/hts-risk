@@ -1,10 +1,14 @@
 ID,Name
-MTC,PMTCT
-VCT,Voluntary Counselling & Testing
 OPD,Outpatient
-CCC,Comprehensive Care Centre
+VCT,Voluntary Counselling & Testing
+MTC,PMTCT
 Other,Other
 IPD,Inpatient
+MOBILE,Mobile Outreach
+HB,Home Based
+PEDS,Paediatrics Clinic
+CCC,Comprehensive Care Centre
+,
 ,
 ,
 ,
