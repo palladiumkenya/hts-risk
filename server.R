@@ -11,70 +11,60 @@ shinyServer(function(input, output) {
         validate(need(input$evertested, "Cannot generate prediction: missing at least one input value"))
         validate(need(input$monthssincelasttest, "Cannot generate prediction: missing at least one input value"))
         validate(need(input$clienttestedas, "Cannot generate prediction: missing at least one input value"))
-        validate(need(input$entrypoint, "Cannot generate prediction: missing at least one input value"))
+        # validate(need(input$entrypoint, "Cannot generate prediction: missing at least one input value"))
         validate(need(input$testingstrategy, "Cannot generate prediction: missing at least one input value"))
         validate(need(input$tbscreening, "Cannot generate prediction: missing at least one input value"))
         validate(need(input$clientselftested, "Cannot generate prediction: missing at least one input value"))
         validate(need(input$sitecode, "Cannot generate prediction: missing at least one input value"))
-		
-		# FOR BEHAVIOURAL GUIDED ELIGIBILITY SCREENING DESCISION VALIDATION
-		    validate(need(input$lasthivtest, "Cannot generate screening eligibility: missing at least one input value"))
-        #validate(need(input$sexlast12months, "Cannot generate screening eligibility: missing at least one input value"))
-        #validate(need(input$numbersexpartner, "Cannot generate screening eligibility: missing at least one input value"))
-        #validate(need(input$knowhivstatussexpartner, "Cannot generate screening eligibility: missing at least one input value"))
-        #validate(need(input$hivstatussexpartner, "Cannot generate screening eligibility: missing at least one input value"))
     
-        # Get facility information
-        facility <- facilities[facilities$Facility.Name == input$sitecode, ]
-        facility_df <- facility %>% select(-c(Facility.Name, Sitecode))
-        facility_df$FacilityType <- factor(facility_df$FacilityType, levels = levels(dat$FacilityType))
-        # facility_df$Sitecode <- factor(facility_df$Sitecode, levels = levels(dat$Sitecode))
+        # Get sitecode
+        facility_sitecode <- facilities[facilities$Name == input$sitecode, ]
+        df_sc <- merge(sc_info, facility_sitecode, by.x = "Sitecode", by.y = "Code") %>% select(-Sitecode, -Name)
         
         # Get Population Type
         population_type <- population[population$PopulationType == input$KPtype, ]
         
-        # Get Entry Point
-        entry_point <- entrypoint[entrypoint$Name == input$entrypoint, ]
+        ## Get Entry Point
+        #entry_point <- entrypoint[entrypoint$Name == input$entrypoint, ]
         
         # Get Testing Strategy
         testing_strategy <- testingstrategy[testingstrategy$Name == input$testingstrategy, ]
-        
-        # For KP, MaritalStatus and Testing Strategy, convert to other for non-common values
-        kp <- ifelse(input$KPtype %in% c("PWID", "MSM"), "OtherKP", input$KPtype)
-        ms <- ifelse(input$maritalstatus == "Single", "Unknown", input$maritalstatus)
-        ts <- ifelse(input$testingstrategy %in% c("NP", "HP", "PNS"), "Other", input$testingstrategy)
 
         df <- data.frame(AgeAtTest = as.numeric(input$ageattest),
-                   #KeyPopulationType = factor(kp, levels = levels(dat$KeyPopulationType)),
                    KeyPopulationType = factor(population_type$PopCode, levels = levels(dat$KeyPopulationType)),
-                   MaritalStatus = factor(ms, levels = levels(dat$MaritalStatus)),
+                   MaritalStatus = factor(input$maritalstatus, levels = levels(dat$MaritalStatus)),
                    Gender = factor(input$gender, levels = levels(dat$Gender)),
                    # PatientDisabled = factor(input$patientdisabled, levels = levels(dat$PatientDisabled)),
                    EverTestedForHIV = factor(input$evertested, levels = levels(dat$EverTestedForHIV)),
                    MonthsSinceLastTest = as.numeric(input$monthssincelasttest),
                    ClientTestedAs = factor(input$clienttestedas, levels = levels(dat$ClientTestedAs)),
-                   EntryPoint = factor(entry_point$ID, levels = levels(dat$EntryPoint)),
-                   #EntryPoint = factor(input$entrypoint, levels = levels(dat$EntryPoint)),
-                   #TestingStrategy = factor(ts, levels = levels(dat$TestingStrategy)),
-                   TestingStrategy =factor(testing_strategy$ID, levels = levels(dat$TestingStrategy)),
+                   #EntryPoint = factor(entry_point$ID, levels = levels(dat$EntryPoint)),
+                   TestingStrategy = factor(testing_strategy$ID, levels = levels(dat$TestingStrategy)),
                    TBScreening = factor(input$tbscreening, levels = levels(dat$TBScreening)),
                    ClientSelfTested = factor(input$clientselftested, levels = levels(dat$ClientSelfTested)),
+                   # Sitecode = factor(facility_sitecode$Code, levels = levels(dat$Sitecode)),
+                   # Keph.level = factor(facility_sitecode$Keph.level, levels = levels(dat$Keph.level)),
+                   # Facility.type = factor(facility_sitecode$Facility.type, levels = levels(dat$Facility.type)),
+                   # Owner.type = factor(facility_sitecode$Owner.type, levels = levels(dat$Owner.type)),
+                   # Open_whole_day = factor(facility_sitecode$Open_whole_day, levels = levels(dat$Open_whole_day)),
+                   # Open_public_holidays = factor(facility_sitecode$Open_public_holidays, levels = levels(dat$Open_public_holidays)),
+                   # Open_weekends = factor(facility_sitecode$Open_weekends, levels = levels(dat$Open_weekends)),
                    month_of_test = factor(month(Sys.time()), levels = levels(dat$month_of_test)),
-                   # Sitecode = factor(input$sitecode, levels = levels(dat$Sitecode)),
                    dayofweek = factor(wday(Sys.time()), levels = levels(dat$dayofweek)))
         
-        df <- cbind(df, facility_df)
+        df <- cbind(df, df_sc)
+        # print(df)
         
         #showModal(modalDialog(
-          #  title = "Prediction Generated"
-       # ))
+            #title = "Prediction Generated"
+        #))
 
         df
         
     })
     
     prediction <- reactive({
-        
+        print(predict(mod, newdata=predictors(), type = "prob"))
         predict(mod, newdata=predictors(), type = "prob")
         
     })    
@@ -82,25 +72,19 @@ shinyServer(function(input, output) {
     output$predText <- renderText({
         
         if(prediction()[, 1] > THRESH_75[[3]]){
-            sprintf("Highest Risk. Test the Client" ,
+            sprintf("Highest Risk  Test the Client \n %s of patients with this risk score or higher tested positive. 
+                    These patients account for %s of all positive test results",
                     THRESH_75[[2]], THRESH_75[[1]])
         } else if(prediction()[, 1] > THRESH_50[[3]]){
-            sprintf("High Risk. Test the Client",
+            sprintf("High Risk  Test the Client \n %s of patients with this risk score or higher tested positive. 
+                    These patients account for %s of all positive test results",
                     THRESH_50[[2]], THRESH_50[[1]])
         } else if(prediction()[, 1] > THRESH_25[[3]]){
-            sprintf("Medium Risk. Test the Client",
+            sprintf("Medium Risk  Test the Client  \n %s of patients with this risk score or higher tested positive. 
+                    These patients account for %s of all positive test results",
                     THRESH_25[[2]], THRESH_25[[1]])
-        } else {"Low Risk. Do Not Test the Client"}
+        } else {"Low Risk  Do Not Test the Client"}
 
-    })
-    
-    # Disable Record Prediction button until a prediction is made
-    observe({
-        if (input$pred == 0) {
-            shinyjs::disable("recPred")
-        } else {
-            shinyjs::enable("recPred")
-        }
     })
     
     observeEvent(input$recPred, {
@@ -173,33 +157,30 @@ shinyServer(function(input, output) {
             username = dbConfig$username,
             password = dbConfig$password,
         )
-
+        print(names(predictors()))
+        print(predictors()$AgeAtTest)
+        
+        # print(dim(predictors()))
+        print(class(predictors()))
         # conn <- dbConnect(RSQLite::SQLite(), "HTS.db")
         df <- data.frame(ID = NA,
-                         AgeAtTest = input$ageattest,
-                         MaritalStatus = input$maritalstatus,
-                         Gender = input$gender,
-                         EverTestedForHIV = input$evertested,
-                         MonthsSinceLastTest = input$monthssincelasttest,
-                         ClientTestedAs = input$clienttestedas,
-                         EntryPoint = input$entrypoint,
-                         TestingStrategy = input$testingstrategy,
-                         ClientSelfTested = input$clientselftested,
-                         TBScreening = input$tbscreening,
-                         Sitecode = facilities[facilities$Facility.Name == input$sitecode, "Facility.Name"],
+                         AgeAtTest = predictors()$AgeAtTest,
+                         MaritalStatus = predictors()$MaritalStatus,
+                         Gender = predictors()$Gender,
+                         EverTestedForHIV = predictors()$EverTestedForHIV,
+                         MonthsSinceLastTest = predictors()$MonthsSinceLastTest,
+                         ClientTestedAs = predictors()$ClientTestedAs,
+                         # EntryPoint = predictors()$EntryPoint,
+                         TestingStrategy = predictors()$TestingStrategy,
+                         ClientSelfTested = predictors()$ClientSelfTested,
+                         TBScreening = predictors()$TBScreening,
+                         Sitecode = facilities[facilities$Name == input$sitecode, 'Code'],
                          month_of_test = predictors()$month_of_test,
                          dayofweek = predictors()$dayofweek,
-                         KeyPopulationType = input$KPtype,
+                         KeyPopulationType = predictors()$KeyPopulationType,
                          Prediction = prediction()[, 1],
                          TestResult = 'Pending',
-                         TimeofTest = 'Pending')#,
-			# FOR BEHAVIOURAL GUIDED ELIGIBILITY SCREENING DESCISION VALUES
-            						 #LastHIVTest = input$lasthivtest,
-            						 #SexLast12Months = input$sexlast12months, 
-            						 #NumberSexPartner = input$numbersexpartner, 
-            						 #KnowHIVStatusSexPartner = input$knowhivstatussexpartner, 
-            						 #HIVStatusSexPartner = input$hivstatussexpartner
-				
+                         TimeofTest = 'Pending')
         dbWriteTable(conn, "HomaBayHTS", df, append = TRUE)
         id_new <- dbGetQuery(conn, "SELECT MAX(ID) FROM HomaBayHTS")
         dbDisconnect(conn)
@@ -265,7 +246,7 @@ shinyServer(function(input, output) {
             br(),
             numericInput("id_input", "Select ID", value = max(ids), min = 1, max = max(ids)),
             selectInput('testResult', "Input Test Result", choices = c('', 'Positive', 'Negative', 'Inconclusive')),
-            actionButton('recResultFinal', 'Record Test Result')
+            actionButton('recResultFinal', 'Record Test Result', class = "btn-primary")
         ))
         }
     })
