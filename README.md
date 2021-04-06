@@ -10,3 +10,6 @@ HTS Risk Assessment Model
 
 ## Run
 `docker run --name hts-risk -d -p 80:3838 -v ${PWD}:/srv/shiny-server hts-risk`
+
+#Online Instance
+`https://data.kenyahmis.org:3838/`
