@@ -1,5 +1,5 @@
-# HTS Risk
-HTS Risk Assessment Model
+# HTS Client Assessment
+HTS Client Assessment Model
 
 ## Get
 `git clone https://github.com/palladiumkenya/hts-risk.git`
