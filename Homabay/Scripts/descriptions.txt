@@ -1,1 +1,1 @@
-Directory holds all scripts for Homa Bay
+Directory holds all scripts for Homa Bay. The script main.R runs the scripts in order. 
