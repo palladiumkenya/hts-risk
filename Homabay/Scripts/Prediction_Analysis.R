@@ -91,3 +91,25 @@ plot(prc, curve = TRUE)
 hts_sparse_test <- encodeXGBoost(hts$sparse$test)
 test_out <- cbind(test_predict, hts_sparse_test)
 write.csv(test_out, './homabay_test_predictions.csv')
+
+# Generate plot of precision/recall by % of patients ---------------------
+# Get index of values to select (every ten percentage points)
+vals <- c(round(nrow(pr_df)*.01),
+          round(nrow(pr_df)*.03),
+          round(seq(nrow(pr_df)*.05, nrow(pr_df), length.out = 20)))
+pr_by_share <- pr_df %>%
+  arrange(desc(Threshold), desc(Precision)) %>% 
+  mutate(Recall = round(Recall * 100), Precision = round(Precision * 100)) %>%
+  mutate(rownum = row_number()) %>%
+  filter(rownum %in% vals) %>%
+  mutate(Percent_Patients = round(rownum * 100 / max(vals))) %>%
+  pivot_longer(cols = c("Recall", "Precision"), names_to = "Metric")
+
+ggplot() +
+  geom_line(data = pr_by_share, aes(x = Percent_Patients, y = value, color = Metric)) +
+  xlab("Percent of Patients Tested") +
+  ylab("") +
+  scale_x_continuous(breaks = seq(5,100,length.out = 20)) +
+  scale_color_manual(labels = c("Precision (% Positive)", "Recall (% of all Positives)"), values = c("blue", "red")) +
+  theme(legend.position = c(.8, .5)) +
+  ggtitle("Precision and Recall by Percent of Patients Tested")
