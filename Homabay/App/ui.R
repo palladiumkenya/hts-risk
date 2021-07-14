@@ -1,0 +1,86 @@
+# Define UI for application that draws a histogram
+shinyUI(fluidPage(
+    theme = shinythemes::shinytheme("superhero"),
+    shinyjs::useShinyjs(),
+                  
+    # Application title
+    titlePanel("Homa Bay County HTS Risk"),
+
+    # Sidebar with a slider input for number of bins
+    sidebarLayout(
+        sidebarPanel(
+            numericInput("ageattest",
+                         "Client Age",
+                         value = 0,
+                         min = 0,
+                         max = 100),
+            selectInput("maritalstatus",
+                        "Marital Status",
+                        choices = c("", dat_unique$MaritalStatus, "Single"),
+                        selected = NULL),
+            selectInput("gender",
+                        "Gender",
+                        choices = c("", dat_unique$Gender),
+                        selected = NULL),
+            selectInput("facilityname",
+                        "Facility",
+                        choices = c("", facilities$Facility.Name),
+                        selected = NULL),
+            selectInput("KPtype",
+                        "Key Population type:",
+                        choices = c("", dat_unique$KeyPopulationType, "PWID"),
+                        selected = NULL),
+            selectInput("patientdisabled",
+                        "Patient Disabled",
+                        choices = c("", dat_unique$PatientDisabled),
+                        selected = NULL),
+            selectInput("clienttestedas",
+                        "Client Tested As",
+                        choices = c("", dat_unique$ClientTestedAs),
+                        selected = NULL),
+            selectInput("entrypoint",
+                        "Entry Point",
+                        choices = c("", dat_unique$EntryPoint),
+                        selected = NULL),
+            selectInput("testingstrategy",
+                        "Testing Strategy",
+                        choices = c("", dat_unique$TestingStrategy, "NP", "HP", "PNS"),
+                        selected = NULL),
+            selectInput("tbscreening",
+                        "TB Screening",
+                        choices = c("", dat_unique$TBScreening),
+                        selected = NULL),
+            selectInput("clientselftested",
+                        "Client Self Tested",
+                        choices = c("", dat_unique$ClientSelfTested),
+                        selected = NULL),
+            selectInput("evertested",
+                        "Ever Tested for HIV",
+                        choices = c("", dat_unique$EverTestedForHIV),
+                        selected = NULL),
+            conditionalPanel(
+                condition = "input.evertested == 'Yes'",
+                numericInput("monthssincelasttest",
+                             "Months Since Last Test",
+                             value = 0,
+                             min = 0,
+                             max = 50))
+        ),
+
+        # Show a plot of the generated distribution
+        mainPanel(width = 6,
+            actionButton('pred', 'Generate Prediction'),
+            br(),
+            br(),
+            verbatimTextOutput("predText"),
+            br(),
+            br(),
+            actionButton('recPred', 'Save Prediction'),
+            br(),
+            br(),
+            br(),
+            br(),
+            actionButton('recResult', 'Record Test Result')
+        )
+    )
+))
