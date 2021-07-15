@@ -12,9 +12,9 @@ RUN su - -c "R -e \"install.packages('config', repos='https://cran.rstudio.com/'
 RUN su - -c "R -e \"install.packages('lubridate', repos='https://cran.rstudio.com/')\""
 
 
-RUN rm -Rf /srv/shiny-server/*
-RUN rm /etc/nginx/sites-enabled/default
-RUN echo "server { listen 80 default_server; listen [::]:80 ipv6only=on; root /srv/shiny-server; index index.html index.htm; server_name _; location / { proxy_pass http://127.0.0.1:3838; } }" > /etc/nginx/conf.d/default.conf
+#RUN rm -Rf /srv/shiny-server/*
+#RUN rm /etc/nginx/sites-enabled/default
+#RUN echo "server { listen 80 default_server; listen [::]:80 ipv6only=on; root /srv/shiny-server; index index.html index.htm; server_name _; location / { proxy_pass http://127.0.0.1:3838; } }" > /etc/nginx/conf.d/default.conf
 
 # uncomment for HTTPS
 COPY secrets/server.key /etc/ssl/private/server.key
