@@ -9,7 +9,7 @@ library(lubridate)
 library(RMariaDB)
 library(shinyjs)
 
-source("alter_database.R")
+#source("alter_database.R")
 # Recall, Precision, Threshold
 cutoffs <- readRDS('./cutoffs_2021-07-14.rds')
 
