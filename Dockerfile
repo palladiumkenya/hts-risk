@@ -10,8 +10,7 @@ RUN su - -c "R -e \"install.packages('RSQLite', repos='https://cran.rstudio.com/
 RUN su - -c "R -e \"install.packages('shinythemes', repos='https://cran.rstudio.com/')\""
 RUN su - -c "R -e \"install.packages('config', repos='https://cran.rstudio.com/')\""
 RUN su - -c "R -e \"install.packages('lubridate', repos='https://cran.rstudio.com/')\""
-RUN su - -c "R -e \"install.packages('caret', repos='https://cran.rstudio.com/')\""
-RUN su - -c "R -e \"install.packages('xgboost', repos='https://cran.rstudio.com/')\""
+
 
 
 #RUN rm -Rf /srv/shiny-server/*
