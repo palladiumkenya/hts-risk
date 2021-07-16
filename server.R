@@ -185,8 +185,8 @@ shinyServer(function(input, output) {
                          KeyPopulationType = input$KPtype,
                          Prediction = prediction(),
                          TestResult = 'Pending',
-                         TimeofTest = Sys.time()),
-                         HTSNumber = input$HTSNumber
+                         TimeofTest = Sys.time(),
+                         HTSNumber = input$HTSNumber)
         dbWriteTable(conn, "HomaBayHTS", df, append = TRUE)
         id_new <- dbGetQuery(conn, "SELECT MAX(ID) FROM HomaBayHTS")
         dbDisconnect(conn)
