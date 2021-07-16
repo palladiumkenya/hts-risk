@@ -191,7 +191,7 @@ shinyServer(function(input, output) {
         id_new <- dbGetQuery(conn, "SELECT MAX(ID) FROM HomaBayHTS")
         dbDisconnect(conn)
 
-        #showModal(modalDialog(paste("Record ID for this test is", id_new)))
+        showModal(modalDialog(paste("Record ID for this test is", id_new)))
         
     })
     

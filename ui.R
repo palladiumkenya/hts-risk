@@ -89,7 +89,10 @@ shinyUI(fluidPage(
             br(),
             actionButton('recPred', 'Save Prediction',class="btn-primary"),
             br(),
-            br()
+            br(),
+            br(),
+            br(),
+            actionButton('recResult', 'Record Test Result')
         )
     )
 ))
