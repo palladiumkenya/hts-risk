@@ -168,7 +168,6 @@ shinyServer(function(input, output) {
 
         # conn <- dbConnect(RSQLite::SQLite(), "HTS.db")
         df <- data.frame(ID = NA,
-                         HTSNumber = input$HTSNumber,
                          AgeAtTest = input$ageattest,
                          MaritalStatus = input$maritalstatus,
                          Gender = input$gender,
@@ -186,7 +185,8 @@ shinyServer(function(input, output) {
                          KeyPopulationType = input$KPtype,
                          Prediction = prediction(),
                          TestResult = 'Pending',
-                         TimeofTest = Sys.time())
+                         TimeofTest = Sys.time()),
+                         HTSNumber = input$HTSNumber
         dbWriteTable(conn, "HomaBayHTS", df, append = TRUE)
         id_new <- dbGetQuery(conn, "SELECT MAX(ID) FROM HomaBayHTS")
         dbDisconnect(conn)
