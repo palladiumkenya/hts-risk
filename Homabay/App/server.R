@@ -181,7 +181,7 @@ shinyServer(function(input, output) {
                          TBScreening = input$tbscreening,
                          EntryPoint = input$entrypoint,
                          PatientDisabled = input$patientdisabled,
-                         Facility = facilities[facilities$Facility.Name == Facility.Name, "Facility.Name"],
+                         Facility = facilities[facilities$Facility.Name == input$Facility.Name, "Facility.Name"],
                          # month_of_test = predictors()$month_of_test,
                          # dayofweek = predictors()$dayofweek,
                          KeyPopulationType = input$KPtype,
