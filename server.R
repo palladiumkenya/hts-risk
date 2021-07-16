@@ -191,7 +191,7 @@ shinyServer(function(input, output) {
         id_new <- dbGetQuery(conn, "SELECT MAX(ID) FROM HomaBayHTS")
         dbDisconnect(conn)
 
-        showModal(modalDialog(paste("Record ID for this test is", id_new)))
+        #showModal(modalDialog(paste("Record ID for this test is", id_new)))
         
     })
     
@@ -257,29 +257,29 @@ shinyServer(function(input, output) {
         }
     })
     
-    # observeEvent(input$recResultFinal, {
-    #     
-    #     dbConfig <- config::get("database")
-    #     conn <- dbConnect(
-    #         RMariaDB::MariaDB(),
-    #         dbname = dbConfig$dbname,
-    #         host = dbConfig$host,
-    #         port = dbConfig$port,
-    #         username = dbConfig$username,
-    #         password = dbConfig$password,
-    #     )
-    #     # conn <- dbConnect(RSQLite::SQLite(), "HTS.db")
-    #     dbExecute(conn, "UPDATE HomaBayHTS SET TestResult = ? where ID = ?", params = c(input$testResult, input$id_input))
-    #     dbExecute(conn, "UPDATE HomaBayHTS SET TimeofTest = ? where ID = ?", params = c(as.character(Sys.time()),input$id_input))
-    #     dbDisconnect(conn)
-    #     
-    #     showModal(modalDialog(
-    #         title = "Test Result Successfully Recorded",
-    #         br(),
-    #         "Please press Dismiss to proceed."
-    #     ))
-    #     
-    # })
+    observeEvent(input$recResultFinal, {
+
+        dbConfig <- config::get("database")
+        conn <- dbConnect(
+            RMariaDB::MariaDB(),
+            dbname = dbConfig$dbname,
+            host = dbConfig$host,
+            port = dbConfig$port,
+            username = dbConfig$username,
+            password = dbConfig$password,
+        )
+        # conn <- dbConnect(RSQLite::SQLite(), "HTS.db")
+        dbExecute(conn, "UPDATE HomaBayHTS SET TestResult = ? where ID = ?", params = c(input$testResult, input$id_input))
+        dbExecute(conn, "UPDATE HomaBayHTS SET TimeofTest = ? where ID = ?", params = c(as.character(Sys.time()),input$id_input))
+        dbDisconnect(conn)
+
+        showModal(modalDialog(
+            title = "Test Result Successfully Recorded",
+            br(),
+            "Please press Dismiss to proceed."
+        ))
+
+    })
 
 
 })
