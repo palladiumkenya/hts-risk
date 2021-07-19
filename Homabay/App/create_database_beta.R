@@ -28,7 +28,8 @@ dbExecute(conn,
         KeyPopulationType varchar(255),
         Prediction double,
         TestResult varchar(255),
-        TimeofTest varchar(255)
+        TimeofTest varchar(255),
+        HTSNumber varchar(25)
     )"
 )
 
