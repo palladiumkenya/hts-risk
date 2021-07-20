@@ -4,6 +4,9 @@ RUN su - -c "R -e \"install.packages('randomForest', repos='https://cran.rstudio
 RUN su - -c "R -e \"install.packages('dplyr', repos='https://cran.rstudio.com/')\""
 RUN su - -c "R -e \"install.packages('RSQLite', repos='https://cran.rstudio.com/')\""
 RUN su - -c "R -e \"install.packages('shinythemes', repos='https://cran.rstudio.com/')\""
+RUN su - -c "R -e \"install.packages('shinyjs', repos='https://cran.rstudio.com/')\""
+RUN su - -c "R -e \"install.packages('lubridate', repos='https://cran.rstudio.com/')\""
+RUN su - -c "R -e \"install.packages('xgboost', repos='https://cran.rstudio.com/')\""
 
 RUN rm -Rf /srv/shiny-server/*
 
