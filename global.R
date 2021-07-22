@@ -23,7 +23,7 @@ factor_vars <- factor_vars[factor_vars!="FinalTestResult"]
 dat_unique <- apply(dat[, factor_vars], 2, function(x)unique(x[!is.na(x)]))
 
 facilities <- readRDS('./facilities_pca_20210713.rds') %>%
-  filter(Facility.Name =='Mbita Sub-County Hospital') %>%
+  filter(Facility.Name =='Mbita Sub-County Hospital'| Facility.Name =='Rangwe Sub-District Hospital') %>%
   select(-Latitude, -Longitude)
 
 
