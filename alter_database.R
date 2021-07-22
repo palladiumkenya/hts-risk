@@ -9,5 +9,6 @@ conn <- dbConnect(
     username = dbConfig$username,
     password = dbConfig$password
 )
-dbExecute(conn, "ALTER TABLE homabayhts ADD HTSNumber varchar(25);")
+dbExecute(conn, "ALTER TABLE homabayhts ADD HTSNumber varchar(25);
+UPDATE `hts_risk`.`homabayaccess` SET `usernames` = 'Test' WHERE `usernames` = 'Eric';")
 dbDisconnect(conn)

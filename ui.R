@@ -19,8 +19,6 @@ shinyUI(fluidPage(
     # Sidebar with a slider input for number of bins
     sidebarLayout(
         sidebarPanel(
-            textInput("HTSNumber",
-                        "HTS Number"),
             selectInput("facilityname",
                         "Facility Name",
                         choices = c("", facilities$Facility.Name),
@@ -76,7 +74,14 @@ shinyUI(fluidPage(
                              "Months Since Last Test",
                              value = 0,
                              min = 0,
-                             max = 50))
+                             max = 50)),
+            selectInput("eligibility",
+                        "Client Eligible for Testing",
+                        choices = c("", "Eligible", "Not Eligible"), 
+                        selected = NULL),
+            textInput("htsumber",
+                      "Client Number",
+                      value = "")
         ),
 
         # Show a plot of the generated distribution

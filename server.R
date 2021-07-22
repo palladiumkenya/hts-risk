@@ -2,8 +2,6 @@
 shinyServer(function(input, output) {
 
     predictors <- eventReactive(input$pred, {
-        
-        validate(need(input$HTSNumber, "Missing HTS Number"))
         validate(need(input$ageattest, "Cannot generate prediction: missing at least one input value"))
         validate(need(input$KPtype, "Cannot generate prediction: missing at least one input value"))
         validate(need(input$maritalstatus, "Cannot generate prediction: missing at least one input value"))
@@ -17,6 +15,9 @@ shinyServer(function(input, output) {
         validate(need(input$tbscreening, "Cannot generate prediction: missing at least one input value"))
         validate(need(input$clientselftested, "Cannot generate prediction: missing at least one input value"))
         # validate(need(input$sitecode, "Cannot generate prediction: missing at least one input value"))
+        validate(need(input$eligibility, "Missing Client Eligible or Not Number"))
+        validate(need(input$htsumber, "Missing HTS Number"))
+
     
         # Get facility information
         facility <- facilities[facilities$Facility.Name == input$facilityname, ]
@@ -180,13 +181,12 @@ shinyServer(function(input, output) {
                          EntryPoint = input$entrypoint,
                          PatientDisabled = input$patientdisabled,
                          Facility = facilities[facilities$Facility.Name == input$Facility.Name, "Facility.Name"],
-                         # month_of_test = predictors()$month_of_test,
-                         # dayofweek = predictors()$dayofweek,
                          KeyPopulationType = input$KPtype,
                          Prediction = prediction(),
                          TestResult = 'Pending',
                          TimeofTest = Sys.time(),
-                         HTSNumber = input$HTSNumber)
+                         HTSNumber = input$htsumber,
+                         Eligible = input$eligibility)
         dbWriteTable(conn, "HomaBayHTS", df, append = TRUE)
         id_new <- dbGetQuery(conn, "SELECT MAX(ID) FROM HomaBayHTS")
         dbDisconnect(conn)
