@@ -2,21 +2,21 @@
 shinyServer(function(input, output) {
 
     predictors <- eventReactive(input$pred, {
-        validate(need(input$ageattest, "Cannot generate prediction: missing at least one input value"))
-        validate(need(input$KPtype, "Cannot generate prediction: missing at least one input value"))
-        validate(need(input$maritalstatus, "Cannot generate prediction: missing at least one input value"))
-        validate(need(input$gender, "Cannot generate prediction: missing at least one input value"))
-        validate(need(input$patientdisabled, "Cannot generate prediction: missing at least one input value"))
-        validate(need(input$evertested, "Cannot generate prediction: missing at least one input value"))
-        validate(need(input$monthssincelasttest, "Cannot generate prediction: missing at least one input value"))
-        validate(need(input$clienttestedas, "Cannot generate prediction: missing at least one input value"))
-        validate(need(input$entrypoint, "Cannot generate prediction: missing at least one input value"))
-        validate(need(input$testingstrategy, "Cannot generate prediction: missing at least one input value"))
-        validate(need(input$tbscreening, "Cannot generate prediction: missing at least one input value"))
-        validate(need(input$clientselftested, "Cannot generate prediction: missing at least one input value"))
-        # validate(need(input$sitecode, "Cannot generate prediction: missing at least one input value"))
+        validate(need(input$ageattest, "Cannot generate prediction: missing client's age"))
+        validate(need(input$KPtype, "Cannot generate prediction: missing population type"))
+        validate(need(input$maritalstatus, "Cannot generate prediction: missing marital status"))
+        validate(need(input$gender, "Cannot generate prediction: missing gender"))
+        validate(need(input$patientdisabled, "Cannot generate prediction: missing client's disability status"))
+        validate(need(input$evertested, "Cannot generate prediction: missing ever tested by a health worker"))
+        validate(need(input$monthssincelasttest, "Cannot generate prediction: missing months since last test"))
+        validate(need(input$clienttestedas, "Cannot generate prediction: missing client testing as"))
+        validate(need(input$entrypoint, "Cannot generate prediction: missing entry point"))
+        validate(need(input$testingstrategy, "Cannot generate prediction: missing testing strategy"))
+        validate(need(input$tbscreening, "Cannot generate prediction: missing TB screening Outcome"))
+        validate(need(input$clientselftested, "Cannot generate prediction: missing Client self tested"))
+        validate(need(input$facilityname, "Cannot generate prediction: missing facility name"))
         validate(need(input$eligibility, "Missing Client Eligible or Not Number"))
-        validate(need(input$htsumber, "Missing HTS Number"))
+        validate(need(input$htsnumber, "Missing HTS Number"))
 
     
         # Get facility information
@@ -43,17 +43,17 @@ shinyServer(function(input, output) {
                    month_of_test = factor(month(Sys.time()), levels = levels(dat$month_of_test)),
                    # Sitecode = factor(input$sitecode, levels = levels(dat$Sitecode)),
                    dayofweek = factor(wday(Sys.time()), levels = levels(dat$dayofweek)))
-
+        
         df <- cbind(df, facility_df) 
 
         df <- encodeXGBoost(df) %>%
             select(mod$feature_names)
 
 
-        showModal(modalDialog(
-            title = "Prediction Generated"
-        ))
-
+        # showModal(modalDialog(
+        #     title = "Prediction Generated"
+        #))
+        
         df
         
     })
@@ -70,7 +70,7 @@ shinyServer(function(input, output) {
         } else {
             cutoffs[["Overall"]]
         }
-        
+
         print(cutoff)
         cutoff
     })
@@ -93,7 +93,7 @@ shinyServer(function(input, output) {
 
     })
     
-    # Disable Record Prediction button until a prediction is made
+    #Disable Record Prediction button until a prediction is made
     observe({
         if (input$pred == 0) {
             shinyjs::disable("recPred")
@@ -128,6 +128,7 @@ shinyServer(function(input, output) {
             username = dbConfig$username,
             password = dbConfig$password,
         )
+
         user_auth <- dbGetQuery(conn, "SELECT * FROM HomaBayAccess WHERE usernames = ? AND passwords = ?", 
                                 params = c(input$usrnm, input$pswrd))
         dbDisconnect(conn)
@@ -180,19 +181,19 @@ shinyServer(function(input, output) {
                          TBScreening = input$tbscreening,
                          EntryPoint = input$entrypoint,
                          PatientDisabled = input$patientdisabled,
-                         Facility = facilities[facilities$Facility.Name == input$Facility.Name, "Facility.Name"],
+                         Facility = facilities[facilities$Facility.Name == input$facilityname, "Facility.Name"],
                          KeyPopulationType = input$KPtype,
                          Prediction = prediction(),
-                         TestResult = 'Pending',
                          TimeofTest = Sys.time(),
-                         HTSNumber = input$htsumber,
+                         HTSNumber = input$htsnumber,
                          Eligible = input$eligibility)
         dbWriteTable(conn, "HomaBayHTS", df, append = TRUE)
-        id_new <- dbGetQuery(conn, "SELECT MAX(ID) FROM HomaBayHTS")
+        #id_new <- dbGetQuery(conn, "SELECT MAX(ID) FROM HomaBayHTS")
         dbDisconnect(conn)
+        #paste("Record Saved")
 
-        showModal(modalDialog(paste("Record ID for this test is", id_new)))
-        
+        showModal(modalDialog(paste("Record Saved")))
+      
     })
     
     observeEvent(input$recResult, {

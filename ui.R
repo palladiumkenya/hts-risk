@@ -79,13 +79,13 @@ shinyUI(fluidPage(
                         "Client Eligible for Testing",
                         choices = c("", "Eligible", "Not Eligible"), 
                         selected = NULL),
-            textInput("htsumber",
+            textInput("htsnumber",
                       "Client Number",
                       value = "")
         ),
 
         # Show a plot of the generated distribution
-        mainPanel(width = 6,
+        mainPanel(#width = 6,
             actionButton('pred', 'Generate Prediction',class="btn-primary"),
             br(),
             br(),

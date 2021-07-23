@@ -27,9 +27,9 @@ dbExecute(conn,
         Facility varchar(255),
         KeyPopulationType varchar(255),
         Prediction double,
-        TestResult varchar(255),
         TimeofTest varchar(255),
-        HTSNumber varchar(25)
+        HTSNumber varchar(255),
+		    Eligibility varchar(255)
     )"
 )
 
