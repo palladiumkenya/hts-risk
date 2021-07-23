@@ -79,9 +79,13 @@ shinyUI(fluidPage(
                         "Client Eligible for Testing",
                         choices = c("", "Eligible", "Not Eligible"), 
                         selected = NULL),
-            textInput("htsnumber",
-                      "Client Number",
-                      value = "")
+                        conditionalPanel(
+                            condition = "input.eligibility== 'Eligible'",
+                            textInput("htsnumber",
+                                      "Client Number",
+                                      value =0)
+                            )
+            
         ),
 
         # Show a plot of the generated distribution
@@ -92,7 +96,7 @@ shinyUI(fluidPage(
             verbatimTextOutput("predText"),
             br(),
             br(),
-            actionButton('recPred', 'Save Prediction',class="btn-primary")
+            actionButton('recPred', 'Save Prediction',class="btn-lg btn-success")
         )
     )
 ))

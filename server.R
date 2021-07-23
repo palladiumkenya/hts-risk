@@ -16,7 +16,7 @@ shinyServer(function(input, output) {
         validate(need(input$clientselftested, "Cannot generate prediction: missing Client self tested"))
         validate(need(input$facilityname, "Cannot generate prediction: missing facility name"))
         validate(need(input$eligibility, "Missing Client Eligible or Not Number"))
-        validate(need(input$htsnumber, "Missing HTS Number"))
+        #validate(need(input$htsnumber, "Missing HTS Number"))
 
     
         # Get facility information
@@ -186,14 +186,33 @@ shinyServer(function(input, output) {
                          Prediction = prediction(),
                          TimeofTest = Sys.time(),
                          HTSNumber = input$htsnumber,
-                         Eligible = input$eligibility)
+                         Eligibility = input$eligibility)
         dbWriteTable(conn, "HomaBayHTS", df, append = TRUE)
         #id_new <- dbGetQuery(conn, "SELECT MAX(ID) FROM HomaBayHTS")
         dbDisconnect(conn)
         #paste("Record Saved")
 
         showModal(modalDialog(paste("Record Saved")))
-      
+        
+        ####Reset the controls
+        observe({
+            updateSelectInput(session = getDefaultReactiveDomain(),"facilityname", "Facility Name", choices = c("", facilities$Facility.Name),selected = NULL)
+            updateNumericInput(session = getDefaultReactiveDomain(),"ageattest", "Client's Age", value = 0, min = 0,max = 100)
+            updateSelectInput(session = getDefaultReactiveDomain(),"gender", "Gender",choices = c("", dat_unique$Gender),selected = NULL)
+            updateSelectInput(session = getDefaultReactiveDomain(),"maritalstatus","Marital Status",choices = c("", dat_unique$MaritalStatus, "Single"),selected = NULL)
+            updateSelectInput(session = getDefaultReactiveDomain(),"KPtype", "Population type:",choices = c("", dat_unique$KeyPopulationType, "PWID"),selected = NULL)
+            updateSelectInput(session = getDefaultReactiveDomain(),"patientdisabled","Patient Disabled",choices = c("", dat_unique$PatientDisabled),selected = NULL)
+            updateSelectInput(session = getDefaultReactiveDomain(),"clienttestedas", "Client Testing As",choices = c("", dat_unique$ClientTestedAs),selected = NULL)
+            updateSelectInput(session = getDefaultReactiveDomain(),"entrypoint","Entry Point",choices = c("", dat_unique$EntryPoint),selected = NULL)
+            updateSelectInput(session = getDefaultReactiveDomain(),"testingstrategy","Testing Strategy",choices = c("", dat_unique$TestingStrategy, "NP", "HP", "PNS"),selected = NULL)
+            updateSelectInput(session = getDefaultReactiveDomain(),"tbscreening","TB Screening Results", choices = c("", dat_unique$TBScreening),selected = NULL)
+            updateSelectInput(session = getDefaultReactiveDomain(),"clientselftested","Ever had an HIV Self Test",choices = c("", dat_unique$ClientSelfTested),selected = NULL)
+            updateSelectInput(session = getDefaultReactiveDomain(),"evertested", "Ever Tested for HIV by a HealthWorker",choices = c("", dat_unique$EverTestedForHIV),selected = NULL)
+            # conditionalPanel(condition = "input.evertested == 'Yes'",updatenumericInput(session = getDefaultReactiveDomain(),"monthssincelasttest",
+            #                        "Months Since Last Test",value = 0, min = 0,max = 50))
+            updateSelectInput(session = getDefaultReactiveDomain(),"eligibility",  "Client Eligible for Testing",choices = c("", "Eligible", "Not Eligible"), selected = NULL)
+            updateTextInput(session = getDefaultReactiveDomain(),"htsnumber","Client Number",value =0)
+        })
     })
     
     observeEvent(input$recResult, {
