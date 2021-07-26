@@ -78,17 +78,17 @@ shinyServer(function(input, output) {
     output$predText <- renderText({
 
         if(prediction() > cutoff()[1, 3]){
-            sprintf("Highest Risk",
-                    paste0(round(cutoff()[1,2]*100, digits = 1), "%"),
-                    paste0(round(cutoff()[1,1]*100, digits = 1), "%"))
+            # sprintf("Highest Risk",
+            #         paste0(round(cutoff()[1,2]*100, digits = 1), "%"),
+            #         paste0(round(cutoff()[1,1]*100, digits = 1), "%"))
         } else if(prediction() > cutoff()[2, 3]){
-            sprintf("High Risk",
-                    paste0(round(cutoff()[2,2]*100, digits = 1), "%"),
-                    paste0(round(cutoff()[2,1]*100, digits = 1), "%"))
+            # sprintf("High Risk",
+            #         paste0(round(cutoff()[2,2]*100, digits = 1), "%"),
+            #         paste0(round(cutoff()[2,1]*100, digits = 1), "%"))
         } else if(prediction() > cutoff()[3, 3]){
-            sprintf("Medium Risk",
-                    paste0(round(cutoff()[3,2]*100, digits = 1), "%"),
-                    paste0(round(cutoff()[3,1]*100, digits = 1), "%"))
+            # sprintf("Medium Risk",
+            #         paste0(round(cutoff()[3,2]*100, digits = 1), "%"),
+            #         paste0(round(cutoff()[3,1]*100, digits = 1), "%"))
         } else {"Low Risk"}
 
     })

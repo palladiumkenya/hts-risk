@@ -96,7 +96,7 @@ shinyUI(fluidPage(
             verbatimTextOutput("predText"),
             br(),
             br(),
-            actionButton('recPred', 'Save Prediction',class="btn-lg btn-success")
+            actionButton('recPred', 'Save Prediction',class="btn-primary")
         )
     )
 ))
