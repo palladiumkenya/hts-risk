@@ -167,7 +167,24 @@ shinyServer(function(input, output) {
             username = dbConfig$username,
             password = dbConfig$password,
         )
-
+        print(input$ageattest)
+        print(input$maritalstatus)
+        print(input$gender)
+        print(input$evertested)
+        print(input$monthssincelasttest)
+        print(input$clienttestedas)
+        
+        print(input$testingstrategy)
+        print(input$clientselftested)
+        print(input$tbscreening)
+        print(input$entrypoint)
+        print(input$patientdisabled)
+        print(facilities[facilities$Facility.Name == input$facilityname, "Facility.Name"])
+        print(input$KPtype)
+        print(prediction())
+        print(Sys.time())
+        print(input$htsnumber)
+        print(input$eligibility)
         # conn <- dbConnect(RSQLite::SQLite(), "HTS.db")
         df <- data.frame(ID = NA,
                          AgeAtTest = input$ageattest,
