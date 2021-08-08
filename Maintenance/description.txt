@@ -1,0 +1,1 @@
+This folder contains scripts to refresh input files for the HTS app. Follow the steps in main.R to do so.
