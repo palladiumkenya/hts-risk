@@ -79,12 +79,10 @@ shinyUI(fluidPage(
                         "Client Eligible for Testing",
                         choices = c("", "Eligible", "Not Eligible"), 
                         selected = NULL),
-                        conditionalPanel(
-                            condition = "input.eligibility== 'Eligible'",
-                            textInput("htsnumber",
-                                      "Client Number",
-                                      value =0)
-                            )
+            textInput("htsnumber",
+                       "Client Number",
+                        value ="")
+                            
             
         ),
 

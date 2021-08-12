@@ -167,24 +167,7 @@ shinyServer(function(input, output) {
             username = dbConfig$username,
             password = dbConfig$password,
         )
-        print(input$ageattest)
-        print(input$maritalstatus)
-        print(input$gender)
-        print(input$evertested)
-        print(input$monthssincelasttest)
-        print(input$clienttestedas)
-        
-        print(input$testingstrategy)
-        print(input$clientselftested)
-        print(input$tbscreening)
-        print(input$entrypoint)
-        print(input$patientdisabled)
-        print(facilities[facilities$Facility.Name == input$facilityname, "Facility.Name"])
-        print(input$KPtype)
-        print(prediction())
-        print(Sys.time())
-        print(input$htsnumber)
-        print(input$eligibility)
+
         # conn <- dbConnect(RSQLite::SQLite(), "HTS.db")
         df <- data.frame(ID = NA,
                          AgeAtTest = input$ageattest,
@@ -225,10 +208,9 @@ shinyServer(function(input, output) {
             updateSelectInput(session = getDefaultReactiveDomain(),"tbscreening","TB Screening Results", choices = c("", dat_unique$TBScreening),selected = NULL)
             updateSelectInput(session = getDefaultReactiveDomain(),"clientselftested","Ever had an HIV Self Test",choices = c("", dat_unique$ClientSelfTested),selected = NULL)
             updateSelectInput(session = getDefaultReactiveDomain(),"evertested", "Ever Tested for HIV by a HealthWorker",choices = c("", dat_unique$EverTestedForHIV),selected = NULL)
-            # conditionalPanel(condition = "input.evertested == 'Yes'",updatenumericInput(session = getDefaultReactiveDomain(),"monthssincelasttest",
-            #                        "Months Since Last Test",value = 0, min = 0,max = 50))
+            updateNumericInput(session = getDefaultReactiveDomain(),"monthssincelasttest", "Months Since Last Test",value = 0, min = 0,max = 50)
             updateSelectInput(session = getDefaultReactiveDomain(),"eligibility",  "Client Eligible for Testing",choices = c("", "Eligible", "Not Eligible"), selected = NULL)
-            updateTextInput(session = getDefaultReactiveDomain(),"htsnumber","Client Number",value =0)
+            updateTextInput(session = getDefaultReactiveDomain(),"htsnumber","Client Number",value ="")
         })
     })
     
