@@ -81,7 +81,10 @@ shinyUI(fluidPage(
                         selected = NULL),
             textInput("htsnumber",
                        "Client Number",
-                        value ="")
+                        value ="") ,
+            textInput("providername",
+                      "Name of Provider",
+                      value ="")
                             
             
         ),

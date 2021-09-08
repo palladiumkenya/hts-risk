@@ -16,7 +16,8 @@ shinyServer(function(input, output) {
         validate(need(input$clientselftested, "Cannot generate prediction: missing Client self tested"))
         validate(need(input$facilityname, "Cannot generate prediction: missing facility name"))
         validate(need(input$eligibility, "Missing Client Eligible or Not Number"))
-        #validate(need(input$htsnumber, "Missing HTS Number"))
+        validate(need(input$htsnumber, "Missing HTS Number"))
+        validate(need(input$providername, "Missing Provider Name"))
 
     
         # Get facility information
@@ -28,7 +29,7 @@ shinyServer(function(input, output) {
         ms <- ifelse(input$maritalstatus == "Single", NA, input$maritalstatus)
         ts <- ifelse(input$testingstrategy %in% c("NP", "HP", "PNS"), "Other", input$testingstrategy)
   
-        print(cutoff)
+        
         
         df <- data.frame(AgeAtTest = as.numeric(input$ageattest),
                    KeyPopulationType = factor(kp, levels = levels(dat$KeyPopulationType)),
@@ -188,7 +189,8 @@ shinyServer(function(input, output) {
                          Prediction = prediction(),
                          TimeofTest = Sys.time(),
                          HTSNumber = input$htsnumber,
-                         Eligibility = input$eligibility)
+                         Eligibility = input$eligibility,
+                         Provider = input$providername)
         dbWriteTable(conn, "HomaBayHTS", df, append = TRUE)
         #id_new <- dbGetQuery(conn, "SELECT MAX(ID) FROM HomaBayHTS")
         dbDisconnect(conn)
@@ -213,6 +215,7 @@ shinyServer(function(input, output) {
             updateNumericInput(session = getDefaultReactiveDomain(),"monthssincelasttest", "Months Since Last Test",value = 0, min = 0,max = 50)
             updateSelectInput(session = getDefaultReactiveDomain(),"eligibility",  "Client Eligible for Testing",choices = c("", "Eligible", "Not Eligible"), selected = NULL)
             updateTextInput(session = getDefaultReactiveDomain(),"htsnumber","Client Number",value ="")
+            updateTextInput(session = getDefaultReactiveDomain(),"providername","Name of Provider",value ="")
         })
     })
     
