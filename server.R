@@ -27,7 +27,9 @@ shinyServer(function(input, output) {
         kp <- ifelse(input$KPtype %in% c("MSM"), "OtherKP", input$KPtype)
         ms <- ifelse(input$maritalstatus == "Single", NA, input$maritalstatus)
         ts <- ifelse(input$testingstrategy %in% c("NP", "HP", "PNS"), "Other", input$testingstrategy)
-
+  
+        print(cutoff)
+        
         df <- data.frame(AgeAtTest = as.numeric(input$ageattest),
                    KeyPopulationType = factor(kp, levels = levels(dat$KeyPopulationType)),
                    MaritalStatus = factor(ms, levels = levels(dat$MaritalStatus)),

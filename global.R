@@ -23,10 +23,10 @@ factor_vars <- factor_vars[factor_vars!="FinalTestResult"]
 dat_unique <- apply(dat[, factor_vars], 2, function(x)unique(x[!is.na(x)]))
 
 facilities <- readRDS('./facilities_pca_20210713.rds') %>%
-  filter(Facility.Name =='Mbita Sub-County Hospital'| Facility.Name =='Rangwe Sub-District Hospital'| Facility.Name =='Ogongo Sub-County Hospital'| Facility.Name =='Suba Sub-Couty Hospital'|
-         Facility.Name =='Nyandiwa Level IV Hospital'| Facility.Name =='Ndhiwa Sub-District Hospital'| Facility.Name =='Marindi Sub County Referral Hospital'| Facility.Name =='Makongeni Health Centre'|
-           Facility.Name =='Homa Bay County Teaching and Referral Hospital'| Facility.Name =='Kendu Sub-District Hospital'| Facility.Name =='Kandiege Sub-District Hospital'| 
-           Facility.Name =='Kabondo Sub-County  Hospital'| Facility.Name =='Rachuonyo District Hospital') %>%
+  filter(Facility.Name %in% c ('Mbita Sub-County Hospital','Rangwe Sub-District Hospital','Ogongo Sub-County Hospital','Suba Sub-Couty Hospital'
+         ,'Nyandiwa Level IV Hospital','Ndhiwa Sub-District Hospital','Marindi Sub County Referral Hospital','Makongeni Health Centre'
+           ,'Homa Bay County Teaching and Referral Hospital','Kendu Sub-District Hospital','Kandiege Sub-District Hospital'
+           ,'Kabondo Sub-County  Hospital','Rachuonyo District Hospital')) %>%
   select(-Latitude, -Longitude)
 
 
