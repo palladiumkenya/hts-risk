@@ -21,7 +21,7 @@ shinyServer(function(input, output) {
 
     
         # Get facility information
-        facility <- facilities[facilities$Facility.Name == input$facilityname, ]
+        facility <- facilities[facilities$Facility.Name == input$facilityname,]
         facility_df <- facility %>% select(-Facility.Name)
 
         # For KP and Testing Strategy, convert to other for non-common values
@@ -92,7 +92,11 @@ shinyServer(function(input, output) {
             # sprintf("Medium Risk",
             #         paste0(round(cutoff()[3,2]*100, digits = 1), "%"),
             #         paste0(round(cutoff()[3,1]*100, digits = 1), "%"))
-        } else {"Low Risk"}
+        } else {
+            
+            # "Low Risk"
+          
+          }
 
     })
     
