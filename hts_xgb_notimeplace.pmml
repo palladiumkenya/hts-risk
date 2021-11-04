@@ -1,0 +1,3951 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<PMML xmlns="http://www.dmg.org/PMML-4_4" xmlns:data="http://jpmml.org/jpmml-model/InlineTable" version="4.4">
+	<Header>
+		<Application name="JPMML-R" version="1.4.4"/>
+		<Timestamp>2021-11-04T21:48:16Z</Timestamp>
+	</Header>
+	<DataDictionary>
+		<DataField name="_target" optype="categorical" dataType="integer">
+			<Value value="0"/>
+			<Value value="1"/>
+		</DataField>
+		<DataField name="AgeAtTest" optype="continuous" dataType="float"/>
+		<DataField name="MonthsSinceLastTest" optype="continuous" dataType="float"/>
+		<DataField name="Gender.Male" optype="continuous" dataType="float"/>
+		<DataField name="KeyPopulationType.GP" optype="continuous" dataType="float"/>
+		<DataField name="KeyPopulationType.SW" optype="continuous" dataType="float"/>
+		<DataField name="MaritalStatus.Married" optype="continuous" dataType="float"/>
+		<DataField name="MaritalStatus.Divorced" optype="continuous" dataType="float"/>
+		<DataField name="MaritalStatus.Polygamous" optype="continuous" dataType="float"/>
+		<DataField name="MaritalStatus.Widowed" optype="continuous" dataType="float"/>
+		<DataField name="MaritalStatus.Minor" optype="continuous" dataType="float"/>
+		<DataField name="PatientDisabled.Not.Disabled" optype="continuous" dataType="float"/>
+		<DataField name="EverTestedForHIV.Yes" optype="continuous" dataType="float"/>
+		<DataField name="ClientTestedAs.Individual" optype="continuous" dataType="float"/>
+		<DataField name="EntryPoint.VCT" optype="continuous" dataType="float"/>
+		<DataField name="EntryPoint.OPD" optype="continuous" dataType="float"/>
+		<DataField name="EntryPoint.MTC" optype="continuous" dataType="float"/>
+		<DataField name="EntryPoint.IPD" optype="continuous" dataType="float"/>
+		<DataField name="EntryPoint.MOBILE" optype="continuous" dataType="float"/>
+		<DataField name="EntryPoint.Other" optype="continuous" dataType="float"/>
+		<DataField name="EntryPoint.HB" optype="continuous" dataType="float"/>
+		<DataField name="EntryPoint.PEDS" optype="continuous" dataType="float"/>
+		<DataField name="TestingStrategy.VCT" optype="continuous" dataType="float"/>
+		<DataField name="TestingStrategy.HB" optype="continuous" dataType="float"/>
+		<DataField name="TestingStrategy.MOBILE" optype="continuous" dataType="float"/>
+		<DataField name="TestingStrategy.HP" optype="continuous" dataType="float"/>
+		<DataField name="TestingStrategy.NP" optype="continuous" dataType="float"/>
+		<DataField name="TBScreening.No.Presumed.TB" optype="continuous" dataType="float"/>
+		<DataField name="ClientSelfTested.No" optype="continuous" dataType="float"/>
+	</DataDictionary>
+	<MiningModel functionName="classification" algorithmName="XGBoost (GBTree)" x-mathContext="float">
+		<MiningSchema>
+			<MiningField name="_target" usageType="target"/>
+			<MiningField name="AgeAtTest"/>
+			<MiningField name="MonthsSinceLastTest"/>
+			<MiningField name="Gender.Male"/>
+			<MiningField name="KeyPopulationType.GP"/>
+			<MiningField name="KeyPopulationType.SW"/>
+			<MiningField name="MaritalStatus.Married"/>
+			<MiningField name="MaritalStatus.Divorced"/>
+			<MiningField name="MaritalStatus.Polygamous"/>
+			<MiningField name="MaritalStatus.Widowed"/>
+			<MiningField name="MaritalStatus.Minor"/>
+			<MiningField name="PatientDisabled.Not.Disabled"/>
+			<MiningField name="EverTestedForHIV.Yes"/>
+			<MiningField name="ClientTestedAs.Individual"/>
+			<MiningField name="EntryPoint.VCT"/>
+			<MiningField name="EntryPoint.OPD"/>
+			<MiningField name="EntryPoint.MTC"/>
+			<MiningField name="EntryPoint.IPD"/>
+			<MiningField name="EntryPoint.MOBILE"/>
+			<MiningField name="EntryPoint.Other"/>
+			<MiningField name="EntryPoint.HB"/>
+			<MiningField name="EntryPoint.PEDS"/>
+			<MiningField name="TestingStrategy.VCT"/>
+			<MiningField name="TestingStrategy.HB"/>
+			<MiningField name="TestingStrategy.MOBILE"/>
+			<MiningField name="TestingStrategy.HP"/>
+			<MiningField name="TestingStrategy.NP"/>
+			<MiningField name="TBScreening.No.Presumed.TB"/>
+			<MiningField name="ClientSelfTested.No"/>
+		</MiningSchema>
+		<Segmentation multipleModelMethod="modelChain" missingPredictionTreatment="returnMissing">
+			<Segment id="1">
+				<True/>
+				<MiningModel functionName="regression" x-mathContext="float">
+					<MiningSchema>
+						<MiningField name="AgeAtTest"/>
+						<MiningField name="MonthsSinceLastTest"/>
+						<MiningField name="Gender.Male"/>
+						<MiningField name="KeyPopulationType.GP"/>
+						<MiningField name="KeyPopulationType.SW"/>
+						<MiningField name="MaritalStatus.Married"/>
+						<MiningField name="MaritalStatus.Divorced"/>
+						<MiningField name="MaritalStatus.Polygamous"/>
+						<MiningField name="MaritalStatus.Widowed"/>
+						<MiningField name="MaritalStatus.Minor"/>
+						<MiningField name="PatientDisabled.Not.Disabled"/>
+						<MiningField name="EverTestedForHIV.Yes"/>
+						<MiningField name="ClientTestedAs.Individual"/>
+						<MiningField name="EntryPoint.VCT"/>
+						<MiningField name="EntryPoint.OPD"/>
+						<MiningField name="EntryPoint.MTC"/>
+						<MiningField name="EntryPoint.IPD"/>
+						<MiningField name="EntryPoint.MOBILE"/>
+						<MiningField name="EntryPoint.Other"/>
+						<MiningField name="EntryPoint.HB"/>
+						<MiningField name="EntryPoint.PEDS"/>
+						<MiningField name="TestingStrategy.VCT"/>
+						<MiningField name="TestingStrategy.HB"/>
+						<MiningField name="TestingStrategy.MOBILE"/>
+						<MiningField name="TestingStrategy.HP"/>
+						<MiningField name="TestingStrategy.NP"/>
+						<MiningField name="TBScreening.No.Presumed.TB"/>
+						<MiningField name="ClientSelfTested.No"/>
+					</MiningSchema>
+					<Output>
+						<OutputField name="xgbValue" optype="continuous" dataType="float" isFinalResult="false"/>
+					</Output>
+					<Segmentation multipleModelMethod="sum">
+						<Segment id="1">
+							<True/>
+							<TreeModel functionName="regression" noTrueChildStrategy="returnLastPrediction" x-mathContext="float">
+								<MiningSchema>
+									<MiningField name="AgeAtTest"/>
+									<MiningField name="MonthsSinceLastTest"/>
+									<MiningField name="Gender.Male"/>
+									<MiningField name="MaritalStatus.Married"/>
+									<MiningField name="MaritalStatus.Divorced"/>
+									<MiningField name="MaritalStatus.Polygamous"/>
+									<MiningField name="MaritalStatus.Widowed"/>
+									<MiningField name="MaritalStatus.Minor"/>
+									<MiningField name="EntryPoint.VCT"/>
+									<MiningField name="EntryPoint.MTC"/>
+									<MiningField name="EntryPoint.MOBILE"/>
+									<MiningField name="TestingStrategy.VCT"/>
+									<MiningField name="TestingStrategy.HB"/>
+									<MiningField name="TestingStrategy.MOBILE"/>
+									<MiningField name="TestingStrategy.HP"/>
+									<MiningField name="TBScreening.No.Presumed.TB"/>
+								</MiningSchema>
+								<Node score="-0.55172414">
+									<True/>
+									<Node score="-0.40327868">
+										<SimplePredicate field="TestingStrategy.VCT" operator="lessThan" value="2.000001"/>
+										<Node score="0.36">
+											<SimplePredicate field="MaritalStatus.Divorced" operator="greaterOrEqual" value="0.5"/>
+											<Node score="-0.0">
+												<SimplePredicate field="EntryPoint.MTC" operator="lessThan" value="0.5"/>
+												<Node score="-0.0">
+													<SimplePredicate field="AgeAtTest" operator="greaterOrEqual" value="31.5"/>
+													<Node score="-0.20000002">
+														<SimplePredicate field="Gender.Male" operator="greaterOrEqual" value="0.5"/>
+														<Node score="0.3">
+															<SimplePredicate field="MonthsSinceLastTest" operator="lessThan" value="4.0"/>
+														</Node>
+													</Node>
+													<Node score="0.34285718">
+														<SimplePredicate field="EntryPoint.VCT" operator="lessThan" value="0.5"/>
+													</Node>
+												</Node>
+												<Node score="-0.13846155">
+													<SimplePredicate field="TestingStrategy.HP" operator="lessThan" value="0.5"/>
+													<Node score="-0.39130437">
+														<SimplePredicate field="TBScreening.No.Presumed.TB" operator="lessThan" value="2.000001"/>
+													</Node>
+												</Node>
+												<Node score="0.20000002">
+													<SimplePredicate field="AgeAtTest" operator="greaterOrEqual" value="24.5"/>
+												</Node>
+											</Node>
+										</Node>
+										<Node score="-0.5453238">
+											<SimplePredicate field="TBScreening.No.Presumed.TB" operator="lessThan" value="0.5"/>
+											<Node score="-0.41538465">
+												<SimplePredicate field="TestingStrategy.MOBILE" operator="lessThan" value="0.5"/>
+												<Node score="-0.47500002">
+													<SimplePredicate field="AgeAtTest" operator="greaterOrEqual" value="53.5"/>
+													<Node score="-0.15">
+														<SimplePredicate field="MonthsSinceLastTest" operator="greaterOrEqual" value="12.5"/>
+													</Node>
+												</Node>
+												<Node score="-0.06486487">
+													<SimplePredicate field="AgeAtTest" operator="greaterOrEqual" value="19.5"/>
+												</Node>
+											</Node>
+											<Node score="0.20000002">
+												<SimplePredicate field="MonthsSinceLastTest" operator="greaterOrEqual" value="13.5"/>
+												<Node score="-0.15">
+													<SimplePredicate field="AgeAtTest" operator="greaterOrEqual" value="41.0"/>
+												</Node>
+											</Node>
+											<Node score="0.05454546">
+												<SimplePredicate field="MaritalStatus.Married" operator="greaterOrEqual" value="0.5"/>
+											</Node>
+										</Node>
+										<Node score="-0.5505762">
+											<SimplePredicate field="TestingStrategy.HB" operator="lessThan" value="0.5"/>
+											<Node score="-0.5514034">
+												<SimplePredicate field="MaritalStatus.Minor" operator="lessThan" value="0.5"/>
+												<Node score="-0.4337478">
+													<SimplePredicate field="MonthsSinceLastTest" operator="greaterOrEqual" value="5.5"/>
+												</Node>
+											</Node>
+											<Node score="-0.5845303">
+												<SimplePredicate field="MonthsSinceLastTest" operator="lessThan" value="12.5"/>
+											</Node>
+										</Node>
+										<Node score="0.03157895">
+											<SimplePredicate field="MaritalStatus.Polygamous" operator="greaterOrEqual" value="0.5"/>
+											<Node score="-0.3">
+												<SimplePredicate field="Gender.Male" operator="greaterOrEqual" value="0.5"/>
+											</Node>
+										</Node>
+										<Node score="-0.5099196">
+											<SimplePredicate field="TBScreening.No.Presumed.TB" operator="lessThan" value="2.000001"/>
+										</Node>
+									</Node>
+									<Node score="0.50476193">
+										<SimplePredicate field="EntryPoint.MOBILE" operator="greaterOrEqual" value="0.5"/>
+										<Node score="-0.5342466">
+											<SimplePredicate field="TBScreening.No.Presumed.TB" operator="greaterOrEqual" value="0.5"/>
+											<Node score="0.10552765">
+												<SimplePredicate field="AgeAtTest" operator="greaterOrEqual" value="18.5"/>
+												<Node score="-0.22325583">
+													<SimplePredicate field="Gender.Male" operator="greaterOrEqual" value="0.5"/>
+													<Node score="-0.0">
+														<SimplePredicate field="AgeAtTest" operator="greaterOrEqual" value="36.5"/>
+													</Node>
+												</Node>
+												<Node score="-0.120000005">
+													<SimplePredicate field="MonthsSinceLastTest" operator="greaterOrEqual" value="11.5"/>
+												</Node>
+											</Node>
+										</Node>
+									</Node>
+									<Node score="0.15">
+										<SimplePredicate field="TBScreening.No.Presumed.TB" operator="lessThan" value="0.5"/>
+										<Node score="0.375">
+											<SimplePredicate field="EntryPoint.MTC" operator="lessThan" value="0.5"/>
+										</Node>
+										<Node score="-0.0">
+											<SimplePredicate field="MonthsSinceLastTest" operator="lessThan" value="11.5"/>
+										</Node>
+									</Node>
+									<Node score="0.3">
+										<SimplePredicate field="MaritalStatus.Widowed" operator="greaterOrEqual" value="0.5"/>
+										<Node score="-0.3">
+											<SimplePredicate field="Gender.Male" operator="greaterOrEqual" value="0.5"/>
+											<Node score="-0.06666667">
+												<SimplePredicate field="MonthsSinceLastTest" operator="lessThan" value="144.0"/>
+											</Node>
+										</Node>
+										<Node score="-0.16363637">
+											<SimplePredicate field="AgeAtTest" operator="greaterOrEqual" value="51.0"/>
+										</Node>
+									</Node>
+									<Node score="-0.3060893">
+										<SimplePredicate field="AgeAtTest" operator="greaterOrEqual" value="15.5"/>
+										<Node score="-0.4403548">
+											<SimplePredicate field="TBScreening.No.Presumed.TB" operator="lessThan" value="2.000001"/>
+										</Node>
+									</Node>
+								</Node>
+							</TreeModel>
+						</Segment>
+						<Segment id="2">
+							<True/>
+							<TreeModel functionName="regression" noTrueChildStrategy="returnLastPrediction" x-mathContext="float">
+								<MiningSchema>
+									<MiningField name="AgeAtTest"/>
+									<MiningField name="MonthsSinceLastTest"/>
+									<MiningField name="Gender.Male"/>
+									<MiningField name="MaritalStatus.Married"/>
+									<MiningField name="MaritalStatus.Divorced"/>
+									<MiningField name="MaritalStatus.Minor"/>
+									<MiningField name="PatientDisabled.Not.Disabled"/>
+									<MiningField name="EntryPoint.MTC"/>
+									<MiningField name="EntryPoint.MOBILE"/>
+									<MiningField name="TestingStrategy.VCT"/>
+									<MiningField name="TestingStrategy.HB"/>
+									<MiningField name="TestingStrategy.HP"/>
+									<MiningField name="TBScreening.No.Presumed.TB"/>
+								</MiningSchema>
+								<Node score="-0.42236456">
+									<True/>
+									<Node score="-0.29896376">
+										<SimplePredicate field="TestingStrategy.VCT" operator="lessThan" value="2.000001"/>
+										<Node score="0.28166714">
+											<SimplePredicate field="MaritalStatus.Divorced" operator="greaterOrEqual" value="0.5"/>
+											<Node score="-0.36307037">
+												<SimplePredicate field="EntryPoint.MTC" operator="lessThan" value="0.5"/>
+												<Node score="0.036203105">
+													<SimplePredicate field="AgeAtTest" operator="greaterOrEqual" value="20.5"/>
+													<Node score="0.117019095">
+														<SimplePredicate field="TBScreening.No.Presumed.TB" operator="greaterOrEqual" value="0.5"/>
+														<Node score="-0.19458507">
+															<SimplePredicate field="TestingStrategy.HP" operator="lessThan" value="0.5"/>
+														</Node>
+													</Node>
+													<Node score="0.32455933">
+														<SimplePredicate field="TestingStrategy.VCT" operator="lessThan" value="0.5"/>
+													</Node>
+												</Node>
+											</Node>
+										</Node>
+										<Node score="-0.24354553">
+											<SimplePredicate field="TBScreening.No.Presumed.TB" operator="lessThan" value="0.5"/>
+											<Node score="-0.20874111">
+												<SimplePredicate field="MonthsSinceLastTest" operator="greaterOrEqual" value="13.5"/>
+												<Node score="-0.30934322">
+													<SimplePredicate field="AgeAtTest" operator="greaterOrEqual" value="61.0"/>
+													<Node score="-0.041843724">
+														<SimplePredicate field="MonthsSinceLastTest" operator="lessThan" value="26.0"/>
+													</Node>
+												</Node>
+												<Node score="0.24703741">
+													<SimplePredicate field="AgeAtTest" operator="greaterOrEqual" value="21.5"/>
+												</Node>
+											</Node>
+											<Node score="-0.16402784">
+												<SimplePredicate field="MaritalStatus.Married" operator="greaterOrEqual" value="0.5"/>
+												<Node score="0.14900827">
+													<SimplePredicate field="PatientDisabled.Not.Disabled" operator="greaterOrEqual" value="0.5"/>
+												</Node>
+											</Node>
+											<Node score="-0.41639724">
+												<SimplePredicate field="EntryPoint.MOBILE" operator="greaterOrEqual" value="0.5"/>
+											</Node>
+										</Node>
+										<Node score="-0.41984072">
+											<SimplePredicate field="TestingStrategy.HB" operator="lessThan" value="0.5"/>
+											<Node score="-0.42068347">
+												<SimplePredicate field="MaritalStatus.Minor" operator="lessThan" value="0.5"/>
+												<Node score="-0.32107234">
+													<SimplePredicate field="MonthsSinceLastTest" operator="greaterOrEqual" value="5.5"/>
+												</Node>
+											</Node>
+											<Node score="-0.4504166">
+												<SimplePredicate field="MonthsSinceLastTest" operator="lessThan" value="12.5"/>
+											</Node>
+										</Node>
+										<Node score="-0.16833006">
+											<SimplePredicate field="AgeAtTest" operator="greaterOrEqual" value="58.5"/>
+											<Node score="0.2933427">
+												<SimplePredicate field="MonthsSinceLastTest" operator="greaterOrEqual" value="14.5"/>
+											</Node>
+										</Node>
+										<Node score="-0.3943009">
+											<SimplePredicate field="Gender.Male" operator="greaterOrEqual" value="0.5"/>
+										</Node>
+									</Node>
+									<Node score="0.3880854">
+										<SimplePredicate field="EntryPoint.MOBILE" operator="greaterOrEqual" value="0.5"/>
+										<Node score="-0.42707092">
+											<SimplePredicate field="TBScreening.No.Presumed.TB" operator="greaterOrEqual" value="0.5"/>
+											<Node score="-0.103367895">
+												<SimplePredicate field="AgeAtTest" operator="greaterOrEqual" value="18.5"/>
+												<Node score="0.16154885">
+													<SimplePredicate field="MonthsSinceLastTest" operator="lessThan" value="11.5"/>
+													<Node score="-0.034690417">
+														<SimplePredicate field="MonthsSinceLastTest" operator="lessThan" value="8.5"/>
+													</Node>
+												</Node>
+												<Node score="-0.31539494">
+													<SimplePredicate field="AgeAtTest" operator="greaterOrEqual" value="36.5"/>
+												</Node>
+											</Node>
+											<Node score="-0.11746147">
+												<SimplePredicate field="MaritalStatus.Married" operator="greaterOrEqual" value="0.5"/>
+											</Node>
+										</Node>
+									</Node>
+									<Node score="0.017511802">
+										<SimplePredicate field="TBScreening.No.Presumed.TB" operator="lessThan" value="0.5"/>
+										<Node score="0.08305078">
+											<SimplePredicate field="AgeAtTest" operator="greaterOrEqual" value="27.0"/>
+											<Node score="0.3675817">
+												<SimplePredicate field="MaritalStatus.Married" operator="lessThan" value="2.000001"/>
+											</Node>
+										</Node>
+									</Node>
+									<Node score="-0.22818273">
+										<SimplePredicate field="AgeAtTest" operator="greaterOrEqual" value="15.5"/>
+										<Node score="-0.090645954">
+											<SimplePredicate field="MaritalStatus.Married" operator="lessThan" value="0.5"/>
+											<Node score="0.28166035">
+												<SimplePredicate field="MonthsSinceLastTest" operator="greaterOrEqual" value="13.5"/>
+											</Node>
+										</Node>
+										<Node score="-0.34366542">
+											<SimplePredicate field="TBScreening.No.Presumed.TB" operator="lessThan" value="2.000001"/>
+										</Node>
+									</Node>
+								</Node>
+							</TreeModel>
+						</Segment>
+						<Segment id="3">
+							<True/>
+							<TreeModel functionName="regression" noTrueChildStrategy="returnLastPrediction" x-mathContext="float">
+								<MiningSchema>
+									<MiningField name="AgeAtTest"/>
+									<MiningField name="MonthsSinceLastTest"/>
+									<MiningField name="Gender.Male"/>
+									<MiningField name="MaritalStatus.Married"/>
+									<MiningField name="MaritalStatus.Divorced"/>
+									<MiningField name="MaritalStatus.Minor"/>
+									<MiningField name="PatientDisabled.Not.Disabled"/>
+									<MiningField name="EntryPoint.VCT"/>
+									<MiningField name="EntryPoint.MTC"/>
+									<MiningField name="EntryPoint.HB"/>
+									<MiningField name="TestingStrategy.HB"/>
+									<MiningField name="TestingStrategy.MOBILE"/>
+									<MiningField name="TBScreening.No.Presumed.TB"/>
+								</MiningSchema>
+								<Node score="-0.074966215">
+									<True/>
+									<Node score="-0.19799867">
+										<SimplePredicate field="TestingStrategy.HB" operator="lessThan" value="0.5"/>
+										<Node score="-0.27921614">
+											<SimplePredicate field="MaritalStatus.Divorced" operator="greaterOrEqual" value="0.5"/>
+											<Node score="0.021750368">
+												<SimplePredicate field="AgeAtTest" operator="greaterOrEqual" value="40.5"/>
+												<Node score="0.32976544">
+													<SimplePredicate field="MonthsSinceLastTest" operator="lessThan" value="20.0"/>
+												</Node>
+											</Node>
+											<Node score="-0.28190586">
+												<SimplePredicate field="TestingStrategy.MOBILE" operator="lessThan" value="0.5"/>
+												<Node score="0.11000872">
+													<SimplePredicate field="AgeAtTest" operator="greaterOrEqual" value="20.5"/>
+													<Node score="-0.04783031">
+														<SimplePredicate field="AgeAtTest" operator="greaterOrEqual" value="27.5"/>
+													</Node>
+												</Node>
+											</Node>
+										</Node>
+										<Node score="-0.3487259">
+											<SimplePredicate field="TBScreening.No.Presumed.TB" operator="lessThan" value="0.5"/>
+											<Node score="-0.15907438">
+												<SimplePredicate field="TestingStrategy.MOBILE" operator="lessThan" value="0.5"/>
+												<Node score="-0.33396015">
+													<SimplePredicate field="AgeAtTest" operator="greaterOrEqual" value="56.5"/>
+													<Node score="-0.12712291">
+														<SimplePredicate field="MonthsSinceLastTest" operator="greaterOrEqual" value="12.5"/>
+													</Node>
+												</Node>
+												<Node score="0.05276406">
+													<SimplePredicate field="AgeAtTest" operator="greaterOrEqual" value="32.5"/>
+												</Node>
+											</Node>
+											<Node score="0.08221551">
+												<SimplePredicate field="MonthsSinceLastTest" operator="greaterOrEqual" value="13.5"/>
+												<Node score="-0.08525687">
+													<SimplePredicate field="AgeAtTest" operator="greaterOrEqual" value="39.5"/>
+												</Node>
+											</Node>
+											<Node score="0.041554">
+												<SimplePredicate field="MaritalStatus.Married" operator="greaterOrEqual" value="0.5"/>
+											</Node>
+										</Node>
+										<Node score="-0.36488923">
+											<SimplePredicate field="MaritalStatus.Minor" operator="lessThan" value="0.5"/>
+											<Node score="-0.28949118">
+												<SimplePredicate field="AgeAtTest" operator="greaterOrEqual" value="27.5"/>
+												<Node score="-0.099374436">
+													<SimplePredicate field="MonthsSinceLastTest" operator="greaterOrEqual" value="13.5"/>
+												</Node>
+											</Node>
+											<Node score="0.014316109">
+												<SimplePredicate field="MonthsSinceLastTest" operator="greaterOrEqual" value="25.0"/>
+											</Node>
+										</Node>
+										<Node score="-0.39998543">
+											<SimplePredicate field="MonthsSinceLastTest" operator="lessThan" value="12.5"/>
+											<Node score="-0.37191418">
+												<SimplePredicate field="TestingStrategy.MOBILE" operator="lessThan" value="0.5"/>
+											</Node>
+										</Node>
+										<Node score="-0.35902902">
+											<SimplePredicate field="TestingStrategy.MOBILE" operator="lessThan" value="0.5"/>
+										</Node>
+									</Node>
+									<Node score="0.17788923">
+										<SimplePredicate field="EntryPoint.HB" operator="lessThan" value="0.5"/>
+										<Node score="-0.010639803">
+											<SimplePredicate field="AgeAtTest" operator="greaterOrEqual" value="19.5"/>
+											<Node score="-0.062967">
+												<SimplePredicate field="TBScreening.No.Presumed.TB" operator="lessThan" value="0.5"/>
+												<Node score="0.37737522">
+													<SimplePredicate field="MonthsSinceLastTest" operator="lessThan" value="8.5"/>
+												</Node>
+												<Node score="0.3006996">
+													<SimplePredicate field="MonthsSinceLastTest" operator="greaterOrEqual" value="9.5"/>
+												</Node>
+											</Node>
+											<Node score="-0.2898076">
+												<SimplePredicate field="Gender.Male" operator="greaterOrEqual" value="0.5"/>
+												<Node score="-0.09835174">
+													<SimplePredicate field="MonthsSinceLastTest" operator="lessThan" value="144.0"/>
+												</Node>
+											</Node>
+											<Node score="0.3436734">
+												<SimplePredicate field="AgeAtTest" operator="greaterOrEqual" value="49.5"/>
+											</Node>
+										</Node>
+										<Node score="-0.3765491">
+											<SimplePredicate field="EntryPoint.MTC" operator="lessThan" value="0.5"/>
+											<Node score="-0.2587159">
+												<SimplePredicate field="MaritalStatus.Minor" operator="lessThan" value="0.5"/>
+												<Node score="-0.08633475">
+													<SimplePredicate field="MonthsSinceLastTest" operator="lessThan" value="1.5"/>
+												</Node>
+											</Node>
+											<Node score="-0.17588396">
+												<SimplePredicate field="AgeAtTest" operator="greaterOrEqual" value="18.5"/>
+											</Node>
+										</Node>
+										<Node score="-0.22857125">
+											<SimplePredicate field="TBScreening.No.Presumed.TB" operator="greaterOrEqual" value="0.5"/>
+										</Node>
+									</Node>
+									<Node score="-0.30738124">
+										<SimplePredicate field="TBScreening.No.Presumed.TB" operator="greaterOrEqual" value="0.5"/>
+										<Node score="-0.26107466">
+											<SimplePredicate field="MaritalStatus.Minor" operator="lessThan" value="0.5"/>
+											<Node score="-0.01044589">
+												<SimplePredicate field="PatientDisabled.Not.Disabled" operator="greaterOrEqual" value="0.5"/>
+												<Node score="0.2410146">
+													<SimplePredicate field="EntryPoint.VCT" operator="lessThan" value="1.0E-6"/>
+												</Node>
+											</Node>
+											<Node score="-0.39420044">
+												<SimplePredicate field="MonthsSinceLastTest" operator="lessThan" value="11.5"/>
+											</Node>
+										</Node>
+										<Node score="0.25898212">
+											<SimplePredicate field="AgeAtTest" operator="greaterOrEqual" value="58.5"/>
+											<Node score="-0.17402309">
+												<SimplePredicate field="MonthsSinceLastTest" operator="lessThan" value="14.5"/>
+											</Node>
+										</Node>
+										<Node score="-0.3874811">
+											<SimplePredicate field="Gender.Male" operator="greaterOrEqual" value="0.5"/>
+										</Node>
+									</Node>
+									<Node score="-0.15730266">
+										<SimplePredicate field="MaritalStatus.Married" operator="greaterOrEqual" value="0.5"/>
+										<Node score="0.25493512">
+											<SimplePredicate field="TBScreening.No.Presumed.TB" operator="lessThan" value="1.0E-6"/>
+										</Node>
+										<Node score="-0.3564684">
+											<SimplePredicate field="AgeAtTest" operator="greaterOrEqual" value="3.5"/>
+										</Node>
+									</Node>
+									<Node score="-0.33035648">
+										<SimplePredicate field="MonthsSinceLastTest" operator="lessThan" value="70.0"/>
+										<Node score="0.18072784">
+											<SimplePredicate field="AgeAtTest" operator="greaterOrEqual" value="11.0"/>
+										</Node>
+									</Node>
+									<Node score="-0.23394676">
+										<SimplePredicate field="Gender.Male" operator="greaterOrEqual" value="0.5"/>
+									</Node>
+								</Node>
+							</TreeModel>
+						</Segment>
+						<Segment id="4">
+							<True/>
+							<TreeModel functionName="regression" noTrueChildStrategy="returnLastPrediction" x-mathContext="float">
+								<MiningSchema>
+									<MiningField name="AgeAtTest"/>
+									<MiningField name="MonthsSinceLastTest"/>
+									<MiningField name="Gender.Male"/>
+									<MiningField name="MaritalStatus.Married"/>
+									<MiningField name="MaritalStatus.Divorced"/>
+									<MiningField name="MaritalStatus.Polygamous"/>
+									<MiningField name="MaritalStatus.Widowed"/>
+									<MiningField name="MaritalStatus.Minor"/>
+									<MiningField name="PatientDisabled.Not.Disabled"/>
+									<MiningField name="ClientTestedAs.Individual"/>
+									<MiningField name="EntryPoint.VCT"/>
+									<MiningField name="EntryPoint.MTC"/>
+									<MiningField name="EntryPoint.MOBILE"/>
+									<MiningField name="EntryPoint.HB"/>
+									<MiningField name="TestingStrategy.HB"/>
+									<MiningField name="TestingStrategy.MOBILE"/>
+									<MiningField name="TestingStrategy.HP"/>
+									<MiningField name="TBScreening.No.Presumed.TB"/>
+								</MiningSchema>
+								<Node score="-0.2631163">
+									<True/>
+									<Node score="0.00691774">
+										<SimplePredicate field="TestingStrategy.HB" operator="lessThan" value="0.5"/>
+										<Node score="-0.24509533">
+											<SimplePredicate field="MaritalStatus.Minor" operator="lessThan" value="0.5"/>
+											<Node score="0.14817838">
+												<SimplePredicate field="AgeAtTest" operator="greaterOrEqual" value="24.5"/>
+												<Node score="-0.26964635">
+													<SimplePredicate field="MaritalStatus.Divorced" operator="lessThan" value="0.5"/>
+													<Node score="0.19463712">
+														<SimplePredicate field="MonthsSinceLastTest" operator="greaterOrEqual" value="6.5"/>
+														<Node score="-0.16349232">
+															<SimplePredicate field="MaritalStatus.Widowed" operator="lessThan" value="0.5"/>
+														</Node>
+													</Node>
+													<Node score="-0.019605389">
+														<SimplePredicate field="TBScreening.No.Presumed.TB" operator="lessThan" value="0.5"/>
+													</Node>
+												</Node>
+												<Node score="0.22586681">
+													<SimplePredicate field="AgeAtTest" operator="greaterOrEqual" value="37.5"/>
+													<Node score="0.0060805576">
+														<SimplePredicate field="EntryPoint.VCT" operator="greaterOrEqual" value="0.5"/>
+													</Node>
+												</Node>
+												<Node score="-0.11144065">
+													<SimplePredicate field="TestingStrategy.HP" operator="lessThan" value="0.5"/>
+												</Node>
+											</Node>
+											<Node score="-0.34826833">
+												<SimplePredicate field="MaritalStatus.Divorced" operator="lessThan" value="0.5"/>
+												<Node score="-0.3143026">
+													<SimplePredicate field="TBScreening.No.Presumed.TB" operator="lessThan" value="2.000001"/>
+													<Node score="-0.1983854">
+														<SimplePredicate field="PatientDisabled.Not.Disabled" operator="greaterOrEqual" value="0.5"/>
+													</Node>
+												</Node>
+												<Node score="-0.22748564">
+													<SimplePredicate field="EntryPoint.MTC" operator="greaterOrEqual" value="0.5"/>
+												</Node>
+											</Node>
+											<Node score="0.24344276">
+												<SimplePredicate field="AgeAtTest" operator="greaterOrEqual" value="20.5"/>
+												<Node score="-0.19465424">
+													<SimplePredicate field="TBScreening.No.Presumed.TB" operator="greaterOrEqual" value="0.5"/>
+												</Node>
+											</Node>
+										</Node>
+										<Node score="-0.36351758">
+											<SimplePredicate field="TBScreening.No.Presumed.TB" operator="greaterOrEqual" value="0.5"/>
+											<Node score="-0.28416187">
+												<SimplePredicate field="MonthsSinceLastTest" operator="greaterOrEqual" value="12.5"/>
+												<Node score="0.0420866">
+													<SimplePredicate field="TestingStrategy.MOBILE" operator="lessThan" value="0.5"/>
+													<Node score="-0.31609">
+														<SimplePredicate field="MonthsSinceLastTest" operator="lessThan" value="66.0"/>
+													</Node>
+												</Node>
+												<Node score="0.086288854">
+													<SimplePredicate field="AgeAtTest" operator="greaterOrEqual" value="25.5"/>
+												</Node>
+											</Node>
+											<Node score="0.23861569">
+												<SimplePredicate field="EntryPoint.HB" operator="greaterOrEqual" value="0.5"/>
+												<Node score="-0.21194544">
+													<SimplePredicate field="Gender.Male" operator="greaterOrEqual" value="0.5"/>
+												</Node>
+											</Node>
+											<Node score="-0.33677313">
+												<SimplePredicate field="TestingStrategy.MOBILE" operator="lessThan" value="0.5"/>
+											</Node>
+										</Node>
+										<Node score="-0.2366011">
+											<SimplePredicate field="MonthsSinceLastTest" operator="greaterOrEqual" value="12.5"/>
+											<Node score="0.17874509">
+												<SimplePredicate field="MonthsSinceLastTest" operator="lessThan" value="18.5"/>
+												<Node score="-0.09660628">
+													<SimplePredicate field="MonthsSinceLastTest" operator="lessThan" value="13.5"/>
+												</Node>
+											</Node>
+											<Node score="0.02170176">
+												<SimplePredicate field="Gender.Male" operator="greaterOrEqual" value="0.5"/>
+											</Node>
+										</Node>
+										<Node score="0.045331877">
+											<SimplePredicate field="EntryPoint.MTC" operator="greaterOrEqual" value="0.5"/>
+											<Node score="-0.21113005">
+												<SimplePredicate field="AgeAtTest" operator="greaterOrEqual" value="25.5"/>
+											</Node>
+										</Node>
+										<Node score="-0.30029896">
+											<SimplePredicate field="AgeAtTest" operator="greaterOrEqual" value="3.5"/>
+										</Node>
+									</Node>
+									<Node score="-0.31989613">
+										<SimplePredicate field="EntryPoint.MOBILE" operator="greaterOrEqual" value="0.5"/>
+										<Node score="0.33476102">
+											<SimplePredicate field="AgeAtTest" operator="greaterOrEqual" value="18.5"/>
+											<Node score="0.37490273">
+												<SimplePredicate field="TBScreening.No.Presumed.TB" operator="greaterOrEqual" value="0.5"/>
+												<Node score="-0.1467967">
+													<SimplePredicate field="ClientTestedAs.Individual" operator="greaterOrEqual" value="0.5"/>
+													<Node score="0.022905478">
+														<SimplePredicate field="MonthsSinceLastTest" operator="lessThan" value="11.5"/>
+													</Node>
+												</Node>
+											</Node>
+											<Node score="0.2397592">
+												<SimplePredicate field="MonthsSinceLastTest" operator="greaterOrEqual" value="8.5"/>
+												<Node score="-0.070235915">
+													<SimplePredicate field="MonthsSinceLastTest" operator="lessThan" value="9.5"/>
+												</Node>
+											</Node>
+										</Node>
+										<Node score="-0.079024084">
+											<SimplePredicate field="MaritalStatus.Married" operator="greaterOrEqual" value="0.5"/>
+										</Node>
+									</Node>
+									<Node score="-0.14132893">
+										<SimplePredicate field="AgeAtTest" operator="greaterOrEqual" value="15.5"/>
+										<Node score="-0.02173048">
+											<SimplePredicate field="MaritalStatus.Married" operator="lessThan" value="0.5"/>
+											<Node score="-0.1872563">
+												<SimplePredicate field="Gender.Male" operator="greaterOrEqual" value="0.5"/>
+												<Node score="-0.009672155">
+													<SimplePredicate field="TBScreening.No.Presumed.TB" operator="lessThan" value="2.000001"/>
+												</Node>
+											</Node>
+											<Node score="0.23313937">
+												<SimplePredicate field="MaritalStatus.Polygamous" operator="lessThan" value="0.5"/>
+											</Node>
+										</Node>
+										<Node score="-0.22118895">
+											<SimplePredicate field="MonthsSinceLastTest" operator="lessThan" value="1.5"/>
+											<Node score="0.04846875">
+												<SimplePredicate field="PatientDisabled.Not.Disabled" operator="greaterOrEqual" value="0.5"/>
+											</Node>
+										</Node>
+										<Node score="-0.26488474">
+											<SimplePredicate field="TBScreening.No.Presumed.TB" operator="greaterOrEqual" value="0.5"/>
+										</Node>
+									</Node>
+									<Node score="-0.33241633">
+										<SimplePredicate field="AgeAtTest" operator="greaterOrEqual" value="1.5"/>
+										<Node score="-0.053379644">
+											<SimplePredicate field="EntryPoint.MTC" operator="greaterOrEqual" value="0.5"/>
+										</Node>
+									</Node>
+									<Node score="0.083308026">
+										<SimplePredicate field="PatientDisabled.Not.Disabled" operator="greaterOrEqual" value="0.5"/>
+									</Node>
+								</Node>
+							</TreeModel>
+						</Segment>
+						<Segment id="5">
+							<True/>
+							<TreeModel functionName="regression" noTrueChildStrategy="returnLastPrediction" x-mathContext="float">
+								<MiningSchema>
+									<MiningField name="AgeAtTest"/>
+									<MiningField name="MonthsSinceLastTest"/>
+									<MiningField name="Gender.Male"/>
+									<MiningField name="MaritalStatus.Married"/>
+									<MiningField name="MaritalStatus.Divorced"/>
+									<MiningField name="MaritalStatus.Widowed"/>
+									<MiningField name="MaritalStatus.Minor"/>
+									<MiningField name="PatientDisabled.Not.Disabled"/>
+									<MiningField name="EverTestedForHIV.Yes"/>
+									<MiningField name="EntryPoint.VCT"/>
+									<MiningField name="EntryPoint.HB"/>
+									<MiningField name="TestingStrategy.HB"/>
+									<MiningField name="TestingStrategy.MOBILE"/>
+									<MiningField name="TBScreening.No.Presumed.TB"/>
+									<MiningField name="ClientSelfTested.No"/>
+								</MiningSchema>
+								<Node score="0.06816277">
+									<True/>
+									<Node score="-0.09292307">
+										<SimplePredicate field="TestingStrategy.HB" operator="lessThan" value="0.5"/>
+										<Node score="-0.16595203">
+											<SimplePredicate field="TBScreening.No.Presumed.TB" operator="lessThan" value="0.5"/>
+											<Node score="0.06126316">
+												<SimplePredicate field="TestingStrategy.MOBILE" operator="lessThan" value="0.5"/>
+												<Node score="-0.3437238">
+													<SimplePredicate field="AgeAtTest" operator="greaterOrEqual" value="53.5"/>
+													<Node score="-0.16581018">
+														<SimplePredicate field="Gender.Male" operator="greaterOrEqual" value="0.5"/>
+														<Node score="0.19187327">
+															<SimplePredicate field="MonthsSinceLastTest" operator="greaterOrEqual" value="12.5"/>
+														</Node>
+													</Node>
+													<Node score="-0.11324529">
+														<SimplePredicate field="MonthsSinceLastTest" operator="lessThan" value="1.0"/>
+													</Node>
+												</Node>
+												<Node score="-0.1666198">
+													<SimplePredicate field="AgeAtTest" operator="greaterOrEqual" value="19.5"/>
+													<Node score="0.1259956">
+														<SimplePredicate field="ClientSelfTested.No" operator="greaterOrEqual" value="0.5"/>
+													</Node>
+												</Node>
+												<Node score="-0.2918906">
+													<SimplePredicate field="AgeAtTest" operator="greaterOrEqual" value="11.0"/>
+												</Node>
+											</Node>
+											<Node score="0.06079359">
+												<SimplePredicate field="MaritalStatus.Married" operator="greaterOrEqual" value="0.5"/>
+											</Node>
+											<Node score="0.044541467">
+												<SimplePredicate field="MonthsSinceLastTest" operator="greaterOrEqual" value="13.5"/>
+												<Node score="-0.09572257">
+													<SimplePredicate field="AgeAtTest" operator="greaterOrEqual" value="39.5"/>
+												</Node>
+											</Node>
+											<Node score="-0.28879285">
+												<SimplePredicate field="Gender.Male" operator="greaterOrEqual" value="0.5"/>
+											</Node>
+										</Node>
+										<Node score="0.028571354">
+											<SimplePredicate field="MaritalStatus.Minor" operator="lessThan" value="0.5"/>
+											<Node score="0.11032488">
+												<SimplePredicate field="AgeAtTest" operator="greaterOrEqual" value="24.5"/>
+												<Node score="-0.1517134">
+													<SimplePredicate field="AgeAtTest" operator="greaterOrEqual" value="52.5"/>
+													<Node score="-0.34064478">
+														<SimplePredicate field="EverTestedForHIV.Yes" operator="greaterOrEqual" value="0.5"/>
+													</Node>
+												</Node>
+												<Node score="-0.17834812">
+													<SimplePredicate field="MaritalStatus.Widowed" operator="lessThan" value="0.5"/>
+												</Node>
+											</Node>
+											<Node score="-0.3223509">
+												<SimplePredicate field="Gender.Male" operator="greaterOrEqual" value="0.5"/>
+											</Node>
+											<Node score="-0.260363">
+												<SimplePredicate field="MaritalStatus.Divorced" operator="lessThan" value="0.5"/>
+											</Node>
+										</Node>
+										<Node score="-0.3389166">
+											<SimplePredicate field="EntryPoint.VCT" operator="lessThan" value="0.5"/>
+											<Node score="-0.061762612">
+												<SimplePredicate field="MonthsSinceLastTest" operator="greaterOrEqual" value="12.5"/>
+												<Node score="-0.2823701">
+													<SimplePredicate field="TestingStrategy.MOBILE" operator="lessThan" value="0.5"/>
+												</Node>
+											</Node>
+											<Node score="-0.30528307">
+												<SimplePredicate field="TestingStrategy.MOBILE" operator="lessThan" value="0.5"/>
+											</Node>
+										</Node>
+										<Node score="-0.22608827">
+											<SimplePredicate field="AgeAtTest" operator="greaterOrEqual" value="29.5"/>
+											<Node score="-0.018453944">
+												<SimplePredicate field="MonthsSinceLastTest" operator="lessThan" value="0.5"/>
+											</Node>
+										</Node>
+										<Node score="-0.2962575">
+											<SimplePredicate field="AgeAtTest" operator="greaterOrEqual" value="5.5"/>
+										</Node>
+									</Node>
+									<Node score="-0.25384748">
+										<SimplePredicate field="EntryPoint.HB" operator="lessThan" value="0.5"/>
+										<Node score="-0.05275899">
+											<SimplePredicate field="AgeAtTest" operator="greaterOrEqual" value="19.5"/>
+											<Node score="-0.05315033">
+												<SimplePredicate field="TBScreening.No.Presumed.TB" operator="lessThan" value="0.5"/>
+												<Node score="0.3131448">
+													<SimplePredicate field="MonthsSinceLastTest" operator="lessThan" value="8.5"/>
+												</Node>
+												<Node score="0.23498778">
+													<SimplePredicate field="MonthsSinceLastTest" operator="greaterOrEqual" value="9.5"/>
+												</Node>
+											</Node>
+											<Node score="0.1989205">
+												<SimplePredicate field="MaritalStatus.Married" operator="lessThan" value="0.5"/>
+												<Node score="-0.16378649">
+													<SimplePredicate field="AgeAtTest" operator="greaterOrEqual" value="49.0"/>
+												</Node>
+											</Node>
+											<Node score="0.177709">
+												<SimplePredicate field="AgeAtTest" operator="greaterOrEqual" value="47.5"/>
+											</Node>
+										</Node>
+										<Node score="-0.30049193">
+											<SimplePredicate field="TBScreening.No.Presumed.TB" operator="lessThan" value="2.000001"/>
+											<Node score="-0.1840207">
+												<SimplePredicate field="AgeAtTest" operator="greaterOrEqual" value="18.5"/>
+												<Node score="0.041880008">
+													<SimplePredicate field="MonthsSinceLastTest" operator="lessThan" value="9.0"/>
+												</Node>
+											</Node>
+										</Node>
+										<Node score="-0.17226474">
+											<SimplePredicate field="MaritalStatus.Married" operator="lessThan" value="2.000001"/>
+											<Node score="0.19857855">
+												<SimplePredicate field="AgeAtTest" operator="greaterOrEqual" value="12.5"/>
+											</Node>
+										</Node>
+									</Node>
+									<Node score="-0.20839608">
+										<SimplePredicate field="TBScreening.No.Presumed.TB" operator="greaterOrEqual" value="0.5"/>
+										<Node score="-0.16778892">
+											<SimplePredicate field="MaritalStatus.Minor" operator="lessThan" value="0.5"/>
+											<Node score="0.36490536">
+												<SimplePredicate field="PatientDisabled.Not.Disabled" operator="greaterOrEqual" value="0.5"/>
+												<Node score="0.060277466">
+													<SimplePredicate field="MonthsSinceLastTest" operator="lessThan" value="22.0"/>
+												</Node>
+											</Node>
+											<Node score="-0.32264417">
+												<SimplePredicate field="MonthsSinceLastTest" operator="lessThan" value="11.5"/>
+											</Node>
+										</Node>
+										<Node score="0.18701923">
+											<SimplePredicate field="AgeAtTest" operator="greaterOrEqual" value="58.5"/>
+											<Node score="-0.1666756">
+												<SimplePredicate field="MonthsSinceLastTest" operator="lessThan" value="12.5"/>
+											</Node>
+										</Node>
+										<Node score="-0.3120072">
+											<SimplePredicate field="Gender.Male" operator="greaterOrEqual" value="0.5"/>
+										</Node>
+									</Node>
+									<Node score="-0.08092223">
+										<SimplePredicate field="MaritalStatus.Married" operator="greaterOrEqual" value="0.5"/>
+										<Node score="0.23510486">
+											<SimplePredicate field="TBScreening.No.Presumed.TB" operator="lessThan" value="1.0E-6"/>
+										</Node>
+										<Node score="-0.27057952">
+											<SimplePredicate field="AgeAtTest" operator="greaterOrEqual" value="3.5"/>
+										</Node>
+									</Node>
+									<Node score="-0.16857329">
+										<SimplePredicate field="EntryPoint.VCT" operator="lessThan" value="1.0E-6"/>
+										<Node score="0.23564698">
+											<SimplePredicate field="MonthsSinceLastTest" operator="greaterOrEqual" value="6.0"/>
+										</Node>
+									</Node>
+									<Node score="-0.09974649">
+										<SimplePredicate field="Gender.Male" operator="greaterOrEqual" value="0.5"/>
+									</Node>
+								</Node>
+							</TreeModel>
+						</Segment>
+						<Segment id="6">
+							<True/>
+							<TreeModel functionName="regression" noTrueChildStrategy="returnLastPrediction" x-mathContext="float">
+								<MiningSchema>
+									<MiningField name="AgeAtTest"/>
+									<MiningField name="MonthsSinceLastTest"/>
+									<MiningField name="Gender.Male"/>
+									<MiningField name="MaritalStatus.Married"/>
+									<MiningField name="MaritalStatus.Divorced"/>
+									<MiningField name="MaritalStatus.Polygamous"/>
+									<MiningField name="MaritalStatus.Widowed"/>
+									<MiningField name="MaritalStatus.Minor"/>
+									<MiningField name="PatientDisabled.Not.Disabled"/>
+									<MiningField name="ClientTestedAs.Individual"/>
+									<MiningField name="EntryPoint.VCT"/>
+									<MiningField name="EntryPoint.MTC"/>
+									<MiningField name="EntryPoint.MOBILE"/>
+									<MiningField name="EntryPoint.Other"/>
+									<MiningField name="EntryPoint.HB"/>
+									<MiningField name="TestingStrategy.HB"/>
+									<MiningField name="TestingStrategy.MOBILE"/>
+									<MiningField name="TestingStrategy.HP"/>
+									<MiningField name="TBScreening.No.Presumed.TB"/>
+									<MiningField name="ClientSelfTested.No"/>
+								</MiningSchema>
+								<Node score="-0.23324594">
+									<True/>
+									<Node score="-0.13489187">
+										<SimplePredicate field="TestingStrategy.HB" operator="lessThan" value="0.5"/>
+										<Node score="-0.07586899">
+											<SimplePredicate field="MaritalStatus.Minor" operator="lessThan" value="0.5"/>
+											<Node score="0.27986032">
+												<SimplePredicate field="AgeAtTest" operator="greaterOrEqual" value="22.5"/>
+												<Node score="-0.20223333">
+													<SimplePredicate field="MaritalStatus.Divorced" operator="lessThan" value="0.5"/>
+													<Node score="0.030796167">
+														<SimplePredicate field="MonthsSinceLastTest" operator="greaterOrEqual" value="11.5"/>
+														<Node score="-0.21915473">
+															<SimplePredicate field="AgeAtTest" operator="greaterOrEqual" value="37.5"/>
+														</Node>
+													</Node>
+													<Node score="-0.004793894">
+														<SimplePredicate field="TBScreening.No.Presumed.TB" operator="lessThan" value="0.5"/>
+													</Node>
+												</Node>
+												<Node score="-0.24775352">
+													<SimplePredicate field="TestingStrategy.HP" operator="lessThan" value="0.5"/>
+													<Node score="0.05177311">
+														<SimplePredicate field="PatientDisabled.Not.Disabled" operator="greaterOrEqual" value="0.5"/>
+													</Node>
+												</Node>
+												<Node score="0.0950644">
+													<SimplePredicate field="MonthsSinceLastTest" operator="lessThan" value="96.0"/>
+												</Node>
+											</Node>
+											<Node score="-0.10601077">
+												<SimplePredicate field="TBScreening.No.Presumed.TB" operator="lessThan" value="2.000001"/>
+												<Node score="0.042958833">
+													<SimplePredicate field="PatientDisabled.Not.Disabled" operator="greaterOrEqual" value="0.5"/>
+													<Node score="-0.3113694">
+														<SimplePredicate field="Gender.Male" operator="greaterOrEqual" value="0.5"/>
+													</Node>
+												</Node>
+												<Node score="-0.2783908">
+													<SimplePredicate field="AgeAtTest" operator="greaterOrEqual" value="15.5"/>
+												</Node>
+											</Node>
+											<Node score="-0.09029727">
+												<SimplePredicate field="AgeAtTest" operator="greaterOrEqual" value="10.5"/>
+												<Node score="-0.31017414">
+													<SimplePredicate field="MaritalStatus.Divorced" operator="lessThan" value="0.5"/>
+												</Node>
+											</Node>
+											<Node score="-0.23565796">
+												<SimplePredicate field="EntryPoint.VCT" operator="lessThan" value="0.5"/>
+											</Node>
+										</Node>
+										<Node score="-0.23962276">
+											<SimplePredicate field="TBScreening.No.Presumed.TB" operator="greaterOrEqual" value="0.5"/>
+											<Node score="-0.2376859">
+												<SimplePredicate field="MonthsSinceLastTest" operator="greaterOrEqual" value="12.5"/>
+												<Node score="-0.13736351">
+													<SimplePredicate field="TestingStrategy.MOBILE" operator="lessThan" value="0.5"/>
+													<Node score="-0.26503855">
+														<SimplePredicate field="MonthsSinceLastTest" operator="lessThan" value="34.5"/>
+													</Node>
+												</Node>
+												<Node score="0.07840623">
+													<SimplePredicate field="AgeAtTest" operator="greaterOrEqual" value="25.5"/>
+												</Node>
+											</Node>
+											<Node score="-0.3109365">
+												<SimplePredicate field="TestingStrategy.MOBILE" operator="lessThan" value="0.5"/>
+												<Node score="-0.24362426">
+													<SimplePredicate field="AgeAtTest" operator="greaterOrEqual" value="25.5"/>
+												</Node>
+											</Node>
+											<Node score="-0.3234682">
+												<SimplePredicate field="ClientTestedAs.Individual" operator="greaterOrEqual" value="0.5"/>
+											</Node>
+										</Node>
+										<Node score="-0.19315885">
+											<SimplePredicate field="MonthsSinceLastTest" operator="greaterOrEqual" value="12.5"/>
+											<Node score="-0.07883786">
+												<SimplePredicate field="ClientSelfTested.No" operator="lessThan" value="2.000001"/>
+												<Node score="0.12237108">
+													<SimplePredicate field="MonthsSinceLastTest" operator="lessThan" value="18.5"/>
+												</Node>
+											</Node>
+										</Node>
+										<Node score="0.11571695">
+											<SimplePredicate field="EntryPoint.MTC" operator="greaterOrEqual" value="0.5"/>
+											<Node score="-0.12545486">
+												<SimplePredicate field="AgeAtTest" operator="greaterOrEqual" value="25.5"/>
+											</Node>
+										</Node>
+										<Node score="-0.2375661">
+											<SimplePredicate field="ClientTestedAs.Individual" operator="greaterOrEqual" value="0.5"/>
+										</Node>
+									</Node>
+									<Node score="-0.23032697">
+										<SimplePredicate field="AgeAtTest" operator="greaterOrEqual" value="15.5"/>
+										<Node score="-0.1570296">
+											<SimplePredicate field="Gender.Male" operator="greaterOrEqual" value="0.5"/>
+											<Node score="-0.21297926">
+												<SimplePredicate field="MonthsSinceLastTest" operator="lessThan" value="2.0"/>
+												<Node score="0.0143048875">
+													<SimplePredicate field="EntryPoint.VCT" operator="lessThan" value="0.5"/>
+													<Node score="-0.21661712">
+														<SimplePredicate field="MaritalStatus.Divorced" operator="lessThan" value="0.5"/>
+													</Node>
+												</Node>
+												<Node score="0.25526658">
+													<SimplePredicate field="PatientDisabled.Not.Disabled" operator="greaterOrEqual" value="0.5"/>
+												</Node>
+											</Node>
+											<Node score="-0.19682156">
+												<SimplePredicate field="EntryPoint.HB" operator="lessThan" value="0.5"/>
+												<Node score="-0.043196317">
+													<SimplePredicate field="MonthsSinceLastTest" operator="greaterOrEqual" value="3.5"/>
+												</Node>
+											</Node>
+											<Node score="-0.32596508">
+												<SimplePredicate field="MonthsSinceLastTest" operator="lessThan" value="11.5"/>
+											</Node>
+										</Node>
+										<Node score="-0.06304209">
+											<SimplePredicate field="PatientDisabled.Not.Disabled" operator="greaterOrEqual" value="0.5"/>
+											<Node score="0.06856388">
+												<SimplePredicate field="MaritalStatus.Polygamous" operator="lessThan" value="0.5"/>
+												<Node score="0.39437366">
+													<SimplePredicate field="EntryPoint.VCT" operator="greaterOrEqual" value="0.5"/>
+												</Node>
+											</Node>
+											<Node score="0.08734751">
+												<SimplePredicate field="EntryPoint.MOBILE" operator="greaterOrEqual" value="0.5"/>
+											</Node>
+										</Node>
+										<Node score="-0.18412443">
+											<SimplePredicate field="MonthsSinceLastTest" operator="greaterOrEqual" value="11.5"/>
+											<Node score="0.089374624">
+												<SimplePredicate field="MaritalStatus.Married" operator="lessThan" value="2.000001"/>
+											</Node>
+										</Node>
+										<Node score="0.061865278">
+											<SimplePredicate field="MaritalStatus.Widowed" operator="greaterOrEqual" value="0.5"/>
+										</Node>
+									</Node>
+									<Node score="-0.14027692">
+										<SimplePredicate field="AgeAtTest" operator="greaterOrEqual" value="1.5"/>
+										<Node score="-0.010395979">
+											<SimplePredicate field="EntryPoint.MTC" operator="greaterOrEqual" value="0.5"/>
+										</Node>
+										<Node score="-0.06776355">
+											<SimplePredicate field="EntryPoint.Other" operator="greaterOrEqual" value="0.5"/>
+										</Node>
+										<Node score="-0.2774174">
+											<SimplePredicate field="AgeAtTest" operator="greaterOrEqual" value="2.5"/>
+										</Node>
+									</Node>
+									<Node score="0.1056111">
+										<SimplePredicate field="Gender.Male" operator="greaterOrEqual" value="0.5"/>
+									</Node>
+								</Node>
+							</TreeModel>
+						</Segment>
+						<Segment id="7">
+							<True/>
+							<TreeModel functionName="regression" noTrueChildStrategy="returnLastPrediction" x-mathContext="float">
+								<MiningSchema>
+									<MiningField name="AgeAtTest"/>
+									<MiningField name="MonthsSinceLastTest"/>
+									<MiningField name="Gender.Male"/>
+									<MiningField name="MaritalStatus.Married"/>
+									<MiningField name="MaritalStatus.Divorced"/>
+									<MiningField name="MaritalStatus.Minor"/>
+									<MiningField name="PatientDisabled.Not.Disabled"/>
+									<MiningField name="ClientTestedAs.Individual"/>
+									<MiningField name="EntryPoint.VCT"/>
+									<MiningField name="EntryPoint.OPD"/>
+									<MiningField name="EntryPoint.MTC"/>
+									<MiningField name="EntryPoint.IPD"/>
+									<MiningField name="EntryPoint.MOBILE"/>
+									<MiningField name="TestingStrategy.VCT"/>
+									<MiningField name="TestingStrategy.HB"/>
+									<MiningField name="TestingStrategy.MOBILE"/>
+									<MiningField name="TBScreening.No.Presumed.TB"/>
+								</MiningSchema>
+								<Node score="-0.27782866">
+									<True/>
+									<Node score="0.1630158">
+										<SimplePredicate field="TestingStrategy.HB" operator="lessThan" value="0.5"/>
+										<Node score="-0.043703083">
+											<SimplePredicate field="MaritalStatus.Minor" operator="lessThan" value="0.5"/>
+											<Node score="-0.044851646">
+												<SimplePredicate field="AgeAtTest" operator="greaterOrEqual" value="20.5"/>
+												<Node score="-0.13705581">
+													<SimplePredicate field="MonthsSinceLastTest" operator="greaterOrEqual" value="21.5"/>
+													<Node score="-0.24104635">
+														<SimplePredicate field="AgeAtTest" operator="greaterOrEqual" value="46.0"/>
+														<Node score="-0.058136594">
+															<SimplePredicate field="AgeAtTest" operator="greaterOrEqual" value="64.0"/>
+														</Node>
+													</Node>
+													<Node score="0.25625223">
+														<SimplePredicate field="EntryPoint.VCT" operator="lessThan" value="0.5"/>
+													</Node>
+												</Node>
+												<Node score="-0.21389407">
+													<SimplePredicate field="MaritalStatus.Divorced" operator="lessThan" value="0.5"/>
+													<Node score="-0.11604429">
+														<SimplePredicate field="TBScreening.No.Presumed.TB" operator="lessThan" value="2.000001"/>
+													</Node>
+												</Node>
+												<Node score="0.13243382">
+													<SimplePredicate field="AgeAtTest" operator="greaterOrEqual" value="30.5"/>
+												</Node>
+											</Node>
+											<Node score="0.13579182">
+												<SimplePredicate field="MonthsSinceLastTest" operator="lessThan" value="11.5"/>
+												<Node score="0.1056457">
+													<SimplePredicate field="EntryPoint.VCT" operator="lessThan" value="0.5"/>
+													<Node score="-0.23876221">
+														<SimplePredicate field="MonthsSinceLastTest" operator="lessThan" value="7.5"/>
+													</Node>
+												</Node>
+												<Node score="-0.28318906">
+													<SimplePredicate field="Gender.Male" operator="greaterOrEqual" value="0.5"/>
+												</Node>
+											</Node>
+											<Node score="-0.30862266">
+												<SimplePredicate field="ClientTestedAs.Individual" operator="greaterOrEqual" value="0.5"/>
+												<Node score="-0.14148732">
+													<SimplePredicate field="EntryPoint.MTC" operator="greaterOrEqual" value="0.5"/>
+												</Node>
+											</Node>
+										</Node>
+										<Node score="-0.21347404">
+											<SimplePredicate field="TBScreening.No.Presumed.TB" operator="greaterOrEqual" value="0.5"/>
+											<Node score="-0.30696493">
+												<SimplePredicate field="MonthsSinceLastTest" operator="greaterOrEqual" value="12.5"/>
+												<Node score="-0.1104747">
+													<SimplePredicate field="TestingStrategy.MOBILE" operator="lessThan" value="0.5"/>
+													<Node score="-0.23731802">
+														<SimplePredicate field="MonthsSinceLastTest" operator="lessThan" value="34.5"/>
+													</Node>
+												</Node>
+												<Node score="0.033033185">
+													<SimplePredicate field="MonthsSinceLastTest" operator="lessThan" value="21.0"/>
+												</Node>
+											</Node>
+											<Node score="-0.29266253">
+												<SimplePredicate field="TestingStrategy.MOBILE" operator="lessThan" value="0.5"/>
+												<Node score="-0.21488313">
+													<SimplePredicate field="AgeAtTest" operator="greaterOrEqual" value="25.5"/>
+												</Node>
+											</Node>
+											<Node score="-0.3100381">
+												<SimplePredicate field="ClientTestedAs.Individual" operator="greaterOrEqual" value="0.5"/>
+											</Node>
+										</Node>
+										<Node score="0.2710907">
+											<SimplePredicate field="TBScreening.No.Presumed.TB" operator="lessThan" value="1.0E-6"/>
+											<Node score="-0.10030176">
+												<SimplePredicate field="TestingStrategy.VCT" operator="lessThan" value="0.5"/>
+												<Node score="-0.2192567">
+													<SimplePredicate field="Gender.Male" operator="greaterOrEqual" value="0.5"/>
+												</Node>
+											</Node>
+											<Node score="-0.015472467">
+												<SimplePredicate field="EntryPoint.IPD" operator="lessThan" value="0.5"/>
+											</Node>
+										</Node>
+										<Node score="-0.02181425">
+											<SimplePredicate field="EntryPoint.OPD" operator="greaterOrEqual" value="0.5"/>
+											<Node score="-0.27020794">
+												<SimplePredicate field="ClientTestedAs.Individual" operator="greaterOrEqual" value="0.5"/>
+											</Node>
+										</Node>
+										<Node score="-0.17626444">
+											<SimplePredicate field="AgeAtTest" operator="greaterOrEqual" value="5.5"/>
+										</Node>
+									</Node>
+									<Node score="-0.11376811">
+										<SimplePredicate field="AgeAtTest" operator="greaterOrEqual" value="15.5"/>
+										<Node score="-0.008250433">
+											<SimplePredicate field="PatientDisabled.Not.Disabled" operator="greaterOrEqual" value="0.5"/>
+											<Node score="0.25773057">
+												<SimplePredicate field="TBScreening.No.Presumed.TB" operator="lessThan" value="0.5"/>
+											</Node>
+											<Node score="-0.14870018">
+												<SimplePredicate field="Gender.Male" operator="greaterOrEqual" value="0.5"/>
+												<Node score="-0.046755813">
+													<SimplePredicate field="AgeAtTest" operator="greaterOrEqual" value="30.5"/>
+												</Node>
+											</Node>
+											<Node score="0.35833964">
+												<SimplePredicate field="EntryPoint.MTC" operator="greaterOrEqual" value="0.5"/>
+											</Node>
+										</Node>
+										<Node score="0.15915535">
+											<SimplePredicate field="MaritalStatus.Married" operator="lessThan" value="2.000001"/>
+											<Node score="0.35350025">
+												<SimplePredicate field="MonthsSinceLastTest" operator="greaterOrEqual" value="13.5"/>
+												<Node score="0.015263795">
+													<SimplePredicate field="MonthsSinceLastTest" operator="lessThan" value="60.0"/>
+												</Node>
+											</Node>
+											<Node score="-0.15415369">
+												<SimplePredicate field="ClientTestedAs.Individual" operator="greaterOrEqual" value="0.5"/>
+											</Node>
+										</Node>
+										<Node score="-0.045984056">
+											<SimplePredicate field="AgeAtTest" operator="greaterOrEqual" value="49.5"/>
+										</Node>
+										<Node score="-0.2907437">
+											<SimplePredicate field="AgeAtTest" operator="greaterOrEqual" value="21.5"/>
+										</Node>
+									</Node>
+									<Node score="-0.22668414">
+										<SimplePredicate field="MonthsSinceLastTest" operator="lessThan" value="1.5"/>
+										<Node score="0.11234506">
+											<SimplePredicate field="AgeAtTest" operator="greaterOrEqual" value="12.5"/>
+											<Node score="-0.098590836">
+												<SimplePredicate field="EntryPoint.MOBILE" operator="lessThan" value="0.5"/>
+											</Node>
+											<Node score="-0.029920451">
+												<SimplePredicate field="AgeAtTest" operator="greaterOrEqual" value="13.5"/>
+											</Node>
+										</Node>
+										<Node score="-0.21667697">
+											<SimplePredicate field="AgeAtTest" operator="greaterOrEqual" value="2.5"/>
+											<Node score="-0.07611571">
+												<SimplePredicate field="AgeAtTest" operator="greaterOrEqual" value="11.5"/>
+											</Node>
+										</Node>
+										<Node score="0.23766632">
+											<SimplePredicate field="EntryPoint.MTC" operator="lessThan" value="0.5"/>
+										</Node>
+									</Node>
+								</Node>
+							</TreeModel>
+						</Segment>
+						<Segment id="8">
+							<True/>
+							<TreeModel functionName="regression" noTrueChildStrategy="returnLastPrediction" x-mathContext="float">
+								<MiningSchema>
+									<MiningField name="AgeAtTest"/>
+									<MiningField name="MonthsSinceLastTest"/>
+									<MiningField name="Gender.Male"/>
+									<MiningField name="KeyPopulationType.SW"/>
+									<MiningField name="MaritalStatus.Married"/>
+									<MiningField name="MaritalStatus.Divorced"/>
+									<MiningField name="MaritalStatus.Widowed"/>
+									<MiningField name="MaritalStatus.Minor"/>
+									<MiningField name="PatientDisabled.Not.Disabled"/>
+									<MiningField name="EverTestedForHIV.Yes"/>
+									<MiningField name="EntryPoint.VCT"/>
+									<MiningField name="EntryPoint.OPD"/>
+									<MiningField name="EntryPoint.MTC"/>
+									<MiningField name="EntryPoint.IPD"/>
+									<MiningField name="EntryPoint.MOBILE"/>
+									<MiningField name="EntryPoint.HB"/>
+									<MiningField name="TestingStrategy.HB"/>
+									<MiningField name="TBScreening.No.Presumed.TB"/>
+									<MiningField name="ClientSelfTested.No"/>
+								</MiningSchema>
+								<Node score="0.120403536">
+									<True/>
+									<Node score="0.077080786">
+										<SimplePredicate field="TestingStrategy.HB" operator="lessThan" value="0.5"/>
+										<Node score="-0.1192038">
+											<SimplePredicate field="AgeAtTest" operator="greaterOrEqual" value="25.5"/>
+											<Node score="0.10594128">
+												<SimplePredicate field="MaritalStatus.Married" operator="lessThan" value="2.000001"/>
+												<Node score="-0.19529223">
+													<SimplePredicate field="AgeAtTest" operator="greaterOrEqual" value="52.5"/>
+													<Node score="-0.01700774">
+														<SimplePredicate field="EverTestedForHIV.Yes" operator="greaterOrEqual" value="0.5"/>
+														<Node score="-0.29563934">
+															<SimplePredicate field="EntryPoint.MTC" operator="lessThan" value="0.5"/>
+														</Node>
+													</Node>
+													<Node score="0.081914686">
+														<SimplePredicate field="TBScreening.No.Presumed.TB" operator="greaterOrEqual" value="0.5"/>
+													</Node>
+												</Node>
+												<Node score="0.30131415">
+													<SimplePredicate field="PatientDisabled.Not.Disabled" operator="greaterOrEqual" value="0.5"/>
+													<Node score="-0.024763849">
+														<SimplePredicate field="MaritalStatus.Widowed" operator="lessThan" value="0.5"/>
+													</Node>
+												</Node>
+												<Node score="-0.15617426">
+													<SimplePredicate field="TBScreening.No.Presumed.TB" operator="greaterOrEqual" value="0.5"/>
+												</Node>
+											</Node>
+											<Node score="-0.16660845">
+												<SimplePredicate field="EntryPoint.MOBILE" operator="greaterOrEqual" value="0.5"/>
+												<Node score="-0.23773451">
+													<SimplePredicate field="MonthsSinceLastTest" operator="greaterOrEqual" value="13.5"/>
+													<Node score="0.21456726">
+														<SimplePredicate field="MonthsSinceLastTest" operator="lessThan" value="21.0"/>
+													</Node>
+												</Node>
+												<Node score="-0.28023505">
+													<SimplePredicate field="TBScreening.No.Presumed.TB" operator="greaterOrEqual" value="0.5"/>
+												</Node>
+											</Node>
+											<Node score="0.094214626">
+												<SimplePredicate field="TBScreening.No.Presumed.TB" operator="lessThan" value="0.5"/>
+												<Node score="-0.1842506">
+													<SimplePredicate field="AgeAtTest" operator="greaterOrEqual" value="57.5"/>
+												</Node>
+											</Node>
+											<Node score="-0.19854276">
+												<SimplePredicate field="EntryPoint.VCT" operator="lessThan" value="0.5"/>
+											</Node>
+										</Node>
+										<Node score="-0.13864718">
+											<SimplePredicate field="MaritalStatus.Minor" operator="lessThan" value="0.5"/>
+											<Node score="-0.08234033">
+												<SimplePredicate field="MonthsSinceLastTest" operator="greaterOrEqual" value="5.5"/>
+												<Node score="-0.16335748">
+													<SimplePredicate field="EntryPoint.IPD" operator="lessThan" value="0.5"/>
+													<Node score="0.01758467">
+														<SimplePredicate field="MonthsSinceLastTest" operator="lessThan" value="11.5"/>
+													</Node>
+												</Node>
+												<Node score="0.5054632">
+													<SimplePredicate field="PatientDisabled.Not.Disabled" operator="greaterOrEqual" value="0.5"/>
+												</Node>
+											</Node>
+											<Node score="-0.22835006">
+												<SimplePredicate field="MaritalStatus.Divorced" operator="lessThan" value="0.5"/>
+												<Node score="0.029035646">
+													<SimplePredicate field="KeyPopulationType.SW" operator="greaterOrEqual" value="0.5"/>
+												</Node>
+											</Node>
+											<Node score="0.17053841">
+												<SimplePredicate field="AgeAtTest" operator="greaterOrEqual" value="20.5"/>
+											</Node>
+										</Node>
+										<Node score="-0.27535564">
+											<SimplePredicate field="TBScreening.No.Presumed.TB" operator="greaterOrEqual" value="0.5"/>
+											<Node score="-0.2645052">
+												<SimplePredicate field="MonthsSinceLastTest" operator="greaterOrEqual" value="12.5"/>
+												<Node score="-0.13458988">
+													<SimplePredicate field="AgeAtTest" operator="greaterOrEqual" value="20.5"/>
+												</Node>
+											</Node>
+											<Node score="-0.30516753">
+												<SimplePredicate field="Gender.Male" operator="greaterOrEqual" value="0.5"/>
+											</Node>
+										</Node>
+										<Node score="-0.14237835">
+											<SimplePredicate field="EntryPoint.MTC" operator="greaterOrEqual" value="0.5"/>
+											<Node score="0.32691172">
+												<SimplePredicate field="AgeAtTest" operator="greaterOrEqual" value="21.5"/>
+											</Node>
+										</Node>
+										<Node score="-0.20357157">
+											<SimplePredicate field="AgeAtTest" operator="greaterOrEqual" value="3.5"/>
+										</Node>
+									</Node>
+									<Node score="0.2098136">
+										<SimplePredicate field="AgeAtTest" operator="greaterOrEqual" value="15.5"/>
+										<Node score="-0.08845323">
+											<SimplePredicate field="EntryPoint.HB" operator="greaterOrEqual" value="0.5"/>
+											<Node score="0.3144087">
+												<SimplePredicate field="AgeAtTest" operator="greaterOrEqual" value="24.5"/>
+												<Node score="0.08844559">
+													<SimplePredicate field="EverTestedForHIV.Yes" operator="greaterOrEqual" value="0.5"/>
+													<Node score="-0.15969478">
+														<SimplePredicate field="ClientSelfTested.No" operator="lessThan" value="2.000001"/>
+													</Node>
+												</Node>
+												<Node score="-0.061311513">
+													<SimplePredicate field="AgeAtTest" operator="greaterOrEqual" value="31.5"/>
+												</Node>
+											</Node>
+											<Node score="-0.17015794">
+												<SimplePredicate field="Gender.Male" operator="greaterOrEqual" value="0.5"/>
+												<Node score="0.057321955">
+													<SimplePredicate field="MonthsSinceLastTest" operator="greaterOrEqual" value="10.5"/>
+												</Node>
+											</Node>
+											<Node score="0.13922223">
+												<SimplePredicate field="PatientDisabled.Not.Disabled" operator="greaterOrEqual" value="0.5"/>
+											</Node>
+										</Node>
+										<Node score="-0.1285575">
+											<SimplePredicate field="ClientSelfTested.No" operator="lessThan" value="2.000001"/>
+											<Node score="0.26195046">
+												<SimplePredicate field="MaritalStatus.Married" operator="lessThan" value="0.5"/>
+												<Node score="0.0019112275">
+													<SimplePredicate field="AgeAtTest" operator="greaterOrEqual" value="32.5"/>
+												</Node>
+											</Node>
+											<Node score="-0.0062104696">
+												<SimplePredicate field="PatientDisabled.Not.Disabled" operator="greaterOrEqual" value="0.5"/>
+											</Node>
+										</Node>
+										<Node score="-0.30688146">
+											<SimplePredicate field="MonthsSinceLastTest" operator="lessThan" value="20.0"/>
+											<Node score="-0.01954174">
+												<SimplePredicate field="EntryPoint.MTC" operator="lessThan" value="0.5"/>
+											</Node>
+										</Node>
+									</Node>
+									<Node score="-0.17803401">
+										<SimplePredicate field="MonthsSinceLastTest" operator="lessThan" value="1.5"/>
+										<Node score="-0.045291014">
+											<SimplePredicate field="AgeAtTest" operator="greaterOrEqual" value="12.5"/>
+											<Node score="-0.11219844">
+												<SimplePredicate field="Gender.Male" operator="greaterOrEqual" value="0.5"/>
+											</Node>
+											<Node score="0.10718797">
+												<SimplePredicate field="EntryPoint.OPD" operator="lessThan" value="0.5"/>
+											</Node>
+										</Node>
+										<Node score="-0.24280888">
+											<SimplePredicate field="AgeAtTest" operator="greaterOrEqual" value="3.5"/>
+											<Node score="-0.13108258">
+												<SimplePredicate field="EntryPoint.MOBILE" operator="lessThan" value="0.5"/>
+											</Node>
+										</Node>
+										<Node score="0.09891042">
+											<SimplePredicate field="Gender.Male" operator="greaterOrEqual" value="0.5"/>
+										</Node>
+									</Node>
+									<Node score="-0.2657769">
+										<SimplePredicate field="AgeAtTest" operator="greaterOrEqual" value="2.5"/>
+									</Node>
+									<Node score="-0.23709287">
+										<SimplePredicate field="EntryPoint.VCT" operator="lessThan" value="1.0E-6"/>
+									</Node>
+								</Node>
+							</TreeModel>
+						</Segment>
+						<Segment id="9">
+							<True/>
+							<TreeModel functionName="regression" noTrueChildStrategy="returnLastPrediction" x-mathContext="float">
+								<MiningSchema>
+									<MiningField name="AgeAtTest"/>
+									<MiningField name="MonthsSinceLastTest"/>
+									<MiningField name="Gender.Male"/>
+									<MiningField name="MaritalStatus.Married"/>
+									<MiningField name="MaritalStatus.Minor"/>
+									<MiningField name="PatientDisabled.Not.Disabled"/>
+									<MiningField name="ClientTestedAs.Individual"/>
+									<MiningField name="EntryPoint.MOBILE"/>
+									<MiningField name="EntryPoint.PEDS"/>
+									<MiningField name="TestingStrategy.VCT"/>
+									<MiningField name="TestingStrategy.HB"/>
+									<MiningField name="TestingStrategy.MOBILE"/>
+									<MiningField name="TBScreening.No.Presumed.TB"/>
+									<MiningField name="ClientSelfTested.No"/>
+								</MiningSchema>
+								<Node score="0.05197363">
+									<True/>
+									<Node score="0.2664434">
+										<SimplePredicate field="TestingStrategy.HB" operator="lessThan" value="0.5"/>
+										<Node score="-0.22658597">
+											<SimplePredicate field="TestingStrategy.MOBILE" operator="lessThan" value="0.5"/>
+											<Node score="-0.15744105">
+												<SimplePredicate field="AgeAtTest" operator="greaterOrEqual" value="20.5"/>
+												<Node score="0.39725032">
+													<SimplePredicate field="TBScreening.No.Presumed.TB" operator="lessThan" value="0.5"/>
+													<Node score="-0.2401838">
+														<SimplePredicate field="AgeAtTest" operator="greaterOrEqual" value="53.5"/>
+														<Node score="0.050209552">
+															<SimplePredicate field="Gender.Male" operator="greaterOrEqual" value="0.5"/>
+														</Node>
+													</Node>
+													<Node score="0.05051882">
+														<SimplePredicate field="EntryPoint.PEDS" operator="lessThan" value="0.5"/>
+													</Node>
+												</Node>
+												<Node score="0.089745626">
+													<SimplePredicate field="MaritalStatus.Married" operator="lessThan" value="0.5"/>
+													<Node score="-0.13034645">
+														<SimplePredicate field="AgeAtTest" operator="greaterOrEqual" value="36.5"/>
+													</Node>
+												</Node>
+												<Node score="0.04459588">
+													<SimplePredicate field="MonthsSinceLastTest" operator="greaterOrEqual" value="31.5"/>
+												</Node>
+											</Node>
+											<Node score="0.11419123">
+												<SimplePredicate field="TBScreening.No.Presumed.TB" operator="lessThan" value="0.5"/>
+												<Node score="0.2514509">
+													<SimplePredicate field="AgeAtTest" operator="greaterOrEqual" value="18.5"/>
+												</Node>
+												<Node score="-0.25879192">
+													<SimplePredicate field="AgeAtTest" operator="greaterOrEqual" value="11.0"/>
+												</Node>
+											</Node>
+											<Node score="-0.14799297">
+												<SimplePredicate field="AgeAtTest" operator="greaterOrEqual" value="15.5"/>
+												<Node score="-0.27064466">
+													<SimplePredicate field="ClientTestedAs.Individual" operator="greaterOrEqual" value="0.5"/>
+												</Node>
+											</Node>
+											<Node score="0.035196885">
+												<SimplePredicate field="TestingStrategy.VCT" operator="lessThan" value="0.5"/>
+											</Node>
+										</Node>
+										<Node score="-0.26323137">
+											<SimplePredicate field="MonthsSinceLastTest" operator="greaterOrEqual" value="12.5"/>
+											<Node score="-0.27725497">
+												<SimplePredicate field="MonthsSinceLastTest" operator="lessThan" value="21.0"/>
+												<Node score="-0.15635443">
+													<SimplePredicate field="ClientSelfTested.No" operator="greaterOrEqual" value="0.5"/>
+													<Node score="0.17488116">
+														<SimplePredicate field="AgeAtTest" operator="greaterOrEqual" value="23.5"/>
+													</Node>
+												</Node>
+											</Node>
+										</Node>
+										<Node score="-0.1492209">
+											<SimplePredicate field="TBScreening.No.Presumed.TB" operator="greaterOrEqual" value="0.5"/>
+											<Node score="-0.23536192">
+												<SimplePredicate field="MaritalStatus.Minor" operator="lessThan" value="0.5"/>
+												<Node score="0.026487505">
+													<SimplePredicate field="PatientDisabled.Not.Disabled" operator="greaterOrEqual" value="0.5"/>
+												</Node>
+											</Node>
+											<Node score="-0.28776124">
+												<SimplePredicate field="ClientTestedAs.Individual" operator="greaterOrEqual" value="0.5"/>
+											</Node>
+										</Node>
+										<Node score="-0.09162055">
+											<SimplePredicate field="MonthsSinceLastTest" operator="greaterOrEqual" value="0.5"/>
+											<Node score="-0.24001619">
+												<SimplePredicate field="MonthsSinceLastTest" operator="lessThan" value="8.5"/>
+											</Node>
+										</Node>
+									</Node>
+									<Node score="-0.03819203">
+										<SimplePredicate field="AgeAtTest" operator="greaterOrEqual" value="15.5"/>
+										<Node score="0.025607595">
+											<SimplePredicate field="TBScreening.No.Presumed.TB" operator="lessThan" value="0.5"/>
+											<Node score="0.25308827">
+												<SimplePredicate field="EntryPoint.PEDS" operator="lessThan" value="0.5"/>
+												<Node score="0.29203027">
+													<SimplePredicate field="MonthsSinceLastTest" operator="lessThan" value="8.5"/>
+												</Node>
+												<Node score="-0.03611967">
+													<SimplePredicate field="MonthsSinceLastTest" operator="lessThan" value="11.5"/>
+												</Node>
+											</Node>
+										</Node>
+										<Node score="0.04758247">
+											<SimplePredicate field="MonthsSinceLastTest" operator="lessThan" value="2.5"/>
+											<Node score="-0.2517512">
+												<SimplePredicate field="MaritalStatus.Married" operator="greaterOrEqual" value="0.5"/>
+												<Node score="0.018783653">
+													<SimplePredicate field="TBScreening.No.Presumed.TB" operator="lessThan" value="2.000001"/>
+												</Node>
+											</Node>
+											<Node score="0.28426906">
+												<SimplePredicate field="AgeAtTest" operator="greaterOrEqual" value="47.5"/>
+											</Node>
+										</Node>
+										<Node score="-0.046365734">
+											<SimplePredicate field="MaritalStatus.Married" operator="lessThan" value="2.000001"/>
+											<Node score="0.058564186">
+												<SimplePredicate field="MonthsSinceLastTest" operator="greaterOrEqual" value="3.5"/>
+											</Node>
+										</Node>
+										<Node score="-0.12797146">
+											<SimplePredicate field="EntryPoint.MOBILE" operator="lessThan" value="0.5"/>
+										</Node>
+									</Node>
+									<Node score="-0.2899337">
+										<SimplePredicate field="MonthsSinceLastTest" operator="greaterOrEqual" value="1.5"/>
+										<Node score="-0.11783793">
+											<SimplePredicate field="EntryPoint.MOBILE" operator="greaterOrEqual" value="0.5"/>
+										</Node>
+									</Node>
+									<Node score="-0.03050057">
+										<SimplePredicate field="AgeAtTest" operator="greaterOrEqual" value="12.5"/>
+										<Node score="0.30330354">
+											<SimplePredicate field="MaritalStatus.Married" operator="lessThan" value="0.5"/>
+											<Node score="-0.03295285">
+												<SimplePredicate field="Gender.Male" operator="greaterOrEqual" value="0.5"/>
+											</Node>
+										</Node>
+										<Node score="-0.23032968">
+											<SimplePredicate field="AgeAtTest" operator="greaterOrEqual" value="13.5"/>
+										</Node>
+									</Node>
+									<Node score="-0.12286398">
+										<SimplePredicate field="AgeAtTest" operator="greaterOrEqual" value="1.5"/>
+										<Node score="-0.20875557">
+											<SimplePredicate field="AgeAtTest" operator="greaterOrEqual" value="5.5"/>
+										</Node>
+									</Node>
+								</Node>
+							</TreeModel>
+						</Segment>
+						<Segment id="10">
+							<True/>
+							<TreeModel functionName="regression" noTrueChildStrategy="returnLastPrediction" x-mathContext="float">
+								<MiningSchema>
+									<MiningField name="AgeAtTest"/>
+									<MiningField name="MonthsSinceLastTest"/>
+									<MiningField name="Gender.Male"/>
+									<MiningField name="KeyPopulationType.GP"/>
+									<MiningField name="MaritalStatus.Married"/>
+									<MiningField name="MaritalStatus.Polygamous"/>
+									<MiningField name="MaritalStatus.Minor"/>
+									<MiningField name="PatientDisabled.Not.Disabled"/>
+									<MiningField name="EverTestedForHIV.Yes"/>
+									<MiningField name="ClientTestedAs.Individual"/>
+									<MiningField name="EntryPoint.VCT"/>
+									<MiningField name="EntryPoint.OPD"/>
+									<MiningField name="EntryPoint.MTC"/>
+									<MiningField name="EntryPoint.Other"/>
+									<MiningField name="EntryPoint.HB"/>
+									<MiningField name="TestingStrategy.HB"/>
+									<MiningField name="TestingStrategy.MOBILE"/>
+									<MiningField name="TestingStrategy.NP"/>
+									<MiningField name="TBScreening.No.Presumed.TB"/>
+								</MiningSchema>
+								<Node score="-0.19523709">
+									<True/>
+									<Node score="-0.2815595">
+										<SimplePredicate field="TestingStrategy.HB" operator="lessThan" value="0.5"/>
+										<Node score="0.007345694">
+											<SimplePredicate field="TestingStrategy.MOBILE" operator="lessThan" value="0.5"/>
+											<Node score="0.12823963">
+												<SimplePredicate field="AgeAtTest" operator="greaterOrEqual" value="20.5"/>
+												<Node score="0.1673676">
+													<SimplePredicate field="TBScreening.No.Presumed.TB" operator="lessThan" value="0.5"/>
+													<Node score="-0.26205334">
+														<SimplePredicate field="EntryPoint.Other" operator="greaterOrEqual" value="0.5"/>
+													</Node>
+													<Node score="-0.008495612">
+														<SimplePredicate field="MonthsSinceLastTest" operator="greaterOrEqual" value="3.5"/>
+													</Node>
+												</Node>
+												<Node score="-0.15698266">
+													<SimplePredicate field="EntryPoint.VCT" operator="lessThan" value="0.5"/>
+													<Node score="-0.07388024">
+														<SimplePredicate field="MaritalStatus.Married" operator="lessThan" value="2.000001"/>
+													</Node>
+												</Node>
+												<Node score="-0.08342926">
+													<SimplePredicate field="EverTestedForHIV.Yes" operator="greaterOrEqual" value="0.5"/>
+												</Node>
+											</Node>
+											<Node score="0.09008519">
+												<SimplePredicate field="TBScreening.No.Presumed.TB" operator="lessThan" value="0.5"/>
+												<Node score="0.18601222">
+													<SimplePredicate field="AgeAtTest" operator="greaterOrEqual" value="18.5"/>
+												</Node>
+												<Node score="-0.23672418">
+													<SimplePredicate field="AgeAtTest" operator="greaterOrEqual" value="11.0"/>
+												</Node>
+											</Node>
+											<Node score="-0.23636338">
+												<SimplePredicate field="MaritalStatus.Minor" operator="lessThan" value="0.5"/>
+												<Node score="-0.088361666">
+													<SimplePredicate field="MonthsSinceLastTest" operator="lessThan" value="9.5"/>
+												</Node>
+											</Node>
+											<Node score="-0.24604595">
+												<SimplePredicate field="TestingStrategy.NP" operator="lessThan" value="0.5"/>
+											</Node>
+										</Node>
+										<Node score="-0.11300204">
+											<SimplePredicate field="MonthsSinceLastTest" operator="lessThan" value="12.5"/>
+											<Node score="-0.08471681">
+												<SimplePredicate field="MaritalStatus.Minor" operator="lessThan" value="0.5"/>
+												<Node score="-0.0031519004">
+													<SimplePredicate field="PatientDisabled.Not.Disabled" operator="greaterOrEqual" value="0.5"/>
+													<Node score="0.32307196">
+														<SimplePredicate field="AgeAtTest" operator="greaterOrEqual" value="41.5"/>
+													</Node>
+												</Node>
+												<Node score="-0.2822684">
+													<SimplePredicate field="KeyPopulationType.GP" operator="greaterOrEqual" value="0.5"/>
+												</Node>
+											</Node>
+											<Node score="-0.007406308">
+												<SimplePredicate field="TBScreening.No.Presumed.TB" operator="lessThan" value="0.5"/>
+												<Node score="-0.1604195">
+													<SimplePredicate field="Gender.Male" operator="greaterOrEqual" value="0.5"/>
+												</Node>
+											</Node>
+											<Node score="-0.27604505">
+												<SimplePredicate field="ClientTestedAs.Individual" operator="greaterOrEqual" value="0.5"/>
+											</Node>
+										</Node>
+										<Node score="0.001624513">
+											<SimplePredicate field="AgeAtTest" operator="greaterOrEqual" value="24.5"/>
+											<Node score="-0.270848">
+												<SimplePredicate field="AgeAtTest" operator="greaterOrEqual" value="49.5"/>
+											</Node>
+											<Node score="0.49767223">
+												<SimplePredicate field="AgeAtTest" operator="greaterOrEqual" value="42.5"/>
+											</Node>
+										</Node>
+										<Node score="0.027587589">
+											<SimplePredicate field="MonthsSinceLastTest" operator="lessThan" value="13.5"/>
+										</Node>
+									</Node>
+									<Node score="0.114326715">
+										<SimplePredicate field="PatientDisabled.Not.Disabled" operator="greaterOrEqual" value="0.5"/>
+										<Node score="0.0064826943">
+											<SimplePredicate field="AgeAtTest" operator="greaterOrEqual" value="12.5"/>
+											<Node score="0.17066784">
+												<SimplePredicate field="Gender.Male" operator="greaterOrEqual" value="0.5"/>
+												<Node score="0.2651903">
+													<SimplePredicate field="AgeAtTest" operator="greaterOrEqual" value="44.5"/>
+													<Node score="0.019504013">
+														<SimplePredicate field="AgeAtTest" operator="greaterOrEqual" value="45.5"/>
+													</Node>
+												</Node>
+												<Node score="-0.07225308">
+													<SimplePredicate field="ClientTestedAs.Individual" operator="greaterOrEqual" value="0.5"/>
+												</Node>
+											</Node>
+											<Node score="0.33599278">
+												<SimplePredicate field="EntryPoint.MTC" operator="greaterOrEqual" value="0.5"/>
+											</Node>
+											<Node score="0.14854513">
+												<SimplePredicate field="EntryPoint.VCT" operator="greaterOrEqual" value="0.5"/>
+											</Node>
+										</Node>
+										<Node score="-0.11809761">
+											<SimplePredicate field="AgeAtTest" operator="greaterOrEqual" value="1.5"/>
+											<Node score="-0.16367367">
+												<SimplePredicate field="MonthsSinceLastTest" operator="lessThan" value="1.5"/>
+												<Node score="-0.07065033">
+													<SimplePredicate field="EntryPoint.HB" operator="greaterOrEqual" value="0.5"/>
+												</Node>
+											</Node>
+											<Node score="-0.2729337">
+												<SimplePredicate field="AgeAtTest" operator="greaterOrEqual" value="6.5"/>
+											</Node>
+										</Node>
+									</Node>
+									<Node score="0.008194715">
+										<SimplePredicate field="EntryPoint.Other" operator="greaterOrEqual" value="0.5"/>
+										<Node score="0.34530196">
+											<SimplePredicate field="MonthsSinceLastTest" operator="greaterOrEqual" value="42.0"/>
+										</Node>
+										<Node score="0.24999665">
+											<SimplePredicate field="MonthsSinceLastTest" operator="lessThan" value="0.5"/>
+										</Node>
+										<Node score="-0.29498643">
+											<SimplePredicate field="MonthsSinceLastTest" operator="lessThan" value="11.5"/>
+										</Node>
+									</Node>
+									<Node score="0.23352024">
+										<SimplePredicate field="MaritalStatus.Minor" operator="lessThan" value="0.5"/>
+										<Node score="-0.23313205">
+											<SimplePredicate field="MonthsSinceLastTest" operator="lessThan" value="11.5"/>
+											<Node score="-0.017013121">
+												<SimplePredicate field="EntryPoint.OPD" operator="greaterOrEqual" value="0.5"/>
+											</Node>
+										</Node>
+										<Node score="-0.07863888">
+											<SimplePredicate field="MaritalStatus.Polygamous" operator="lessThan" value="0.5"/>
+										</Node>
+									</Node>
+									<Node score="-0.3050176">
+										<SimplePredicate field="Gender.Male" operator="greaterOrEqual" value="0.5"/>
+									</Node>
+									<Node score="-0.012523459">
+										<SimplePredicate field="MonthsSinceLastTest" operator="lessThan" value="12.5"/>
+									</Node>
+								</Node>
+							</TreeModel>
+						</Segment>
+						<Segment id="11">
+							<True/>
+							<TreeModel functionName="regression" noTrueChildStrategy="returnLastPrediction" x-mathContext="float">
+								<MiningSchema>
+									<MiningField name="AgeAtTest"/>
+									<MiningField name="MonthsSinceLastTest"/>
+									<MiningField name="Gender.Male"/>
+									<MiningField name="KeyPopulationType.GP"/>
+									<MiningField name="MaritalStatus.Married"/>
+									<MiningField name="MaritalStatus.Divorced"/>
+									<MiningField name="MaritalStatus.Minor"/>
+									<MiningField name="PatientDisabled.Not.Disabled"/>
+									<MiningField name="EverTestedForHIV.Yes"/>
+									<MiningField name="ClientTestedAs.Individual"/>
+									<MiningField name="EntryPoint.VCT"/>
+									<MiningField name="EntryPoint.OPD"/>
+									<MiningField name="EntryPoint.MTC"/>
+									<MiningField name="EntryPoint.IPD"/>
+									<MiningField name="TestingStrategy.VCT"/>
+									<MiningField name="TestingStrategy.MOBILE"/>
+									<MiningField name="TestingStrategy.HP"/>
+									<MiningField name="TBScreening.No.Presumed.TB"/>
+									<MiningField name="ClientSelfTested.No"/>
+								</MiningSchema>
+								<Node score="-0.006025115">
+									<True/>
+									<Node score="0.34427062">
+										<SimplePredicate field="TestingStrategy.MOBILE" operator="greaterOrEqual" value="0.5"/>
+										<Node score="-0.22405834">
+											<SimplePredicate field="MonthsSinceLastTest" operator="greaterOrEqual" value="12.5"/>
+											<Node score="-0.2616037">
+												<SimplePredicate field="MonthsSinceLastTest" operator="lessThan" value="21.0"/>
+												<Node score="-0.16764188">
+													<SimplePredicate field="KeyPopulationType.GP" operator="greaterOrEqual" value="0.5"/>
+													<Node score="-0.27042067">
+														<SimplePredicate field="Gender.Male" operator="greaterOrEqual" value="0.5"/>
+														<Node score="0.11927612">
+															<SimplePredicate field="AgeAtTest" operator="greaterOrEqual" value="33.5"/>
+														</Node>
+													</Node>
+													<Node score="0.3512149">
+														<SimplePredicate field="AgeAtTest" operator="greaterOrEqual" value="19.5"/>
+													</Node>
+												</Node>
+											</Node>
+										</Node>
+										<Node score="-0.16961643">
+											<SimplePredicate field="TBScreening.No.Presumed.TB" operator="greaterOrEqual" value="0.5"/>
+											<Node score="-0.22115651">
+												<SimplePredicate field="MaritalStatus.Minor" operator="lessThan" value="0.5"/>
+												<Node score="-0.043156944">
+													<SimplePredicate field="PatientDisabled.Not.Disabled" operator="greaterOrEqual" value="0.5"/>
+													<Node score="0.2400647">
+														<SimplePredicate field="MonthsSinceLastTest" operator="lessThan" value="1.5"/>
+													</Node>
+												</Node>
+												<Node score="-0.024732841">
+													<SimplePredicate field="AgeAtTest" operator="greaterOrEqual" value="41.5"/>
+												</Node>
+											</Node>
+											<Node score="-0.23218296">
+												<SimplePredicate field="ClientTestedAs.Individual" operator="greaterOrEqual" value="0.5"/>
+												<Node score="-0.28113663">
+													<SimplePredicate field="Gender.Male" operator="greaterOrEqual" value="0.5"/>
+												</Node>
+											</Node>
+											<Node score="0.14121275">
+												<SimplePredicate field="AgeAtTest" operator="greaterOrEqual" value="37.5"/>
+											</Node>
+										</Node>
+										<Node score="-0.0102968775">
+											<SimplePredicate field="MonthsSinceLastTest" operator="lessThan" value="8.5"/>
+											<Node score="-0.2721597">
+												<SimplePredicate field="AgeAtTest" operator="greaterOrEqual" value="23.5"/>
+												<Node score="-0.044321556">
+													<SimplePredicate field="MonthsSinceLastTest" operator="lessThan" value="3.5"/>
+												</Node>
+											</Node>
+										</Node>
+										<Node score="-0.21494424">
+											<SimplePredicate field="Gender.Male" operator="greaterOrEqual" value="0.5"/>
+											<Node score="0.15706822">
+												<SimplePredicate field="AgeAtTest" operator="greaterOrEqual" value="40.5"/>
+											</Node>
+										</Node>
+										<Node score="-0.07469846">
+											<SimplePredicate field="AgeAtTest" operator="greaterOrEqual" value="38.0"/>
+										</Node>
+									</Node>
+									<Node score="-0.017015388">
+										<SimplePredicate field="EntryPoint.OPD" operator="greaterOrEqual" value="0.5"/>
+										<Node score="-0.17053115">
+											<SimplePredicate field="AgeAtTest" operator="greaterOrEqual" value="19.5"/>
+											<Node score="0.028020753">
+												<SimplePredicate field="MonthsSinceLastTest" operator="greaterOrEqual" value="11.5"/>
+												<Node score="-0.07109893">
+													<SimplePredicate field="TestingStrategy.VCT" operator="lessThan" value="2.000001"/>
+													<Node score="0.164863">
+														<SimplePredicate field="MaritalStatus.Married" operator="lessThan" value="0.5"/>
+													</Node>
+												</Node>
+												<Node score="0.3361326">
+													<SimplePredicate field="PatientDisabled.Not.Disabled" operator="greaterOrEqual" value="0.5"/>
+												</Node>
+											</Node>
+											<Node score="-0.11936082">
+												<SimplePredicate field="TBScreening.No.Presumed.TB" operator="lessThan" value="0.5"/>
+												<Node score="0.089149185">
+													<SimplePredicate field="ClientSelfTested.No" operator="greaterOrEqual" value="0.5"/>
+												</Node>
+											</Node>
+											<Node score="-0.08643099">
+												<SimplePredicate field="MonthsSinceLastTest" operator="lessThan" value="2.5"/>
+											</Node>
+										</Node>
+										<Node score="-0.23024176">
+											<SimplePredicate field="TestingStrategy.VCT" operator="lessThan" value="0.5"/>
+											<Node score="-0.05776683">
+												<SimplePredicate field="AgeAtTest" operator="greaterOrEqual" value="15.5"/>
+												<Node score="-0.24943356">
+													<SimplePredicate field="MonthsSinceLastTest" operator="lessThan" value="21.0"/>
+												</Node>
+											</Node>
+											<Node score="0.6420878">
+												<SimplePredicate field="AgeAtTest" operator="greaterOrEqual" value="11.5"/>
+											</Node>
+										</Node>
+										<Node score="0.071464635">
+											<SimplePredicate field="TBScreening.No.Presumed.TB" operator="lessThan" value="0.5"/>
+											<Node score="-0.14671995">
+												<SimplePredicate field="AgeAtTest" operator="greaterOrEqual" value="11.0"/>
+											</Node>
+										</Node>
+										<Node score="-0.2652348">
+											<SimplePredicate field="ClientTestedAs.Individual" operator="greaterOrEqual" value="0.5"/>
+										</Node>
+									</Node>
+									<Node score="-0.2751111">
+										<SimplePredicate field="TestingStrategy.HP" operator="greaterOrEqual" value="0.5"/>
+										<Node score="0.32767686">
+											<SimplePredicate field="MonthsSinceLastTest" operator="greaterOrEqual" value="15.5"/>
+											<Node score="-0.062107485">
+												<SimplePredicate field="EntryPoint.MTC" operator="lessThan" value="0.5"/>
+											</Node>
+										</Node>
+										<Node score="-0.24369182">
+											<SimplePredicate field="MaritalStatus.Married" operator="lessThan" value="0.5"/>
+											<Node score="0.06335091">
+												<SimplePredicate field="EntryPoint.IPD" operator="greaterOrEqual" value="0.5"/>
+											</Node>
+										</Node>
+									</Node>
+									<Node score="-0.07904298">
+										<SimplePredicate field="EverTestedForHIV.Yes" operator="greaterOrEqual" value="0.5"/>
+										<Node score="-0.041192837">
+											<SimplePredicate field="AgeAtTest" operator="greaterOrEqual" value="20.5"/>
+											<Node score="0.14217746">
+												<SimplePredicate field="MaritalStatus.Divorced" operator="greaterOrEqual" value="0.5"/>
+											</Node>
+										</Node>
+										<Node score="-0.24390836">
+											<SimplePredicate field="Gender.Male" operator="greaterOrEqual" value="0.5"/>
+										</Node>
+									</Node>
+									<Node score="0.045847837">
+										<SimplePredicate field="EntryPoint.VCT" operator="greaterOrEqual" value="0.5"/>
+										<Node score="0.31115782">
+											<SimplePredicate field="AgeAtTest" operator="greaterOrEqual" value="25.5"/>
+										</Node>
+									</Node>
+									<Node score="0.28027418">
+										<SimplePredicate field="EntryPoint.MTC" operator="greaterOrEqual" value="0.5"/>
+									</Node>
+								</Node>
+							</TreeModel>
+						</Segment>
+						<Segment id="12">
+							<True/>
+							<TreeModel functionName="regression" noTrueChildStrategy="returnLastPrediction" x-mathContext="float">
+								<MiningSchema>
+									<MiningField name="AgeAtTest"/>
+									<MiningField name="MonthsSinceLastTest"/>
+									<MiningField name="Gender.Male"/>
+									<MiningField name="KeyPopulationType.GP"/>
+									<MiningField name="MaritalStatus.Widowed"/>
+									<MiningField name="MaritalStatus.Minor"/>
+									<MiningField name="PatientDisabled.Not.Disabled"/>
+									<MiningField name="ClientTestedAs.Individual"/>
+									<MiningField name="EntryPoint.OPD"/>
+									<MiningField name="EntryPoint.MOBILE"/>
+									<MiningField name="EntryPoint.PEDS"/>
+									<MiningField name="TestingStrategy.VCT"/>
+									<MiningField name="TestingStrategy.MOBILE"/>
+									<MiningField name="TBScreening.No.Presumed.TB"/>
+									<MiningField name="ClientSelfTested.No"/>
+								</MiningSchema>
+								<Node score="-0.13325816">
+									<True/>
+									<Node score="-0.27658916">
+										<SimplePredicate field="TestingStrategy.MOBILE" operator="greaterOrEqual" value="0.5"/>
+										<Node score="-0.13703097">
+											<SimplePredicate field="MonthsSinceLastTest" operator="lessThan" value="12.5"/>
+											<Node score="-0.042445645">
+												<SimplePredicate field="MaritalStatus.Minor" operator="lessThan" value="0.5"/>
+												<Node score="-0.18737605">
+													<SimplePredicate field="PatientDisabled.Not.Disabled" operator="greaterOrEqual" value="0.5"/>
+													<Node score="0.012241797">
+														<SimplePredicate field="ClientSelfTested.No" operator="greaterOrEqual" value="0.5"/>
+														<Node score="0.18805264">
+															<SimplePredicate field="KeyPopulationType.GP" operator="greaterOrEqual" value="0.5"/>
+														</Node>
+													</Node>
+												</Node>
+												<Node score="-0.24773763">
+													<SimplePredicate field="KeyPopulationType.GP" operator="greaterOrEqual" value="0.5"/>
+												</Node>
+											</Node>
+											<Node score="0.1216045">
+												<SimplePredicate field="TBScreening.No.Presumed.TB" operator="lessThan" value="0.5"/>
+												<Node score="-0.022494353">
+													<SimplePredicate field="MonthsSinceLastTest" operator="lessThan" value="8.5"/>
+													<Node score="-0.19976889">
+														<SimplePredicate field="AgeAtTest" operator="greaterOrEqual" value="24.5"/>
+													</Node>
+												</Node>
+												<Node score="-0.11369163">
+													<SimplePredicate field="Gender.Male" operator="greaterOrEqual" value="0.5"/>
+												</Node>
+											</Node>
+											<Node score="-0.21133228">
+												<SimplePredicate field="ClientTestedAs.Individual" operator="greaterOrEqual" value="0.5"/>
+												<Node score="-0.27076417">
+													<SimplePredicate field="Gender.Male" operator="greaterOrEqual" value="0.5"/>
+												</Node>
+											</Node>
+											<Node score="0.13198932">
+												<SimplePredicate field="AgeAtTest" operator="greaterOrEqual" value="37.5"/>
+											</Node>
+										</Node>
+										<Node score="0.13843696">
+											<SimplePredicate field="ClientSelfTested.No" operator="greaterOrEqual" value="0.5"/>
+											<Node score="-0.23554866">
+												<SimplePredicate field="AgeAtTest" operator="greaterOrEqual" value="49.5"/>
+											</Node>
+											<Node score="0.11270582">
+												<SimplePredicate field="AgeAtTest" operator="greaterOrEqual" value="42.5"/>
+												<Node score="0.4057268">
+													<SimplePredicate field="MonthsSinceLastTest" operator="lessThan" value="20.5"/>
+												</Node>
+											</Node>
+											<Node score="-0.1256698">
+												<SimplePredicate field="Gender.Male" operator="greaterOrEqual" value="0.5"/>
+											</Node>
+										</Node>
+									</Node>
+									<Node score="-0.013737813">
+										<SimplePredicate field="EntryPoint.OPD" operator="greaterOrEqual" value="0.5"/>
+										<Node score="-0.15287977">
+											<SimplePredicate field="AgeAtTest" operator="greaterOrEqual" value="19.5"/>
+											<Node score="-0.12787694">
+												<SimplePredicate field="MonthsSinceLastTest" operator="greaterOrEqual" value="17.5"/>
+												<Node score="-0.1828156">
+													<SimplePredicate field="AgeAtTest" operator="greaterOrEqual" value="50.5"/>
+													<Node score="0.03248496">
+														<SimplePredicate field="TBScreening.No.Presumed.TB" operator="lessThan" value="0.5"/>
+													</Node>
+												</Node>
+												<Node score="0.11365773">
+													<SimplePredicate field="ClientSelfTested.No" operator="greaterOrEqual" value="0.5"/>
+												</Node>
+											</Node>
+											<Node score="-0.2189569">
+												<SimplePredicate field="MaritalStatus.Widowed" operator="lessThan" value="0.5"/>
+												<Node score="0.011378308">
+													<SimplePredicate field="TBScreening.No.Presumed.TB" operator="lessThan" value="2.000001"/>
+												</Node>
+											</Node>
+											<Node score="-0.08283146">
+												<SimplePredicate field="AgeAtTest" operator="greaterOrEqual" value="30.5"/>
+											</Node>
+										</Node>
+										<Node score="-0.21378534">
+											<SimplePredicate field="TestingStrategy.VCT" operator="lessThan" value="0.5"/>
+											<Node score="-0.051179066">
+												<SimplePredicate field="AgeAtTest" operator="greaterOrEqual" value="14.5"/>
+												<Node score="-0.23636755">
+													<SimplePredicate field="MonthsSinceLastTest" operator="greaterOrEqual" value="0.5"/>
+												</Node>
+											</Node>
+											<Node score="0.4895318">
+												<SimplePredicate field="AgeAtTest" operator="greaterOrEqual" value="11.5"/>
+											</Node>
+										</Node>
+										<Node score="0.056917418">
+											<SimplePredicate field="TBScreening.No.Presumed.TB" operator="lessThan" value="0.5"/>
+											<Node score="-0.1271676">
+												<SimplePredicate field="AgeAtTest" operator="greaterOrEqual" value="11.0"/>
+											</Node>
+										</Node>
+										<Node score="-0.24955957">
+											<SimplePredicate field="ClientTestedAs.Individual" operator="greaterOrEqual" value="0.5"/>
+										</Node>
+									</Node>
+									<Node score="-0.26168114">
+										<SimplePredicate field="EntryPoint.PEDS" operator="greaterOrEqual" value="0.5"/>
+										<Node score="-0.03408006">
+											<SimplePredicate field="AgeAtTest" operator="greaterOrEqual" value="36.5"/>
+										</Node>
+										<Node score="-0.07131549">
+											<SimplePredicate field="MonthsSinceLastTest" operator="greaterOrEqual" value="14.5"/>
+										</Node>
+									</Node>
+									<Node score="-0.040907606">
+										<SimplePredicate field="PatientDisabled.Not.Disabled" operator="greaterOrEqual" value="0.5"/>
+										<Node score="0.33811688">
+											<SimplePredicate field="EntryPoint.MOBILE" operator="greaterOrEqual" value="0.5"/>
+											<Node score="0.03027348">
+												<SimplePredicate field="ClientTestedAs.Individual" operator="greaterOrEqual" value="0.5"/>
+											</Node>
+										</Node>
+										<Node score="0.03570578">
+											<SimplePredicate field="MonthsSinceLastTest" operator="lessThan" value="1.5"/>
+										</Node>
+									</Node>
+									<Node score="0.0059225033">
+										<SimplePredicate field="MaritalStatus.Minor" operator="lessThan" value="0.5"/>
+										<Node score="-0.163746">
+											<SimplePredicate field="MonthsSinceLastTest" operator="lessThan" value="11.5"/>
+										</Node>
+									</Node>
+									<Node score="-0.2681184">
+										<SimplePredicate field="Gender.Male" operator="greaterOrEqual" value="0.5"/>
+									</Node>
+								</Node>
+							</TreeModel>
+						</Segment>
+						<Segment id="13">
+							<True/>
+							<TreeModel functionName="regression" noTrueChildStrategy="returnLastPrediction" x-mathContext="float">
+								<MiningSchema>
+									<MiningField name="AgeAtTest"/>
+									<MiningField name="MonthsSinceLastTest"/>
+									<MiningField name="Gender.Male"/>
+									<MiningField name="KeyPopulationType.GP"/>
+									<MiningField name="MaritalStatus.Married"/>
+									<MiningField name="MaritalStatus.Minor"/>
+									<MiningField name="PatientDisabled.Not.Disabled"/>
+									<MiningField name="EverTestedForHIV.Yes"/>
+									<MiningField name="ClientTestedAs.Individual"/>
+									<MiningField name="EntryPoint.VCT"/>
+									<MiningField name="EntryPoint.OPD"/>
+									<MiningField name="EntryPoint.HB"/>
+									<MiningField name="EntryPoint.PEDS"/>
+									<MiningField name="TestingStrategy.VCT"/>
+									<MiningField name="TestingStrategy.HB"/>
+									<MiningField name="TestingStrategy.MOBILE"/>
+									<MiningField name="TestingStrategy.HP"/>
+									<MiningField name="TBScreening.No.Presumed.TB"/>
+									<MiningField name="ClientSelfTested.No"/>
+								</MiningSchema>
+								<Node score="-0.14377874">
+									<True/>
+									<Node score="-0.25412065">
+										<SimplePredicate field="TestingStrategy.MOBILE" operator="greaterOrEqual" value="0.5"/>
+										<Node score="-0.020232406">
+											<SimplePredicate field="MonthsSinceLastTest" operator="lessThan" value="12.5"/>
+											<Node score="-0.036375698">
+												<SimplePredicate field="MaritalStatus.Minor" operator="lessThan" value="0.5"/>
+												<Node score="0.14746362">
+													<SimplePredicate field="PatientDisabled.Not.Disabled" operator="greaterOrEqual" value="0.5"/>
+													<Node score="0.22417274">
+														<SimplePredicate field="AgeAtTest" operator="greaterOrEqual" value="41.5"/>
+													</Node>
+													<Node score="-0.046655834">
+														<SimplePredicate field="TBScreening.No.Presumed.TB" operator="greaterOrEqual" value="0.5"/>
+													</Node>
+												</Node>
+												<Node score="-0.22878297">
+													<SimplePredicate field="KeyPopulationType.GP" operator="greaterOrEqual" value="0.5"/>
+												</Node>
+											</Node>
+											<Node score="-0.10509674">
+												<SimplePredicate field="TBScreening.No.Presumed.TB" operator="lessThan" value="0.5"/>
+												<Node score="-0.2254509">
+													<SimplePredicate field="AgeAtTest" operator="greaterOrEqual" value="48.5"/>
+													<Node score="-0.02856828">
+														<SimplePredicate field="AgeAtTest" operator="greaterOrEqual" value="57.5"/>
+													</Node>
+												</Node>
+												<Node score="0.30577332">
+													<SimplePredicate field="AgeAtTest" operator="greaterOrEqual" value="42.5"/>
+												</Node>
+											</Node>
+											<Node score="0.08797108">
+												<SimplePredicate field="AgeAtTest" operator="greaterOrEqual" value="35.5"/>
+												<Node score="-0.19567518">
+													<SimplePredicate field="AgeAtTest" operator="greaterOrEqual" value="37.5"/>
+												</Node>
+											</Node>
+											<Node score="-0.24506551">
+												<SimplePredicate field="EverTestedForHIV.Yes" operator="greaterOrEqual" value="0.5"/>
+											</Node>
+										</Node>
+										<Node score="-0.25964704">
+											<SimplePredicate field="ClientSelfTested.No" operator="greaterOrEqual" value="0.5"/>
+											<Node score="-0.21963902">
+												<SimplePredicate field="KeyPopulationType.GP" operator="greaterOrEqual" value="0.5"/>
+												<Node score="0.114641845">
+													<SimplePredicate field="AgeAtTest" operator="greaterOrEqual" value="19.5"/>
+													<Node score="-0.20089148">
+														<SimplePredicate field="AgeAtTest" operator="greaterOrEqual" value="49.5"/>
+													</Node>
+												</Node>
+											</Node>
+										</Node>
+									</Node>
+									<Node score="0.04432817">
+										<SimplePredicate field="AgeAtTest" operator="greaterOrEqual" value="20.5"/>
+										<Node score="-0.060968246">
+											<SimplePredicate field="TestingStrategy.VCT" operator="lessThan" value="2.000001"/>
+											<Node score="-0.029092269">
+												<SimplePredicate field="AgeAtTest" operator="greaterOrEqual" value="66.5"/>
+												<Node score="0.111309364">
+													<SimplePredicate field="MonthsSinceLastTest" operator="greaterOrEqual" value="15.5"/>
+													<Node score="-0.21360807">
+														<SimplePredicate field="AgeAtTest" operator="greaterOrEqual" value="72.5"/>
+													</Node>
+												</Node>
+												<Node score="-0.24798839">
+													<SimplePredicate field="EntryPoint.VCT" operator="lessThan" value="0.5"/>
+												</Node>
+											</Node>
+											<Node score="0.15471186">
+												<SimplePredicate field="MaritalStatus.Married" operator="lessThan" value="0.5"/>
+												<Node score="-0.015222008">
+													<SimplePredicate field="AgeAtTest" operator="greaterOrEqual" value="34.5"/>
+												</Node>
+											</Node>
+											<Node score="0.066944405">
+												<SimplePredicate field="TBScreening.No.Presumed.TB" operator="lessThan" value="0.5"/>
+											</Node>
+										</Node>
+										<Node score="0.0586417">
+											<SimplePredicate field="TBScreening.No.Presumed.TB" operator="lessThan" value="0.5"/>
+											<Node score="0.27265394">
+												<SimplePredicate field="EntryPoint.PEDS" operator="lessThan" value="0.5"/>
+												<Node score="0.10575048">
+													<SimplePredicate field="MonthsSinceLastTest" operator="greaterOrEqual" value="8.5"/>
+												</Node>
+											</Node>
+										</Node>
+										<Node score="0.22730409">
+											<SimplePredicate field="EntryPoint.HB" operator="greaterOrEqual" value="0.5"/>
+											<Node score="-0.08360861">
+												<SimplePredicate field="ClientTestedAs.Individual" operator="greaterOrEqual" value="0.5"/>
+											</Node>
+										</Node>
+										<Node score="-0.028994597">
+											<SimplePredicate field="MonthsSinceLastTest" operator="lessThan" value="8.5"/>
+										</Node>
+									</Node>
+									<Node score="0.32211837">
+										<SimplePredicate field="EntryPoint.OPD" operator="greaterOrEqual" value="0.5"/>
+										<Node score="-0.2193116">
+											<SimplePredicate field="ClientTestedAs.Individual" operator="greaterOrEqual" value="0.5"/>
+											<Node score="-0.07752696">
+												<SimplePredicate field="TBScreening.No.Presumed.TB" operator="lessThan" value="0.5"/>
+												<Node score="0.20302455">
+													<SimplePredicate field="AgeAtTest" operator="greaterOrEqual" value="18.5"/>
+												</Node>
+											</Node>
+											<Node score="-0.056635506">
+												<SimplePredicate field="TestingStrategy.VCT" operator="lessThan" value="0.5"/>
+											</Node>
+										</Node>
+										<Node score="-0.13415934">
+											<SimplePredicate field="MonthsSinceLastTest" operator="greaterOrEqual" value="3.5"/>
+										</Node>
+									</Node>
+									<Node score="-0.06569132">
+										<SimplePredicate field="Gender.Male" operator="greaterOrEqual" value="0.5"/>
+										<Node score="-0.25034752">
+											<SimplePredicate field="AgeAtTest" operator="greaterOrEqual" value="3.5"/>
+											<Node score="-0.112188235">
+												<SimplePredicate field="MonthsSinceLastTest" operator="lessThan" value="1.5"/>
+											</Node>
+										</Node>
+										<Node score="0.21141802">
+											<SimplePredicate field="TestingStrategy.HP" operator="lessThan" value="0.5"/>
+										</Node>
+									</Node>
+									<Node score="0.10628294">
+										<SimplePredicate field="MaritalStatus.Minor" operator="lessThan" value="0.5"/>
+										<Node score="-0.22682025">
+											<SimplePredicate field="TestingStrategy.VCT" operator="lessThan" value="0.5"/>
+										</Node>
+									</Node>
+									<Node score="0.057940066">
+										<SimplePredicate field="TestingStrategy.HB" operator="greaterOrEqual" value="0.5"/>
+									</Node>
+								</Node>
+							</TreeModel>
+						</Segment>
+						<Segment id="14">
+							<True/>
+							<TreeModel functionName="regression" noTrueChildStrategy="returnLastPrediction" x-mathContext="float">
+								<MiningSchema>
+									<MiningField name="AgeAtTest"/>
+									<MiningField name="MonthsSinceLastTest"/>
+									<MiningField name="Gender.Male"/>
+									<MiningField name="MaritalStatus.Divorced"/>
+									<MiningField name="MaritalStatus.Widowed"/>
+									<MiningField name="MaritalStatus.Minor"/>
+									<MiningField name="EverTestedForHIV.Yes"/>
+									<MiningField name="EntryPoint.Other"/>
+									<MiningField name="EntryPoint.HB"/>
+									<MiningField name="TestingStrategy.VCT"/>
+									<MiningField name="TestingStrategy.HB"/>
+									<MiningField name="TestingStrategy.MOBILE"/>
+									<MiningField name="TBScreening.No.Presumed.TB"/>
+								</MiningSchema>
+								<Node score="-0.1395162">
+									<True/>
+									<Node score="-0.05723268">
+										<SimplePredicate field="TestingStrategy.MOBILE" operator="greaterOrEqual" value="0.5"/>
+										<Node score="0.17517662">
+											<SimplePredicate field="AgeAtTest" operator="greaterOrEqual" value="24.5"/>
+											<Node score="0.094501875">
+												<SimplePredicate field="MonthsSinceLastTest" operator="lessThan" value="13.5"/>
+												<Node score="-0.23194373">
+													<SimplePredicate field="Gender.Male" operator="greaterOrEqual" value="0.5"/>
+													<Node score="0.03438606">
+														<SimplePredicate field="AgeAtTest" operator="greaterOrEqual" value="40.5"/>
+														<Node score="-0.2286046">
+															<SimplePredicate field="MonthsSinceLastTest" operator="lessThan" value="8.5"/>
+														</Node>
+													</Node>
+													<Node score="-0.06898082">
+														<SimplePredicate field="MonthsSinceLastTest" operator="lessThan" value="3.5"/>
+													</Node>
+												</Node>
+												<Node score="0.29057255">
+													<SimplePredicate field="MonthsSinceLastTest" operator="lessThan" value="4.5"/>
+													<Node score="-0.21536946">
+														<SimplePredicate field="AgeAtTest" operator="greaterOrEqual" value="25.5"/>
+													</Node>
+												</Node>
+												<Node score="-0.21048811">
+													<SimplePredicate field="AgeAtTest" operator="greaterOrEqual" value="48.5"/>
+												</Node>
+											</Node>
+											<Node score="0.12701668">
+												<SimplePredicate field="MonthsSinceLastTest" operator="lessThan" value="19.5"/>
+												<Node score="-0.12433336">
+													<SimplePredicate field="AgeAtTest" operator="greaterOrEqual" value="49.0"/>
+												</Node>
+												<Node score="0.28298664">
+													<SimplePredicate field="AgeAtTest" operator="greaterOrEqual" value="39.5"/>
+												</Node>
+											</Node>
+											<Node score="-0.21400546">
+												<SimplePredicate field="TBScreening.No.Presumed.TB" operator="greaterOrEqual" value="0.5"/>
+												<Node score="-0.023988858">
+													<SimplePredicate field="AgeAtTest" operator="greaterOrEqual" value="43.5"/>
+												</Node>
+											</Node>
+										</Node>
+										<Node score="-0.2830216">
+											<SimplePredicate field="EverTestedForHIV.Yes" operator="greaterOrEqual" value="0.5"/>
+											<Node score="-0.027560202">
+												<SimplePredicate field="TBScreening.No.Presumed.TB" operator="lessThan" value="0.5"/>
+												<Node score="0.056803416">
+													<SimplePredicate field="AgeAtTest" operator="greaterOrEqual" value="21.5"/>
+												</Node>
+												<Node score="-0.17390217">
+													<SimplePredicate field="AgeAtTest" operator="greaterOrEqual" value="19.5"/>
+												</Node>
+											</Node>
+											<Node score="-0.226907">
+												<SimplePredicate field="MonthsSinceLastTest" operator="greaterOrEqual" value="12.5"/>
+												<Node score="0.058631275">
+													<SimplePredicate field="MonthsSinceLastTest" operator="lessThan" value="13.5"/>
+												</Node>
+											</Node>
+											<Node score="-0.21398361">
+												<SimplePredicate field="MonthsSinceLastTest" operator="greaterOrEqual" value="8.5"/>
+											</Node>
+										</Node>
+										<Node score="0.12821457">
+											<SimplePredicate field="AgeAtTest" operator="greaterOrEqual" value="20.5"/>
+										</Node>
+									</Node>
+									<Node score="0.06490992">
+										<SimplePredicate field="AgeAtTest" operator="greaterOrEqual" value="30.5"/>
+										<Node score="-0.26228213">
+											<SimplePredicate field="AgeAtTest" operator="greaterOrEqual" value="72.5"/>
+											<Node score="-0.07854377">
+												<SimplePredicate field="MaritalStatus.Widowed" operator="lessThan" value="0.5"/>
+											</Node>
+										</Node>
+										<Node score="0.03414288">
+											<SimplePredicate field="MonthsSinceLastTest" operator="lessThan" value="1.5"/>
+											<Node score="0.05716426">
+												<SimplePredicate field="TestingStrategy.VCT" operator="lessThan" value="0.5"/>
+												<Node score="-0.10185686">
+													<SimplePredicate field="MaritalStatus.Divorced" operator="lessThan" value="0.5"/>
+												</Node>
+											</Node>
+											<Node score="0.18960612">
+												<SimplePredicate field="AgeAtTest" operator="greaterOrEqual" value="37.5"/>
+											</Node>
+										</Node>
+										<Node score="-0.25305068">
+											<SimplePredicate field="MonthsSinceLastTest" operator="lessThan" value="4.5"/>
+											<Node score="0.047959346">
+												<SimplePredicate field="AgeAtTest" operator="greaterOrEqual" value="39.5"/>
+											</Node>
+										</Node>
+										<Node score="-0.027269723">
+											<SimplePredicate field="AgeAtTest" operator="greaterOrEqual" value="34.5"/>
+										</Node>
+									</Node>
+									<Node score="-0.054602727">
+										<SimplePredicate field="Gender.Male" operator="greaterOrEqual" value="0.5"/>
+										<Node score="-0.12753597">
+											<SimplePredicate field="TestingStrategy.VCT" operator="greaterOrEqual" value="0.5"/>
+											<Node score="-0.08388075">
+												<SimplePredicate field="EntryPoint.HB" operator="lessThan" value="0.5"/>
+												<Node score="-0.19877301">
+													<SimplePredicate field="AgeAtTest" operator="greaterOrEqual" value="10.5"/>
+												</Node>
+											</Node>
+											<Node score="0.15699455">
+												<SimplePredicate field="AgeAtTest" operator="greaterOrEqual" value="27.5"/>
+											</Node>
+										</Node>
+										<Node score="0.187872">
+											<SimplePredicate field="EntryPoint.Other" operator="greaterOrEqual" value="0.5"/>
+										</Node>
+										<Node score="-0.16488348">
+											<SimplePredicate field="AgeAtTest" operator="greaterOrEqual" value="28.5"/>
+										</Node>
+									</Node>
+									<Node score="-0.21622533">
+										<SimplePredicate field="MonthsSinceLastTest" operator="greaterOrEqual" value="11.5"/>
+										<Node score="0.033126146">
+											<SimplePredicate field="AgeAtTest" operator="greaterOrEqual" value="20.5"/>
+											<Node score="0.21223664">
+												<SimplePredicate field="TestingStrategy.VCT" operator="greaterOrEqual" value="0.5"/>
+											</Node>
+										</Node>
+										<Node score="-0.049595512">
+											<SimplePredicate field="MonthsSinceLastTest" operator="lessThan" value="13.5"/>
+										</Node>
+									</Node>
+									<Node score="-0.116310336">
+										<SimplePredicate field="TestingStrategy.HB" operator="lessThan" value="0.5"/>
+										<Node score="-0.022020932">
+											<SimplePredicate field="MaritalStatus.Minor" operator="lessThan" value="0.5"/>
+										</Node>
+									</Node>
+									<Node score="0.029446809">
+										<SimplePredicate field="AgeAtTest" operator="greaterOrEqual" value="12.5"/>
+									</Node>
+								</Node>
+							</TreeModel>
+						</Segment>
+						<Segment id="15">
+							<True/>
+							<TreeModel functionName="regression" noTrueChildStrategy="returnLastPrediction" x-mathContext="float">
+								<MiningSchema>
+									<MiningField name="AgeAtTest"/>
+									<MiningField name="MonthsSinceLastTest"/>
+									<MiningField name="Gender.Male"/>
+									<MiningField name="KeyPopulationType.GP"/>
+									<MiningField name="MaritalStatus.Married"/>
+									<MiningField name="MaritalStatus.Divorced"/>
+									<MiningField name="MaritalStatus.Widowed"/>
+									<MiningField name="EntryPoint.OPD"/>
+									<MiningField name="EntryPoint.MTC"/>
+									<MiningField name="EntryPoint.PEDS"/>
+									<MiningField name="TestingStrategy.VCT"/>
+									<MiningField name="TestingStrategy.MOBILE"/>
+									<MiningField name="TestingStrategy.HP"/>
+									<MiningField name="TBScreening.No.Presumed.TB"/>
+									<MiningField name="ClientSelfTested.No"/>
+								</MiningSchema>
+								<Node score="-0.008303016">
+									<True/>
+									<Node score="-0.2553875">
+										<SimplePredicate field="TestingStrategy.MOBILE" operator="greaterOrEqual" value="0.5"/>
+										<Node score="-0.1907431">
+											<SimplePredicate field="AgeAtTest" operator="greaterOrEqual" value="21.5"/>
+											<Node score="-0.20945787">
+												<SimplePredicate field="Gender.Male" operator="greaterOrEqual" value="0.5"/>
+												<Node score="0.1872484">
+													<SimplePredicate field="AgeAtTest" operator="greaterOrEqual" value="40.5"/>
+													<Node score="-0.03364225">
+														<SimplePredicate field="AgeAtTest" operator="greaterOrEqual" value="49.5"/>
+														<Node score="-0.1842552">
+															<SimplePredicate field="AgeAtTest" operator="greaterOrEqual" value="53.5"/>
+														</Node>
+													</Node>
+													<Node score="-0.2116791">
+														<SimplePredicate field="MonthsSinceLastTest" operator="lessThan" value="9.5"/>
+													</Node>
+												</Node>
+												<Node score="-0.081049405">
+													<SimplePredicate field="MonthsSinceLastTest" operator="greaterOrEqual" value="15.5"/>
+													<Node score="0.12895353">
+														<SimplePredicate field="TBScreening.No.Presumed.TB" operator="lessThan" value="0.5"/>
+													</Node>
+												</Node>
+												<Node score="-0.014511333">
+													<SimplePredicate field="MonthsSinceLastTest" operator="lessThan" value="0.5"/>
+												</Node>
+											</Node>
+											<Node score="-0.10981122">
+												<SimplePredicate field="MonthsSinceLastTest" operator="greaterOrEqual" value="8.5"/>
+												<Node score="-0.23166546">
+													<SimplePredicate field="AgeAtTest" operator="greaterOrEqual" value="45.5"/>
+												</Node>
+												<Node score="0.16749112">
+													<SimplePredicate field="ClientSelfTested.No" operator="greaterOrEqual" value="0.5"/>
+												</Node>
+											</Node>
+											<Node score="-0.10256293">
+												<SimplePredicate field="KeyPopulationType.GP" operator="greaterOrEqual" value="0.5"/>
+												<Node score="0.119721994">
+													<SimplePredicate field="AgeAtTest" operator="greaterOrEqual" value="29.5"/>
+												</Node>
+											</Node>
+											<Node score="0.25770912">
+												<SimplePredicate field="MonthsSinceLastTest" operator="lessThan" value="0.5"/>
+											</Node>
+										</Node>
+										<Node score="-0.034086637">
+											<SimplePredicate field="MaritalStatus.Married" operator="greaterOrEqual" value="0.5"/>
+										</Node>
+										<Node score="-0.002810291">
+											<SimplePredicate field="MonthsSinceLastTest" operator="lessThan" value="0.5"/>
+										</Node>
+										<Node score="-0.18533516">
+											<SimplePredicate field="MonthsSinceLastTest" operator="greaterOrEqual" value="12.5"/>
+											<Node score="0.028419157">
+												<SimplePredicate field="AgeAtTest" operator="greaterOrEqual" value="19.5"/>
+											</Node>
+										</Node>
+										<Node score="-0.1015594">
+											<SimplePredicate field="TBScreening.No.Presumed.TB" operator="lessThan" value="0.5"/>
+										</Node>
+									</Node>
+									<Node score="-0.19204949">
+										<SimplePredicate field="EntryPoint.OPD" operator="greaterOrEqual" value="0.5"/>
+										<Node score="0.3348458">
+											<SimplePredicate field="MonthsSinceLastTest" operator="greaterOrEqual" value="58.0"/>
+										</Node>
+										<Node score="-0.08489515">
+											<SimplePredicate field="AgeAtTest" operator="greaterOrEqual" value="19.5"/>
+											<Node score="-0.056678187">
+												<SimplePredicate field="TBScreening.No.Presumed.TB" operator="lessThan" value="2.000001"/>
+												<Node score="0.033686966">
+													<SimplePredicate field="MaritalStatus.Widowed" operator="lessThan" value="0.5"/>
+												</Node>
+											</Node>
+											<Node score="-0.24644265">
+												<SimplePredicate field="MaritalStatus.Divorced" operator="lessThan" value="0.5"/>
+											</Node>
+										</Node>
+										<Node score="0.10397622">
+											<SimplePredicate field="TestingStrategy.VCT" operator="lessThan" value="0.5"/>
+											<Node score="-0.17608896">
+												<SimplePredicate field="AgeAtTest" operator="greaterOrEqual" value="15.5"/>
+											</Node>
+										</Node>
+										<Node score="-0.008237064">
+											<SimplePredicate field="TBScreening.No.Presumed.TB" operator="lessThan" value="0.5"/>
+										</Node>
+									</Node>
+									<Node score="-0.20500045">
+										<SimplePredicate field="EntryPoint.PEDS" operator="greaterOrEqual" value="0.5"/>
+										<Node score="-0.023346491">
+											<SimplePredicate field="AgeAtTest" operator="greaterOrEqual" value="36.5"/>
+										</Node>
+										<Node score="-0.28226933">
+											<SimplePredicate field="AgeAtTest" operator="greaterOrEqual" value="21.5"/>
+											<Node score="-0.08346576">
+												<SimplePredicate field="Gender.Male" operator="greaterOrEqual" value="0.5"/>
+											</Node>
+										</Node>
+										<Node score="0.10209412">
+											<SimplePredicate field="MonthsSinceLastTest" operator="greaterOrEqual" value="6.5"/>
+										</Node>
+									</Node>
+									<Node score="-0.23720081">
+										<SimplePredicate field="TestingStrategy.HP" operator="greaterOrEqual" value="0.5"/>
+										<Node score="0.16364153">
+											<SimplePredicate field="MonthsSinceLastTest" operator="greaterOrEqual" value="15.5"/>
+										</Node>
+										<Node score="-0.09417013">
+											<SimplePredicate field="MaritalStatus.Married" operator="lessThan" value="0.5"/>
+										</Node>
+									</Node>
+									<Node score="0.28665438">
+										<SimplePredicate field="EntryPoint.MTC" operator="greaterOrEqual" value="0.5"/>
+										<Node score="-0.12175425">
+											<SimplePredicate field="TBScreening.No.Presumed.TB" operator="lessThan" value="2.000001"/>
+										</Node>
+									</Node>
+									<Node score="0.13805339">
+										<SimplePredicate field="TBScreening.No.Presumed.TB" operator="lessThan" value="0.5"/>
+									</Node>
+								</Node>
+							</TreeModel>
+						</Segment>
+						<Segment id="16">
+							<True/>
+							<TreeModel functionName="regression" noTrueChildStrategy="returnLastPrediction" x-mathContext="float">
+								<MiningSchema>
+									<MiningField name="AgeAtTest"/>
+									<MiningField name="MonthsSinceLastTest"/>
+									<MiningField name="Gender.Male"/>
+									<MiningField name="KeyPopulationType.GP"/>
+									<MiningField name="MaritalStatus.Married"/>
+									<MiningField name="MaritalStatus.Polygamous"/>
+									<MiningField name="MaritalStatus.Widowed"/>
+									<MiningField name="ClientTestedAs.Individual"/>
+									<MiningField name="EntryPoint.VCT"/>
+									<MiningField name="EntryPoint.OPD"/>
+									<MiningField name="EntryPoint.IPD"/>
+									<MiningField name="EntryPoint.MOBILE"/>
+									<MiningField name="EntryPoint.Other"/>
+									<MiningField name="TestingStrategy.HB"/>
+									<MiningField name="TestingStrategy.MOBILE"/>
+									<MiningField name="TestingStrategy.NP"/>
+									<MiningField name="TBScreening.No.Presumed.TB"/>
+									<MiningField name="ClientSelfTested.No"/>
+								</MiningSchema>
+								<Node score="-0.025995307">
+									<True/>
+									<Node score="-0.26063552">
+										<SimplePredicate field="AgeAtTest" operator="greaterOrEqual" value="20.5"/>
+										<Node score="0.013279966">
+											<SimplePredicate field="KeyPopulationType.GP" operator="greaterOrEqual" value="0.5"/>
+											<Node score="0.04531763">
+												<SimplePredicate field="Gender.Male" operator="greaterOrEqual" value="0.5"/>
+												<Node score="0.02414699">
+													<SimplePredicate field="AgeAtTest" operator="greaterOrEqual" value="30.5"/>
+													<Node score="0.111083046">
+														<SimplePredicate field="MonthsSinceLastTest" operator="lessThan" value="2.5"/>
+														<Node score="-0.233587">
+															<SimplePredicate field="AgeAtTest" operator="greaterOrEqual" value="65.5"/>
+														</Node>
+													</Node>
+													<Node score="-0.07381554">
+														<SimplePredicate field="MonthsSinceLastTest" operator="lessThan" value="13.5"/>
+													</Node>
+												</Node>
+												<Node score="-0.041023422">
+													<SimplePredicate field="TestingStrategy.HB" operator="lessThan" value="0.5"/>
+													<Node score="-0.16320777">
+														<SimplePredicate field="EntryPoint.IPD" operator="lessThan" value="0.5"/>
+													</Node>
+												</Node>
+												<Node score="-0.098074235">
+													<SimplePredicate field="AgeAtTest" operator="greaterOrEqual" value="26.5"/>
+												</Node>
+											</Node>
+											<Node score="-0.22376823">
+												<SimplePredicate field="AgeAtTest" operator="greaterOrEqual" value="44.5"/>
+												<Node score="0.17352611">
+													<SimplePredicate field="TBScreening.No.Presumed.TB" operator="greaterOrEqual" value="0.5"/>
+													<Node score="-0.096053764">
+														<SimplePredicate field="MonthsSinceLastTest" operator="greaterOrEqual" value="4.5"/>
+													</Node>
+												</Node>
+												<Node score="0.032557566">
+													<SimplePredicate field="EntryPoint.VCT" operator="greaterOrEqual" value="0.5"/>
+												</Node>
+											</Node>
+											<Node score="-0.08928238">
+												<SimplePredicate field="MonthsSinceLastTest" operator="greaterOrEqual" value="10.5"/>
+												<Node score="0.09078521">
+													<SimplePredicate field="ClientSelfTested.No" operator="lessThan" value="2.000001"/>
+												</Node>
+											</Node>
+											<Node score="-0.17306438">
+												<SimplePredicate field="EntryPoint.Other" operator="greaterOrEqual" value="0.5"/>
+											</Node>
+										</Node>
+										<Node score="-0.017024314">
+											<SimplePredicate field="MonthsSinceLastTest" operator="greaterOrEqual" value="4.5"/>
+											<Node score="-0.11450664">
+												<SimplePredicate field="EntryPoint.MOBILE" operator="lessThan" value="0.5"/>
+												<Node score="0.4350059">
+													<SimplePredicate field="MaritalStatus.Polygamous" operator="lessThan" value="0.5"/>
+												</Node>
+												<Node score="0.3366814">
+													<SimplePredicate field="Gender.Male" operator="greaterOrEqual" value="0.5"/>
+												</Node>
+											</Node>
+											<Node score="-0.20357923">
+												<SimplePredicate field="AgeAtTest" operator="greaterOrEqual" value="27.5"/>
+												<Node score="0.12568617">
+													<SimplePredicate field="MonthsSinceLastTest" operator="lessThan" value="12.5"/>
+												</Node>
+											</Node>
+											<Node score="-0.2331061">
+												<SimplePredicate field="AgeAtTest" operator="greaterOrEqual" value="23.5"/>
+											</Node>
+										</Node>
+										<Node score="0.24808802">
+											<SimplePredicate field="MonthsSinceLastTest" operator="lessThan" value="0.5"/>
+										</Node>
+										<Node score="-0.1463116">
+											<SimplePredicate field="MaritalStatus.Widowed" operator="lessThan" value="0.5"/>
+											<Node score="-0.041014843">
+												<SimplePredicate field="EntryPoint.OPD" operator="lessThan" value="0.5"/>
+											</Node>
+										</Node>
+										<Node score="-0.036449976">
+											<SimplePredicate field="AgeAtTest" operator="greaterOrEqual" value="39.5"/>
+										</Node>
+									</Node>
+									<Node score="-0.046672113">
+										<SimplePredicate field="TestingStrategy.MOBILE" operator="greaterOrEqual" value="0.5"/>
+										<Node score="-0.01837904">
+											<SimplePredicate field="MaritalStatus.Married" operator="greaterOrEqual" value="0.5"/>
+										</Node>
+										<Node score="-0.24072312">
+											<SimplePredicate field="MonthsSinceLastTest" operator="greaterOrEqual" value="0.5"/>
+											<Node score="-0.07194165">
+												<SimplePredicate field="TBScreening.No.Presumed.TB" operator="lessThan" value="0.5"/>
+											</Node>
+										</Node>
+									</Node>
+									<Node score="0.02963003">
+										<SimplePredicate field="ClientTestedAs.Individual" operator="greaterOrEqual" value="0.5"/>
+										<Node score="-0.06368704">
+											<SimplePredicate field="ClientSelfTested.No" operator="lessThan" value="2.000001"/>
+											<Node score="0.06663535">
+												<SimplePredicate field="MonthsSinceLastTest" operator="lessThan" value="2.5"/>
+												<Node score="-0.053928122">
+													<SimplePredicate field="TestingStrategy.NP" operator="lessThan" value="0.5"/>
+												</Node>
+											</Node>
+											<Node score="-0.17112193">
+												<SimplePredicate field="Gender.Male" operator="greaterOrEqual" value="0.5"/>
+											</Node>
+										</Node>
+										<Node score="-0.2753855">
+											<SimplePredicate field="TBScreening.No.Presumed.TB" operator="greaterOrEqual" value="0.5"/>
+										</Node>
+									</Node>
+									<Node score="-0.10587313">
+										<SimplePredicate field="EntryPoint.VCT" operator="lessThan" value="0.5"/>
+										<Node score="0.439251">
+											<SimplePredicate field="TestingStrategy.NP" operator="lessThan" value="0.5"/>
+											<Node score="-0.04398507">
+												<SimplePredicate field="MonthsSinceLastTest" operator="greaterOrEqual" value="9.5"/>
+											</Node>
+										</Node>
+									</Node>
+									<Node score="-0.10361648">
+										<SimplePredicate field="EntryPoint.VCT" operator="lessThan" value="2.000001"/>
+									</Node>
+								</Node>
+							</TreeModel>
+						</Segment>
+						<Segment id="17">
+							<True/>
+							<TreeModel functionName="regression" noTrueChildStrategy="returnLastPrediction" x-mathContext="float">
+								<MiningSchema>
+									<MiningField name="AgeAtTest"/>
+									<MiningField name="MonthsSinceLastTest"/>
+									<MiningField name="Gender.Male"/>
+									<MiningField name="MaritalStatus.Divorced"/>
+									<MiningField name="MaritalStatus.Polygamous"/>
+									<MiningField name="MaritalStatus.Widowed"/>
+									<MiningField name="PatientDisabled.Not.Disabled"/>
+									<MiningField name="EverTestedForHIV.Yes"/>
+									<MiningField name="EntryPoint.VCT"/>
+									<MiningField name="EntryPoint.MOBILE"/>
+									<MiningField name="TestingStrategy.VCT"/>
+									<MiningField name="TestingStrategy.MOBILE"/>
+									<MiningField name="TBScreening.No.Presumed.TB"/>
+									<MiningField name="ClientSelfTested.No"/>
+								</MiningSchema>
+								<Node score="-0.13404964">
+									<True/>
+									<Node score="-0.27434766">
+										<SimplePredicate field="TestingStrategy.MOBILE" operator="greaterOrEqual" value="0.5"/>
+										<Node score="-0.24744554">
+											<SimplePredicate field="AgeAtTest" operator="greaterOrEqual" value="19.5"/>
+											<Node score="-0.23098545">
+												<SimplePredicate field="Gender.Male" operator="greaterOrEqual" value="0.5"/>
+												<Node score="-0.23914368">
+													<SimplePredicate field="AgeAtTest" operator="greaterOrEqual" value="33.5"/>
+													<Node score="0.12932827">
+														<SimplePredicate field="ClientSelfTested.No" operator="greaterOrEqual" value="0.5"/>
+														<Node score="-0.04581148">
+															<SimplePredicate field="MonthsSinceLastTest" operator="lessThan" value="13.5"/>
+														</Node>
+													</Node>
+												</Node>
+												<Node score="0.034332745">
+													<SimplePredicate field="TBScreening.No.Presumed.TB" operator="lessThan" value="0.5"/>
+													<Node score="-0.13440298">
+														<SimplePredicate field="AgeAtTest" operator="greaterOrEqual" value="26.5"/>
+													</Node>
+												</Node>
+												<Node score="-0.06814889">
+													<SimplePredicate field="ClientSelfTested.No" operator="lessThan" value="0.5"/>
+												</Node>
+											</Node>
+											<Node score="0.0636939">
+												<SimplePredicate field="MonthsSinceLastTest" operator="greaterOrEqual" value="8.5"/>
+												<Node score="0.45359737">
+													<SimplePredicate field="MonthsSinceLastTest" operator="lessThan" value="11.5"/>
+													<Node score="0.07413994">
+														<SimplePredicate field="MonthsSinceLastTest" operator="lessThan" value="10.5"/>
+													</Node>
+												</Node>
+												<Node score="-0.2523921">
+													<SimplePredicate field="AgeAtTest" operator="greaterOrEqual" value="38.5"/>
+												</Node>
+											</Node>
+											<Node score="-0.18525368">
+												<SimplePredicate field="MaritalStatus.Divorced" operator="lessThan" value="0.5"/>
+												<Node score="0.12657811">
+													<SimplePredicate field="PatientDisabled.Not.Disabled" operator="greaterOrEqual" value="0.5"/>
+												</Node>
+											</Node>
+											<Node score="-0.058128584">
+												<SimplePredicate field="AgeAtTest" operator="greaterOrEqual" value="24.5"/>
+											</Node>
+										</Node>
+										<Node score="0.19306098">
+											<SimplePredicate field="MonthsSinceLastTest" operator="lessThan" value="10.5"/>
+											<Node score="-0.029880699">
+												<SimplePredicate field="MonthsSinceLastTest" operator="lessThan" value="8.5"/>
+												<Node score="-0.25488">
+													<SimplePredicate field="EverTestedForHIV.Yes" operator="greaterOrEqual" value="0.5"/>
+												</Node>
+											</Node>
+										</Node>
+									</Node>
+									<Node score="-0.23488443">
+										<SimplePredicate field="AgeAtTest" operator="greaterOrEqual" value="72.5"/>
+										<Node score="-0.06826517">
+											<SimplePredicate field="MaritalStatus.Widowed" operator="lessThan" value="0.5"/>
+										</Node>
+									</Node>
+									<Node score="0.0031231046">
+										<SimplePredicate field="AgeAtTest" operator="greaterOrEqual" value="30.5"/>
+										<Node score="-0.016865624">
+											<SimplePredicate field="MonthsSinceLastTest" operator="greaterOrEqual" value="44.5"/>
+											<Node score="0.4362587">
+												<SimplePredicate field="EntryPoint.VCT" operator="lessThan" value="0.5"/>
+												<Node score="0.12870933">
+													<SimplePredicate field="AgeAtTest" operator="greaterOrEqual" value="43.0"/>
+												</Node>
+											</Node>
+										</Node>
+										<Node score="-0.02332079">
+											<SimplePredicate field="TestingStrategy.VCT" operator="lessThan" value="0.5"/>
+											<Node score="-0.21065298">
+												<SimplePredicate field="ClientSelfTested.No" operator="lessThan" value="0.5"/>
+											</Node>
+										</Node>
+										<Node score="0.06485193">
+											<SimplePredicate field="MonthsSinceLastTest" operator="lessThan" value="1.5"/>
+										</Node>
+									</Node>
+									<Node score="0.039300237">
+										<SimplePredicate field="Gender.Male" operator="greaterOrEqual" value="0.5"/>
+										<Node score="-0.056441437">
+											<SimplePredicate field="EntryPoint.MOBILE" operator="lessThan" value="0.5"/>
+											<Node score="-0.13227482">
+												<SimplePredicate field="TestingStrategy.VCT" operator="greaterOrEqual" value="0.5"/>
+											</Node>
+										</Node>
+										<Node score="-0.08548901">
+											<SimplePredicate field="TBScreening.No.Presumed.TB" operator="greaterOrEqual" value="0.5"/>
+										</Node>
+									</Node>
+									<Node score="-0.023576321">
+										<SimplePredicate field="AgeAtTest" operator="greaterOrEqual" value="12.5"/>
+										<Node score="0.051180467">
+											<SimplePredicate field="MaritalStatus.Polygamous" operator="lessThan" value="0.5"/>
+										</Node>
+									</Node>
+									<Node score="0.18353225">
+										<SimplePredicate field="EntryPoint.VCT" operator="greaterOrEqual" value="0.5"/>
+									</Node>
+								</Node>
+							</TreeModel>
+						</Segment>
+						<Segment id="18">
+							<True/>
+							<TreeModel functionName="regression" noTrueChildStrategy="returnLastPrediction" x-mathContext="float">
+								<MiningSchema>
+									<MiningField name="AgeAtTest"/>
+									<MiningField name="MonthsSinceLastTest"/>
+									<MiningField name="Gender.Male"/>
+									<MiningField name="KeyPopulationType.GP"/>
+									<MiningField name="MaritalStatus.Married"/>
+									<MiningField name="MaritalStatus.Widowed"/>
+									<MiningField name="MaritalStatus.Minor"/>
+									<MiningField name="PatientDisabled.Not.Disabled"/>
+									<MiningField name="EntryPoint.VCT"/>
+									<MiningField name="EntryPoint.OPD"/>
+									<MiningField name="EntryPoint.MOBILE"/>
+									<MiningField name="EntryPoint.Other"/>
+									<MiningField name="EntryPoint.HB"/>
+									<MiningField name="TestingStrategy.VCT"/>
+									<MiningField name="ClientSelfTested.No"/>
+								</MiningSchema>
+								<Node score="-0.27936888">
+									<True/>
+									<Node score="-0.2653941">
+										<SimplePredicate field="KeyPopulationType.GP" operator="greaterOrEqual" value="0.5"/>
+										<Node score="-0.06915035">
+											<SimplePredicate field="ClientSelfTested.No" operator="lessThan" value="2.000001"/>
+											<Node score="0.02278198">
+												<SimplePredicate field="PatientDisabled.Not.Disabled" operator="greaterOrEqual" value="0.5"/>
+												<Node score="-0.07676843">
+													<SimplePredicate field="EntryPoint.Other" operator="greaterOrEqual" value="0.5"/>
+													<Node score="0.242144">
+														<SimplePredicate field="AgeAtTest" operator="greaterOrEqual" value="49.0"/>
+													</Node>
+													<Node score="-0.3557219">
+														<SimplePredicate field="MonthsSinceLastTest" operator="lessThan" value="14.0"/>
+													</Node>
+												</Node>
+												<Node score="-0.074938305">
+													<SimplePredicate field="TestingStrategy.VCT" operator="lessThan" value="2.000001"/>
+													<Node score="-0.0040337727">
+														<SimplePredicate field="AgeAtTest" operator="greaterOrEqual" value="19.5"/>
+													</Node>
+												</Node>
+												<Node score="0.2418305">
+													<SimplePredicate field="ClientSelfTested.No" operator="lessThan" value="0.5"/>
+												</Node>
+											</Node>
+											<Node score="0.27617347">
+												<SimplePredicate field="MonthsSinceLastTest" operator="greaterOrEqual" value="66.0"/>
+											</Node>
+											<Node score="-0.267902">
+												<SimplePredicate field="AgeAtTest" operator="greaterOrEqual" value="66.5"/>
+											</Node>
+											<Node score="0.038226362">
+												<SimplePredicate field="MaritalStatus.Married" operator="lessThan" value="0.5"/>
+											</Node>
+										</Node>
+										<Node score="0.11523647">
+											<SimplePredicate field="EntryPoint.HB" operator="greaterOrEqual" value="0.5"/>
+											<Node score="0.46366003">
+												<SimplePredicate field="MaritalStatus.Minor" operator="lessThan" value="0.5"/>
+											</Node>
+											<Node score="-0.18344444">
+												<SimplePredicate field="Gender.Male" operator="greaterOrEqual" value="0.5"/>
+											</Node>
+										</Node>
+										<Node score="-0.03087156">
+											<SimplePredicate field="MonthsSinceLastTest" operator="greaterOrEqual" value="22.0"/>
+											<Node score="0.15309533">
+												<SimplePredicate field="Gender.Male" operator="greaterOrEqual" value="0.5"/>
+											</Node>
+										</Node>
+										<Node score="-0.19124965">
+											<SimplePredicate field="MaritalStatus.Married" operator="greaterOrEqual" value="0.5"/>
+											<Node score="0.24167489">
+												<SimplePredicate field="MonthsSinceLastTest" operator="greaterOrEqual" value="8.5"/>
+											</Node>
+										</Node>
+										<Node score="-0.11871024">
+											<SimplePredicate field="EntryPoint.OPD" operator="greaterOrEqual" value="0.5"/>
+										</Node>
+									</Node>
+									<Node score="-0.2228841">
+										<SimplePredicate field="MonthsSinceLastTest" operator="greaterOrEqual" value="4.5"/>
+										<Node score="0.081411146">
+											<SimplePredicate field="EntryPoint.MOBILE" operator="lessThan" value="0.5"/>
+											<Node score="0.20991905">
+												<SimplePredicate field="AgeAtTest" operator="greaterOrEqual" value="25.5"/>
+												<Node score="0.4717858">
+													<SimplePredicate field="Gender.Male" operator="greaterOrEqual" value="0.5"/>
+												</Node>
+												<Node score="-0.1081226">
+													<SimplePredicate field="MonthsSinceLastTest" operator="lessThan" value="6.5"/>
+												</Node>
+											</Node>
+											<Node score="-0.1683423">
+												<SimplePredicate field="AgeAtTest" operator="greaterOrEqual" value="21.5"/>
+											</Node>
+										</Node>
+										<Node score="0.18339121">
+											<SimplePredicate field="MonthsSinceLastTest" operator="lessThan" value="12.5"/>
+											<Node score="-0.20088607">
+												<SimplePredicate field="MonthsSinceLastTest" operator="lessThan" value="9.5"/>
+												<Node score="-0.04038843">
+													<SimplePredicate field="AgeAtTest" operator="greaterOrEqual" value="27.5"/>
+												</Node>
+											</Node>
+										</Node>
+									</Node>
+									<Node score="0.15454286">
+										<SimplePredicate field="MonthsSinceLastTest" operator="lessThan" value="0.5"/>
+									</Node>
+									<Node score="-0.16123882">
+										<SimplePredicate field="ClientSelfTested.No" operator="lessThan" value="0.5"/>
+										<Node score="0.12402676">
+											<SimplePredicate field="AgeAtTest" operator="greaterOrEqual" value="24.5"/>
+											<Node score="-0.09033185">
+												<SimplePredicate field="AgeAtTest" operator="greaterOrEqual" value="28.5"/>
+											</Node>
+										</Node>
+									</Node>
+									<Node score="-0.15886146">
+										<SimplePredicate field="MaritalStatus.Widowed" operator="lessThan" value="0.5"/>
+										<Node score="-0.020410601">
+											<SimplePredicate field="AgeAtTest" operator="greaterOrEqual" value="26.5"/>
+										</Node>
+									</Node>
+									<Node score="-0.12481518">
+										<SimplePredicate field="EntryPoint.VCT" operator="greaterOrEqual" value="0.5"/>
+									</Node>
+								</Node>
+							</TreeModel>
+						</Segment>
+						<Segment id="19">
+							<True/>
+							<TreeModel functionName="regression" noTrueChildStrategy="returnLastPrediction" x-mathContext="float">
+								<MiningSchema>
+									<MiningField name="AgeAtTest"/>
+									<MiningField name="MonthsSinceLastTest"/>
+									<MiningField name="Gender.Male"/>
+									<MiningField name="KeyPopulationType.SW"/>
+									<MiningField name="MaritalStatus.Divorced"/>
+									<MiningField name="MaritalStatus.Polygamous"/>
+									<MiningField name="MaritalStatus.Widowed"/>
+									<MiningField name="EverTestedForHIV.Yes"/>
+									<MiningField name="EntryPoint.VCT"/>
+									<MiningField name="EntryPoint.IPD"/>
+									<MiningField name="EntryPoint.MOBILE"/>
+									<MiningField name="EntryPoint.PEDS"/>
+									<MiningField name="TestingStrategy.MOBILE"/>
+									<MiningField name="TBScreening.No.Presumed.TB"/>
+									<MiningField name="ClientSelfTested.No"/>
+								</MiningSchema>
+								<Node score="-0.0073578884">
+									<True/>
+									<Node score="-0.26238805">
+										<SimplePredicate field="TestingStrategy.MOBILE" operator="greaterOrEqual" value="0.5"/>
+										<Node score="0.27099746">
+											<SimplePredicate field="AgeAtTest" operator="greaterOrEqual" value="19.5"/>
+											<Node score="-0.16803847">
+												<SimplePredicate field="EntryPoint.MOBILE" operator="greaterOrEqual" value="0.5"/>
+												<Node score="-0.17185394">
+													<SimplePredicate field="Gender.Male" operator="greaterOrEqual" value="0.5"/>
+													<Node score="0.07978614">
+														<SimplePredicate field="AgeAtTest" operator="greaterOrEqual" value="41.5"/>
+														<Node score="-0.14832719">
+															<SimplePredicate field="AgeAtTest" operator="greaterOrEqual" value="53.5"/>
+														</Node>
+													</Node>
+													<Node score="-0.0067496425">
+														<SimplePredicate field="TBScreening.No.Presumed.TB" operator="lessThan" value="0.5"/>
+													</Node>
+												</Node>
+												<Node score="-0.1769808">
+													<SimplePredicate field="MonthsSinceLastTest" operator="greaterOrEqual" value="4.5"/>
+													<Node score="0.060172644">
+														<SimplePredicate field="ClientSelfTested.No" operator="greaterOrEqual" value="0.5"/>
+													</Node>
+												</Node>
+												<Node score="0.039974913">
+													<SimplePredicate field="MaritalStatus.Polygamous" operator="lessThan" value="0.5"/>
+												</Node>
+											</Node>
+										</Node>
+										<Node score="0.16125017">
+											<SimplePredicate field="MonthsSinceLastTest" operator="lessThan" value="10.5"/>
+											<Node score="-0.013084577">
+												<SimplePredicate field="MonthsSinceLastTest" operator="lessThan" value="8.5"/>
+												<Node score="-0.23875435">
+													<SimplePredicate field="EverTestedForHIV.Yes" operator="greaterOrEqual" value="0.5"/>
+												</Node>
+											</Node>
+										</Node>
+									</Node>
+									<Node score="0.06955782">
+										<SimplePredicate field="TBScreening.No.Presumed.TB" operator="lessThan" value="0.5"/>
+										<Node score="0.06107452">
+											<SimplePredicate field="MonthsSinceLastTest" operator="lessThan" value="1.5"/>
+											<Node score="-0.04017038">
+												<SimplePredicate field="EntryPoint.IPD" operator="greaterOrEqual" value="0.5"/>
+											</Node>
+											<Node score="-0.06526672">
+												<SimplePredicate field="AgeAtTest" operator="greaterOrEqual" value="37.5"/>
+												<Node score="0.16349609">
+													<SimplePredicate field="MaritalStatus.Widowed" operator="lessThan" value="0.5"/>
+												</Node>
+											</Node>
+											<Node score="0.32278052">
+												<SimplePredicate field="AgeAtTest" operator="greaterOrEqual" value="18.0"/>
+											</Node>
+										</Node>
+										<Node score="0.30151683">
+											<SimplePredicate field="MonthsSinceLastTest" operator="greaterOrEqual" value="13.5"/>
+											<Node score="-0.1682663">
+												<SimplePredicate field="AgeAtTest" operator="greaterOrEqual" value="34.5"/>
+												<Node score="0.15719189">
+													<SimplePredicate field="Gender.Male" operator="greaterOrEqual" value="0.5"/>
+												</Node>
+											</Node>
+										</Node>
+										<Node score="-0.2035512">
+											<SimplePredicate field="AgeAtTest" operator="greaterOrEqual" value="57.5"/>
+										</Node>
+										<Node score="-0.061981812">
+											<SimplePredicate field="MaritalStatus.Divorced" operator="lessThan" value="0.5"/>
+										</Node>
+									</Node>
+									<Node score="-0.27128863">
+										<SimplePredicate field="EntryPoint.PEDS" operator="greaterOrEqual" value="0.5"/>
+										<Node score="-0.019765805">
+											<SimplePredicate field="AgeAtTest" operator="greaterOrEqual" value="36.5"/>
+										</Node>
+										<Node score="-0.042250667">
+											<SimplePredicate field="MonthsSinceLastTest" operator="lessThan" value="5.5"/>
+										</Node>
+										<Node score="-0.032951325">
+											<SimplePredicate field="MonthsSinceLastTest" operator="greaterOrEqual" value="13.5"/>
+										</Node>
+									</Node>
+									<Node score="-0.18385682">
+										<SimplePredicate field="AgeAtTest" operator="greaterOrEqual" value="66.5"/>
+										<Node score="0.194354">
+											<SimplePredicate field="MonthsSinceLastTest" operator="greaterOrEqual" value="44.5"/>
+										</Node>
+										<Node score="0.11269025">
+											<SimplePredicate field="EntryPoint.VCT" operator="greaterOrEqual" value="0.5"/>
+										</Node>
+									</Node>
+									<Node score="0.33749437">
+										<SimplePredicate field="MaritalStatus.Widowed" operator="greaterOrEqual" value="0.5"/>
+										<Node score="-0.029415783">
+											<SimplePredicate field="AgeAtTest" operator="greaterOrEqual" value="36.5"/>
+										</Node>
+									</Node>
+									<Node score="-0.10789298">
+										<SimplePredicate field="KeyPopulationType.SW" operator="greaterOrEqual" value="0.5"/>
+									</Node>
+								</Node>
+							</TreeModel>
+						</Segment>
+						<Segment id="20">
+							<True/>
+							<TreeModel functionName="regression" noTrueChildStrategy="returnLastPrediction" x-mathContext="float">
+								<MiningSchema>
+									<MiningField name="AgeAtTest"/>
+									<MiningField name="MonthsSinceLastTest"/>
+									<MiningField name="Gender.Male"/>
+									<MiningField name="KeyPopulationType.GP"/>
+									<MiningField name="PatientDisabled.Not.Disabled"/>
+									<MiningField name="EntryPoint.VCT"/>
+									<MiningField name="EntryPoint.HB"/>
+									<MiningField name="EntryPoint.PEDS"/>
+									<MiningField name="TestingStrategy.MOBILE"/>
+									<MiningField name="ClientSelfTested.No"/>
+								</MiningSchema>
+								<Node score="-0.25487095">
+									<True/>
+									<Node score="-0.12744527">
+										<SimplePredicate field="AgeAtTest" operator="greaterOrEqual" value="20.5"/>
+										<Node score="-0.18071468">
+											<SimplePredicate field="AgeAtTest" operator="greaterOrEqual" value="72.5"/>
+										</Node>
+										<Node score="-0.057826716">
+											<SimplePredicate field="EntryPoint.PEDS" operator="greaterOrEqual" value="0.5"/>
+											<Node score="-0.18295035">
+												<SimplePredicate field="MonthsSinceLastTest" operator="lessThan" value="6.5"/>
+												<Node score="0.1387692">
+													<SimplePredicate field="AgeAtTest" operator="greaterOrEqual" value="28.5"/>
+												</Node>
+											</Node>
+											<Node score="-0.24538988">
+												<SimplePredicate field="AgeAtTest" operator="greaterOrEqual" value="23.5"/>
+											</Node>
+										</Node>
+										<Node score="0.024152255">
+											<SimplePredicate field="KeyPopulationType.GP" operator="greaterOrEqual" value="0.5"/>
+											<Node score="-0.12457254">
+												<SimplePredicate field="Gender.Male" operator="greaterOrEqual" value="0.5"/>
+												<Node score="-0.0038538256">
+													<SimplePredicate field="AgeAtTest" operator="greaterOrEqual" value="23.5"/>
+												</Node>
+											</Node>
+											<Node score="-0.057529178">
+												<SimplePredicate field="AgeAtTest" operator="greaterOrEqual" value="44.5"/>
+											</Node>
+										</Node>
+										<Node score="-0.19836515">
+											<SimplePredicate field="MonthsSinceLastTest" operator="greaterOrEqual" value="10.5"/>
+											<Node score="0.27420902">
+												<SimplePredicate field="MonthsSinceLastTest" operator="lessThan" value="13.5"/>
+											</Node>
+										</Node>
+										<Node score="0.11980621">
+											<SimplePredicate field="AgeAtTest" operator="greaterOrEqual" value="39.5"/>
+										</Node>
+									</Node>
+									<Node score="-0.01158732">
+										<SimplePredicate field="TestingStrategy.MOBILE" operator="greaterOrEqual" value="0.5"/>
+										<Node score="-0.17376767">
+											<SimplePredicate field="AgeAtTest" operator="greaterOrEqual" value="15.5"/>
+											<Node score="-0.25724626">
+												<SimplePredicate field="Gender.Male" operator="greaterOrEqual" value="0.5"/>
+											</Node>
+											<Node score="-0.16795366">
+												<SimplePredicate field="AgeAtTest" operator="greaterOrEqual" value="18.5"/>
+												<Node score="0.18337472">
+													<SimplePredicate field="MonthsSinceLastTest" operator="greaterOrEqual" value="9.5"/>
+												</Node>
+											</Node>
+										</Node>
+										<Node score="-0.0018085609">
+											<SimplePredicate field="MonthsSinceLastTest" operator="greaterOrEqual" value="7.5"/>
+										</Node>
+									</Node>
+									<Node score="-0.10273194">
+										<SimplePredicate field="ClientSelfTested.No" operator="lessThan" value="2.000001"/>
+										<Node score="0.057550915">
+											<SimplePredicate field="MonthsSinceLastTest" operator="lessThan" value="6.5"/>
+											<Node score="-0.18876168">
+												<SimplePredicate field="AgeAtTest" operator="greaterOrEqual" value="19.5"/>
+												<Node score="0.20714876">
+													<SimplePredicate field="PatientDisabled.Not.Disabled" operator="greaterOrEqual" value="0.5"/>
+												</Node>
+											</Node>
+											<Node score="-0.045773793">
+												<SimplePredicate field="EntryPoint.VCT" operator="lessThan" value="0.5"/>
+											</Node>
+										</Node>
+										<Node score="-0.14167656">
+											<SimplePredicate field="AgeAtTest" operator="greaterOrEqual" value="16.5"/>
+											<Node score="0.1376272">
+												<SimplePredicate field="EntryPoint.HB" operator="greaterOrEqual" value="0.5"/>
+											</Node>
+										</Node>
+										<Node score="0.14463998">
+											<SimplePredicate field="AgeAtTest" operator="greaterOrEqual" value="13.5"/>
+										</Node>
+									</Node>
+									<Node score="0.10289679">
+										<SimplePredicate field="MonthsSinceLastTest" operator="greaterOrEqual" value="11.5"/>
+										<Node score="-0.09707387">
+											<SimplePredicate field="AgeAtTest" operator="greaterOrEqual" value="13.5"/>
+										</Node>
+									</Node>
+								</Node>
+							</TreeModel>
+						</Segment>
+						<Segment id="21">
+							<True/>
+							<TreeModel functionName="regression" noTrueChildStrategy="returnLastPrediction" x-mathContext="float">
+								<MiningSchema>
+									<MiningField name="AgeAtTest"/>
+									<MiningField name="MonthsSinceLastTest"/>
+									<MiningField name="Gender.Male"/>
+									<MiningField name="MaritalStatus.Married"/>
+									<MiningField name="MaritalStatus.Minor"/>
+									<MiningField name="PatientDisabled.Not.Disabled"/>
+									<MiningField name="EverTestedForHIV.Yes"/>
+									<MiningField name="ClientTestedAs.Individual"/>
+									<MiningField name="EntryPoint.VCT"/>
+									<MiningField name="EntryPoint.OPD"/>
+									<MiningField name="EntryPoint.MTC"/>
+									<MiningField name="EntryPoint.Other"/>
+									<MiningField name="EntryPoint.HB"/>
+									<MiningField name="EntryPoint.PEDS"/>
+									<MiningField name="TestingStrategy.VCT"/>
+									<MiningField name="TestingStrategy.NP"/>
+									<MiningField name="TBScreening.No.Presumed.TB"/>
+									<MiningField name="ClientSelfTested.No"/>
+								</MiningSchema>
+								<Node score="-0.29002956">
+									<True/>
+									<Node score="-0.124376655">
+										<SimplePredicate field="ClientSelfTested.No" operator="lessThan" value="2.000001"/>
+										<Node score="0.01582435">
+											<SimplePredicate field="PatientDisabled.Not.Disabled" operator="greaterOrEqual" value="0.5"/>
+											<Node score="-0.19208156">
+												<SimplePredicate field="EntryPoint.MTC" operator="greaterOrEqual" value="0.5"/>
+												<Node score="-0.018703222">
+													<SimplePredicate field="MonthsSinceLastTest" operator="greaterOrEqual" value="0.5"/>
+													<Node score="0.11946993">
+														<SimplePredicate field="AgeAtTest" operator="greaterOrEqual" value="28.5"/>
+													</Node>
+													<Node score="-0.21612136">
+														<SimplePredicate field="MonthsSinceLastTest" operator="lessThan" value="11.5"/>
+													</Node>
+												</Node>
+												<Node score="0.1012851">
+													<SimplePredicate field="ClientTestedAs.Individual" operator="greaterOrEqual" value="0.5"/>
+													<Node score="0.33102965">
+														<SimplePredicate field="AgeAtTest" operator="greaterOrEqual" value="21.5"/>
+													</Node>
+												</Node>
+											</Node>
+											<Node score="-0.06694691">
+												<SimplePredicate field="EntryPoint.Other" operator="greaterOrEqual" value="0.5"/>
+												<Node score="0.20617233">
+													<SimplePredicate field="AgeAtTest" operator="greaterOrEqual" value="49.0"/>
+												</Node>
+												<Node score="-0.3184214">
+													<SimplePredicate field="MonthsSinceLastTest" operator="lessThan" value="14.0"/>
+												</Node>
+											</Node>
+											<Node score="-0.052928712">
+												<SimplePredicate field="MaritalStatus.Minor" operator="lessThan" value="0.5"/>
+												<Node score="0.11962437">
+													<SimplePredicate field="TBScreening.No.Presumed.TB" operator="lessThan" value="2.000001"/>
+												</Node>
+											</Node>
+											<Node score="-0.02847647">
+												<SimplePredicate field="TBScreening.No.Presumed.TB" operator="greaterOrEqual" value="0.5"/>
+											</Node>
+										</Node>
+										<Node score="-0.27166256">
+											<SimplePredicate field="MaritalStatus.Married" operator="lessThan" value="2.000001"/>
+											<Node score="-0.05105919">
+												<SimplePredicate field="MonthsSinceLastTest" operator="lessThan" value="13.5"/>
+												<Node score="-0.047696345">
+													<SimplePredicate field="AgeAtTest" operator="greaterOrEqual" value="40.5"/>
+													<Node score="-0.2731057">
+														<SimplePredicate field="EverTestedForHIV.Yes" operator="greaterOrEqual" value="0.5"/>
+													</Node>
+												</Node>
+												<Node score="0.13079894">
+													<SimplePredicate field="AgeAtTest" operator="greaterOrEqual" value="36.5"/>
+												</Node>
+											</Node>
+											<Node score="0.003960736">
+												<SimplePredicate field="EntryPoint.PEDS" operator="lessThan" value="0.5"/>
+												<Node score="0.12045153">
+													<SimplePredicate field="TestingStrategy.VCT" operator="lessThan" value="0.5"/>
+												</Node>
+											</Node>
+											<Node score="0.058652654">
+												<SimplePredicate field="AgeAtTest" operator="greaterOrEqual" value="35.5"/>
+											</Node>
+										</Node>
+										<Node score="0.055157024">
+											<SimplePredicate field="AgeAtTest" operator="greaterOrEqual" value="32.5"/>
+											<Node score="0.24855095">
+												<SimplePredicate field="EntryPoint.OPD" operator="greaterOrEqual" value="0.5"/>
+												<Node score="-0.038834773">
+													<SimplePredicate field="TestingStrategy.NP" operator="greaterOrEqual" value="0.5"/>
+												</Node>
+											</Node>
+											<Node score="-0.27339762">
+												<SimplePredicate field="Gender.Male" operator="greaterOrEqual" value="0.5"/>
+											</Node>
+										</Node>
+										<Node score="-0.1284842">
+											<SimplePredicate field="EntryPoint.HB" operator="greaterOrEqual" value="0.5"/>
+											<Node score="0.13645406">
+												<SimplePredicate field="AgeAtTest" operator="greaterOrEqual" value="27.5"/>
+											</Node>
+										</Node>
+										<Node score="-0.2613979">
+											<SimplePredicate field="AgeAtTest" operator="greaterOrEqual" value="22.5"/>
+										</Node>
+									</Node>
+									<Node score="0.088457264">
+										<SimplePredicate field="EntryPoint.HB" operator="greaterOrEqual" value="0.5"/>
+										<Node score="0.35259724">
+											<SimplePredicate field="MaritalStatus.Minor" operator="lessThan" value="0.5"/>
+										</Node>
+										<Node score="-0.16672865">
+											<SimplePredicate field="Gender.Male" operator="greaterOrEqual" value="0.5"/>
+										</Node>
+									</Node>
+									<Node score="0.20752211">
+										<SimplePredicate field="EntryPoint.OPD" operator="greaterOrEqual" value="0.5"/>
+										<Node score="0.043886293">
+											<SimplePredicate field="TestingStrategy.NP" operator="lessThan" value="0.5"/>
+											<Node score="-0.03505704">
+												<SimplePredicate field="Gender.Male" operator="greaterOrEqual" value="0.5"/>
+												<Node score="-0.2214643">
+													<SimplePredicate field="AgeAtTest" operator="greaterOrEqual" value="20.5"/>
+												</Node>
+											</Node>
+											<Node score="-0.21398295">
+												<SimplePredicate field="AgeAtTest" operator="greaterOrEqual" value="37.5"/>
+											</Node>
+										</Node>
+									</Node>
+									<Node score="0.20772174">
+										<SimplePredicate field="AgeAtTest" operator="greaterOrEqual" value="33.5"/>
+										<Node score="-0.15256716">
+											<SimplePredicate field="MonthsSinceLastTest" operator="lessThan" value="8.5"/>
+										</Node>
+										<Node score="-0.049267244">
+											<SimplePredicate field="EntryPoint.VCT" operator="lessThan" value="1.0E-6"/>
+										</Node>
+									</Node>
+									<Node score="-0.042077947">
+										<SimplePredicate field="MaritalStatus.Married" operator="greaterOrEqual" value="0.5"/>
+									</Node>
+								</Node>
+							</TreeModel>
+						</Segment>
+						<Segment id="22">
+							<True/>
+							<TreeModel functionName="regression" noTrueChildStrategy="returnLastPrediction" x-mathContext="float">
+								<MiningSchema>
+									<MiningField name="AgeAtTest"/>
+									<MiningField name="MonthsSinceLastTest"/>
+									<MiningField name="Gender.Male"/>
+									<MiningField name="KeyPopulationType.GP"/>
+									<MiningField name="MaritalStatus.Married"/>
+									<MiningField name="MaritalStatus.Divorced"/>
+									<MiningField name="ClientTestedAs.Individual"/>
+									<MiningField name="EntryPoint.VCT"/>
+									<MiningField name="EntryPoint.OPD"/>
+									<MiningField name="EntryPoint.IPD"/>
+									<MiningField name="EntryPoint.Other"/>
+									<MiningField name="EntryPoint.HB"/>
+									<MiningField name="EntryPoint.PEDS"/>
+									<MiningField name="TestingStrategy.MOBILE"/>
+									<MiningField name="TestingStrategy.HP"/>
+									<MiningField name="TBScreening.No.Presumed.TB"/>
+									<MiningField name="ClientSelfTested.No"/>
+								</MiningSchema>
+								<Node score="0.011315137">
+									<True/>
+									<Node score="-0.23304577">
+										<SimplePredicate field="TestingStrategy.MOBILE" operator="greaterOrEqual" value="0.5"/>
+										<Node score="-0.17672405">
+											<SimplePredicate field="ClientSelfTested.No" operator="greaterOrEqual" value="0.5"/>
+											<Node score="-0.1958069">
+												<SimplePredicate field="AgeAtTest" operator="greaterOrEqual" value="32.5"/>
+												<Node score="-0.008762685">
+													<SimplePredicate field="AgeAtTest" operator="greaterOrEqual" value="48.5"/>
+													<Node score="-0.24542756">
+														<SimplePredicate field="MonthsSinceLastTest" operator="greaterOrEqual" value="9.5"/>
+														<Node score="-0.054557174">
+															<SimplePredicate field="AgeAtTest" operator="greaterOrEqual" value="52.5"/>
+														</Node>
+													</Node>
+												</Node>
+												<Node score="0.030814959">
+													<SimplePredicate field="KeyPopulationType.GP" operator="greaterOrEqual" value="0.5"/>
+													<Node score="0.16594478">
+														<SimplePredicate field="AgeAtTest" operator="greaterOrEqual" value="42.5"/>
+													</Node>
+												</Node>
+												<Node score="0.14642818">
+													<SimplePredicate field="MaritalStatus.Married" operator="lessThan" value="0.5"/>
+												</Node>
+											</Node>
+											<Node score="0.108583674">
+												<SimplePredicate field="Gender.Male" operator="greaterOrEqual" value="0.5"/>
+												<Node score="-0.18115127">
+													<SimplePredicate field="AgeAtTest" operator="greaterOrEqual" value="16.5"/>
+													<Node score="0.0026843213">
+														<SimplePredicate field="MonthsSinceLastTest" operator="greaterOrEqual" value="13.5"/>
+													</Node>
+												</Node>
+											</Node>
+											<Node score="0.027187867">
+												<SimplePredicate field="AgeAtTest" operator="greaterOrEqual" value="18.5"/>
+												<Node score="-0.20275871">
+													<SimplePredicate field="MaritalStatus.Married" operator="lessThan" value="0.5"/>
+												</Node>
+											</Node>
+										</Node>
+										<Node score="0.13406838">
+											<SimplePredicate field="MonthsSinceLastTest" operator="lessThan" value="4.5"/>
+										</Node>
+										<Node score="-0.026559481">
+											<SimplePredicate field="MaritalStatus.Divorced" operator="lessThan" value="0.5"/>
+										</Node>
+									</Node>
+									<Node score="0.32895592">
+										<SimplePredicate field="TBScreening.No.Presumed.TB" operator="lessThan" value="0.5"/>
+										<Node score="-0.12109265">
+											<SimplePredicate field="EntryPoint.HB" operator="lessThan" value="0.5"/>
+											<Node score="-0.17111781">
+												<SimplePredicate field="ClientSelfTested.No" operator="lessThan" value="0.5"/>
+												<Node score="-0.027054442">
+													<SimplePredicate field="MonthsSinceLastTest" operator="lessThan" value="11.5"/>
+												</Node>
+											</Node>
+											<Node score="-0.110208265">
+												<SimplePredicate field="EntryPoint.Other" operator="lessThan" value="0.5"/>
+												<Node score="0.06907785">
+													<SimplePredicate field="EntryPoint.VCT" operator="lessThan" value="0.5"/>
+												</Node>
+											</Node>
+										</Node>
+										<Node score="-0.13501967">
+											<SimplePredicate field="AgeAtTest" operator="greaterOrEqual" value="35.5"/>
+											<Node score="0.11146923">
+												<SimplePredicate field="Gender.Male" operator="greaterOrEqual" value="0.5"/>
+											</Node>
+										</Node>
+									</Node>
+									<Node score="-0.022823319">
+										<SimplePredicate field="EntryPoint.PEDS" operator="greaterOrEqual" value="0.5"/>
+										<Node score="0.14105074">
+											<SimplePredicate field="AgeAtTest" operator="greaterOrEqual" value="29.5"/>
+											<Node score="-0.18373752">
+												<SimplePredicate field="MonthsSinceLastTest" operator="greaterOrEqual" value="7.5"/>
+											</Node>
+										</Node>
+										<Node score="-0.24061175">
+											<SimplePredicate field="AgeAtTest" operator="greaterOrEqual" value="19.5"/>
+										</Node>
+									</Node>
+									<Node score="-0.08607636">
+										<SimplePredicate field="EntryPoint.OPD" operator="greaterOrEqual" value="0.5"/>
+										<Node score="-0.12889129">
+											<SimplePredicate field="MonthsSinceLastTest" operator="greaterOrEqual" value="5.5"/>
+											<Node score="0.020428004">
+												<SimplePredicate field="ClientTestedAs.Individual" operator="greaterOrEqual" value="0.5"/>
+											</Node>
+										</Node>
+										<Node score="-0.0063073444">
+											<SimplePredicate field="AgeAtTest" operator="greaterOrEqual" value="34.5"/>
+										</Node>
+									</Node>
+									<Node score="-0.17471291">
+										<SimplePredicate field="TestingStrategy.HP" operator="greaterOrEqual" value="0.5"/>
+										<Node score="0.07650169">
+											<SimplePredicate field="MonthsSinceLastTest" operator="greaterOrEqual" value="20.0"/>
+										</Node>
+									</Node>
+									<Node score="-0.09474848">
+										<SimplePredicate field="EntryPoint.IPD" operator="greaterOrEqual" value="0.5"/>
+									</Node>
+								</Node>
+							</TreeModel>
+						</Segment>
+						<Segment id="23">
+							<True/>
+							<TreeModel functionName="regression" noTrueChildStrategy="returnLastPrediction" x-mathContext="float">
+								<MiningSchema>
+									<MiningField name="AgeAtTest"/>
+									<MiningField name="MonthsSinceLastTest"/>
+									<MiningField name="Gender.Male"/>
+									<MiningField name="MaritalStatus.Married"/>
+									<MiningField name="MaritalStatus.Minor"/>
+									<MiningField name="ClientTestedAs.Individual"/>
+									<MiningField name="EntryPoint.OPD"/>
+									<MiningField name="EntryPoint.MOBILE"/>
+									<MiningField name="TestingStrategy.VCT"/>
+									<MiningField name="TestingStrategy.HB"/>
+									<MiningField name="TestingStrategy.HP"/>
+									<MiningField name="TBScreening.No.Presumed.TB"/>
+								</MiningSchema>
+								<Node score="-0.009950229">
+									<True/>
+									<Node score="-0.0032539642">
+										<SimplePredicate field="MonthsSinceLastTest" operator="greaterOrEqual" value="66.0"/>
+										<Node score="0.29640675">
+											<SimplePredicate field="AgeAtTest" operator="greaterOrEqual" value="34.5"/>
+										</Node>
+									</Node>
+									<Node score="0.026909051">
+										<SimplePredicate field="MonthsSinceLastTest" operator="lessThan" value="2.5"/>
+										<Node score="0.26279458">
+											<SimplePredicate field="AgeAtTest" operator="greaterOrEqual" value="48.5"/>
+											<Node score="-0.06785393">
+												<SimplePredicate field="AgeAtTest" operator="greaterOrEqual" value="66.5"/>
+												<Node score="-0.18685259">
+													<SimplePredicate field="Gender.Male" operator="greaterOrEqual" value="0.5"/>
+												</Node>
+												<Node score="0.15171638">
+													<SimplePredicate field="EntryPoint.OPD" operator="lessThan" value="0.5"/>
+												</Node>
+											</Node>
+											<Node score="-0.13353363">
+												<SimplePredicate field="MaritalStatus.Married" operator="lessThan" value="0.5"/>
+												<Node score="0.11709216">
+													<SimplePredicate field="TestingStrategy.VCT" operator="lessThan" value="0.5"/>
+												</Node>
+											</Node>
+											<Node score="-0.082556285">
+												<SimplePredicate field="TestingStrategy.HP" operator="greaterOrEqual" value="0.5"/>
+											</Node>
+										</Node>
+										<Node score="0.07845883">
+											<SimplePredicate field="MaritalStatus.Married" operator="greaterOrEqual" value="0.5"/>
+											<Node score="-0.23689365">
+												<SimplePredicate field="AgeAtTest" operator="greaterOrEqual" value="17.5"/>
+												<Node score="-0.035439458">
+													<SimplePredicate field="TBScreening.No.Presumed.TB" operator="lessThan" value="2.000001"/>
+												</Node>
+											</Node>
+											<Node score="-0.12931545">
+												<SimplePredicate field="TestingStrategy.HB" operator="greaterOrEqual" value="0.5"/>
+											</Node>
+										</Node>
+										<Node score="-0.21304135">
+											<SimplePredicate field="AgeAtTest" operator="greaterOrEqual" value="43.5"/>
+											<Node score="0.15637241">
+												<SimplePredicate field="MaritalStatus.Married" operator="lessThan" value="1.0E-6"/>
+											</Node>
+										</Node>
+										<Node score="0.30038458">
+											<SimplePredicate field="AgeAtTest" operator="greaterOrEqual" value="41.5"/>
+										</Node>
+									</Node>
+									<Node score="-0.20907527">
+										<SimplePredicate field="AgeAtTest" operator="greaterOrEqual" value="48.5"/>
+										<Node score="-0.25430733">
+											<SimplePredicate field="MonthsSinceLastTest" operator="greaterOrEqual" value="13.5"/>
+											<Node score="0.24101575">
+												<SimplePredicate field="EntryPoint.MOBILE" operator="lessThan" value="0.5"/>
+												<Node score="-0.024781777">
+													<SimplePredicate field="TestingStrategy.HB" operator="lessThan" value="0.5"/>
+												</Node>
+											</Node>
+											<Node score="0.010729884">
+												<SimplePredicate field="Gender.Male" operator="greaterOrEqual" value="0.5"/>
+											</Node>
+										</Node>
+										<Node score="-0.08044792">
+											<SimplePredicate field="ClientTestedAs.Individual" operator="greaterOrEqual" value="0.5"/>
+											<Node score="-0.22331218">
+												<SimplePredicate field="MaritalStatus.Married" operator="greaterOrEqual" value="0.5"/>
+											</Node>
+										</Node>
+										<Node score="0.5103033">
+											<SimplePredicate field="EntryPoint.OPD" operator="lessThan" value="0.5"/>
+										</Node>
+									</Node>
+									<Node score="0.36715585">
+										<SimplePredicate field="AgeAtTest" operator="greaterOrEqual" value="47.5"/>
+										<Node score="0.44124904">
+											<SimplePredicate field="TBScreening.No.Presumed.TB" operator="lessThan" value="2.000001"/>
+											<Node score="0.023861997">
+												<SimplePredicate field="MonthsSinceLastTest" operator="greaterOrEqual" value="16.5"/>
+											</Node>
+										</Node>
+										<Node score="-0.2120312">
+											<SimplePredicate field="TestingStrategy.VCT" operator="lessThan" value="2.000001"/>
+										</Node>
+									</Node>
+									<Node score="-0.0076261065">
+										<SimplePredicate field="MaritalStatus.Minor" operator="lessThan" value="0.5"/>
+										<Node score="0.06895444">
+											<SimplePredicate field="MonthsSinceLastTest" operator="lessThan" value="12.5"/>
+										</Node>
+									</Node>
+									<Node score="-0.062316786">
+										<SimplePredicate field="MonthsSinceLastTest" operator="lessThan" value="8.5"/>
+									</Node>
+								</Node>
+							</TreeModel>
+						</Segment>
+						<Segment id="24">
+							<True/>
+							<TreeModel functionName="regression" noTrueChildStrategy="returnLastPrediction" x-mathContext="float">
+								<MiningSchema>
+									<MiningField name="AgeAtTest"/>
+									<MiningField name="MonthsSinceLastTest"/>
+									<MiningField name="Gender.Male"/>
+									<MiningField name="MaritalStatus.Married"/>
+									<MiningField name="MaritalStatus.Widowed"/>
+									<MiningField name="PatientDisabled.Not.Disabled"/>
+									<MiningField name="EverTestedForHIV.Yes"/>
+									<MiningField name="EntryPoint.MTC"/>
+									<MiningField name="EntryPoint.Other"/>
+									<MiningField name="EntryPoint.PEDS"/>
+									<MiningField name="TestingStrategy.HB"/>
+									<MiningField name="TestingStrategy.MOBILE"/>
+									<MiningField name="TBScreening.No.Presumed.TB"/>
+									<MiningField name="ClientSelfTested.No"/>
+								</MiningSchema>
+								<Node score="0.31192774">
+									<True/>
+									<Node score="-0.095973305">
+										<SimplePredicate field="ClientSelfTested.No" operator="lessThan" value="2.000001"/>
+										<Node score="0.053752672">
+											<SimplePredicate field="PatientDisabled.Not.Disabled" operator="greaterOrEqual" value="0.5"/>
+											<Node score="0.0020455054">
+												<SimplePredicate field="AgeAtTest" operator="greaterOrEqual" value="1.5"/>
+												<Node score="0.2672205">
+													<SimplePredicate field="MonthsSinceLastTest" operator="greaterOrEqual" value="34.5"/>
+													<Node score="0.058979638">
+														<SimplePredicate field="AgeAtTest" operator="greaterOrEqual" value="40.5"/>
+														<Node score="-0.1181191">
+															<SimplePredicate field="Gender.Male" operator="greaterOrEqual" value="0.5"/>
+														</Node>
+													</Node>
+													<Node score="-0.109337494">
+														<SimplePredicate field="TBScreening.No.Presumed.TB" operator="lessThan" value="0.5"/>
+													</Node>
+												</Node>
+												<Node score="-0.25370318">
+													<SimplePredicate field="EntryPoint.Other" operator="greaterOrEqual" value="0.5"/>
+													<Node score="0.15407953">
+														<SimplePredicate field="AgeAtTest" operator="greaterOrEqual" value="49.0"/>
+													</Node>
+												</Node>
+												<Node score="-0.21217261">
+													<SimplePredicate field="MonthsSinceLastTest" operator="greaterOrEqual" value="25.5"/>
+												</Node>
+											</Node>
+											<Node score="0.34102368">
+												<SimplePredicate field="EntryPoint.PEDS" operator="lessThan" value="0.5"/>
+											</Node>
+										</Node>
+										<Node score="-0.2478494">
+											<SimplePredicate field="MaritalStatus.Married" operator="lessThan" value="2.000001"/>
+											<Node score="0.19111827">
+												<SimplePredicate field="MonthsSinceLastTest" operator="lessThan" value="13.5"/>
+												<Node score="-0.043206908">
+													<SimplePredicate field="AgeAtTest" operator="greaterOrEqual" value="40.5"/>
+													<Node score="-0.25044975">
+														<SimplePredicate field="EverTestedForHIV.Yes" operator="greaterOrEqual" value="0.5"/>
+													</Node>
+												</Node>
+												<Node score="-0.037802033">
+													<SimplePredicate field="MaritalStatus.Widowed" operator="lessThan" value="0.5"/>
+												</Node>
+											</Node>
+											<Node score="-0.16346426">
+												<SimplePredicate field="EntryPoint.PEDS" operator="lessThan" value="0.5"/>
+												<Node score="0.07120408">
+													<SimplePredicate field="AgeAtTest" operator="greaterOrEqual" value="9.5"/>
+												</Node>
+											</Node>
+											<Node score="0.05784692">
+												<SimplePredicate field="AgeAtTest" operator="greaterOrEqual" value="35.5"/>
+											</Node>
+										</Node>
+										<Node score="-0.15771249">
+											<SimplePredicate field="MonthsSinceLastTest" operator="lessThan" value="2.5"/>
+											<Node score="0.40304005">
+												<SimplePredicate field="TestingStrategy.MOBILE" operator="lessThan" value="0.5"/>
+											</Node>
+										</Node>
+										<Node score="-0.22092696">
+											<SimplePredicate field="EntryPoint.Other" operator="lessThan" value="0.5"/>
+											<Node score="-0.025857763">
+												<SimplePredicate field="AgeAtTest" operator="greaterOrEqual" value="35.5"/>
+											</Node>
+										</Node>
+										<Node score="0.15465558">
+											<SimplePredicate field="AgeAtTest" operator="greaterOrEqual" value="28.5"/>
+										</Node>
+									</Node>
+									<Node score="-0.27538073">
+										<SimplePredicate field="MonthsSinceLastTest" operator="lessThan" value="22.0"/>
+										<Node score="0.25577715">
+											<SimplePredicate field="EntryPoint.MTC" operator="lessThan" value="0.5"/>
+											<Node score="-0.0267813">
+												<SimplePredicate field="MaritalStatus.Married" operator="greaterOrEqual" value="0.5"/>
+												<Node score="0.29916072">
+													<SimplePredicate field="PatientDisabled.Not.Disabled" operator="greaterOrEqual" value="0.5"/>
+													<Node score="0.06519092">
+														<SimplePredicate field="TestingStrategy.HB" operator="lessThan" value="0.5"/>
+													</Node>
+												</Node>
+											</Node>
+											<Node score="-0.13379128">
+												<SimplePredicate field="PatientDisabled.Not.Disabled" operator="greaterOrEqual" value="0.5"/>
+												<Node score="0.046176583">
+													<SimplePredicate field="TBScreening.No.Presumed.TB" operator="lessThan" value="0.5"/>
+												</Node>
+											</Node>
+										</Node>
+										<Node score="-0.04598605">
+											<SimplePredicate field="AgeAtTest" operator="greaterOrEqual" value="47.0"/>
+										</Node>
+									</Node>
+									<Node score="0.10747508">
+										<SimplePredicate field="TestingStrategy.HB" operator="lessThan" value="0.5"/>
+										<Node score="-0.21935882">
+											<SimplePredicate field="AgeAtTest" operator="greaterOrEqual" value="27.5"/>
+										</Node>
+									</Node>
+								</Node>
+							</TreeModel>
+						</Segment>
+						<Segment id="25">
+							<True/>
+							<TreeModel functionName="regression" noTrueChildStrategy="returnLastPrediction" x-mathContext="float">
+								<MiningSchema>
+									<MiningField name="AgeAtTest"/>
+									<MiningField name="MonthsSinceLastTest"/>
+									<MiningField name="Gender.Male"/>
+									<MiningField name="KeyPopulationType.GP"/>
+									<MiningField name="MaritalStatus.Married"/>
+									<MiningField name="MaritalStatus.Divorced"/>
+									<MiningField name="MaritalStatus.Minor"/>
+									<MiningField name="ClientTestedAs.Individual"/>
+									<MiningField name="EntryPoint.IPD"/>
+									<MiningField name="EntryPoint.MOBILE"/>
+									<MiningField name="EntryPoint.HB"/>
+									<MiningField name="TBScreening.No.Presumed.TB"/>
+									<MiningField name="ClientSelfTested.No"/>
+								</MiningSchema>
+								<Node score="-0.1983759">
+									<True/>
+									<Node score="-0.20427655">
+										<SimplePredicate field="AgeAtTest" operator="greaterOrEqual" value="72.5"/>
+										<Node score="-0.044253785">
+											<SimplePredicate field="AgeAtTest" operator="greaterOrEqual" value="81.5"/>
+										</Node>
+										<Node score="-0.04124236">
+											<SimplePredicate field="MonthsSinceLastTest" operator="lessThan" value="5.5"/>
+										</Node>
+									</Node>
+									<Node score="-0.006417976">
+										<SimplePredicate field="KeyPopulationType.GP" operator="greaterOrEqual" value="0.5"/>
+										<Node score="0.21734358">
+											<SimplePredicate field="Gender.Male" operator="greaterOrEqual" value="0.5"/>
+											<Node score="-0.09107802">
+												<SimplePredicate field="TBScreening.No.Presumed.TB" operator="greaterOrEqual" value="0.5"/>
+												<Node score="0.18033524">
+													<SimplePredicate field="MaritalStatus.Minor" operator="lessThan" value="0.5"/>
+													<Node score="-0.01575614">
+														<SimplePredicate field="EntryPoint.IPD" operator="lessThan" value="0.5"/>
+													</Node>
+												</Node>
+												<Node score="0.0019013524">
+													<SimplePredicate field="AgeAtTest" operator="greaterOrEqual" value="36.5"/>
+												</Node>
+											</Node>
+											<Node score="-0.14063224">
+												<SimplePredicate field="ClientTestedAs.Individual" operator="greaterOrEqual" value="0.5"/>
+												<Node score="0.014937483">
+													<SimplePredicate field="ClientSelfTested.No" operator="greaterOrEqual" value="0.5"/>
+												</Node>
+											</Node>
+											<Node score="-0.23740558">
+												<SimplePredicate field="MaritalStatus.Married" operator="lessThan" value="2.000001"/>
+											</Node>
+										</Node>
+										<Node score="-0.032039497">
+											<SimplePredicate field="ClientSelfTested.No" operator="lessThan" value="0.5"/>
+											<Node score="0.063679785">
+												<SimplePredicate field="MaritalStatus.Divorced" operator="lessThan" value="0.5"/>
+												<Node score="0.42099357">
+													<SimplePredicate field="EntryPoint.HB" operator="lessThan" value="0.5"/>
+												</Node>
+											</Node>
+											<Node score="0.32421565">
+												<SimplePredicate field="MonthsSinceLastTest" operator="lessThan" value="4.5"/>
+											</Node>
+										</Node>
+										<Node score="-0.11195559">
+											<SimplePredicate field="AgeAtTest" operator="greaterOrEqual" value="44.5"/>
+											<Node score="0.016141009">
+												<SimplePredicate field="TBScreening.No.Presumed.TB" operator="greaterOrEqual" value="0.5"/>
+											</Node>
+										</Node>
+										<Node score="0.03040362">
+											<SimplePredicate field="MonthsSinceLastTest" operator="greaterOrEqual" value="0.5"/>
+										</Node>
+									</Node>
+									<Node score="-0.020576866">
+										<SimplePredicate field="MonthsSinceLastTest" operator="greaterOrEqual" value="4.5"/>
+										<Node score="-0.03100642">
+											<SimplePredicate field="EntryPoint.MOBILE" operator="lessThan" value="0.5"/>
+											<Node score="0.08874127">
+												<SimplePredicate field="AgeAtTest" operator="greaterOrEqual" value="25.5"/>
+												<Node score="0.33601093">
+													<SimplePredicate field="Gender.Male" operator="greaterOrEqual" value="0.5"/>
+												</Node>
+											</Node>
+										</Node>
+										<Node score="0.138457">
+											<SimplePredicate field="AgeAtTest" operator="greaterOrEqual" value="27.5"/>
+											<Node score="-0.08472335">
+												<SimplePredicate field="AgeAtTest" operator="greaterOrEqual" value="32.5"/>
+											</Node>
+										</Node>
+										<Node score="-0.21205749">
+											<SimplePredicate field="AgeAtTest" operator="greaterOrEqual" value="23.5"/>
+										</Node>
+									</Node>
+									<Node score="0.15329623">
+										<SimplePredicate field="MonthsSinceLastTest" operator="lessThan" value="0.5"/>
+									</Node>
+									<Node score="0.091595605">
+										<SimplePredicate field="ClientSelfTested.No" operator="lessThan" value="0.5"/>
+										<Node score="-0.075025246">
+											<SimplePredicate field="AgeAtTest" operator="greaterOrEqual" value="26.5"/>
+										</Node>
+									</Node>
+									<Node score="-0.019004298">
+										<SimplePredicate field="MaritalStatus.Divorced" operator="greaterOrEqual" value="0.5"/>
+									</Node>
+								</Node>
+							</TreeModel>
+						</Segment>
+					</Segmentation>
+				</MiningModel>
+			</Segment>
+			<Segment id="2">
+				<True/>
+				<RegressionModel functionName="classification" normalizationMethod="logit" x-mathContext="float">
+					<MiningSchema>
+						<MiningField name="_target" usageType="target"/>
+						<MiningField name="xgbValue"/>
+					</MiningSchema>
+					<Output>
+						<OutputField name="probability(0)" optype="continuous" dataType="float" feature="probability" value="0"/>
+						<OutputField name="probability(1)" optype="continuous" dataType="float" feature="probability" value="1"/>
+					</Output>
+					<RegressionTable intercept="0.0" targetCategory="1">
+						<NumericPredictor name="xgbValue" coefficient="1.0"/>
+					</RegressionTable>
+					<RegressionTable intercept="0.0" targetCategory="0"/>
+				</RegressionModel>
+			</Segment>
+		</Segmentation>
+	</MiningModel>
+</PMML>
